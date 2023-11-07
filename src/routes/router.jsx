@@ -5,6 +5,7 @@ import ErrorPage from './ErrorPage/ErrorPage'
 import Home from './Home/Home'
 import SignIn from './SignIn/SignIn'
 import SignUp from './SignUp/SignUp'
+import GenerateSecretSanta from './GenerateSecretSanta/GenerateSecretSanta'
 
 const routes = [
   {
@@ -16,15 +17,23 @@ const routes = [
         path: '/Home',
         element: <Home />,
         errorElement: <ErrorPage />,
+        children: [
+          
+        ]
       },
       {
-        path: 'SignIn',
+        path: '/SignIn',
         element: <SignIn />,
         errorElement: <ErrorPage />,
       },
       {
-        path: 'SignUp',
+        path: '/SignUp',
         element: <SignUp />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/GenerateSecretSanta',
+        element: <GenerateSecretSanta />,
         errorElement: <ErrorPage />,
       }
 
