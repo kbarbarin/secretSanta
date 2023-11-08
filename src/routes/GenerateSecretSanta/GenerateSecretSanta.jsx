@@ -1,8 +1,14 @@
-import { checkActionCode } from "firebase/auth";
-import React from "react";
+import React, { useRef, useState } from "react";
+import PopUp from "../../components/PopUp/PopUp";
+import Input from "../../components/Input/Input";
+// import { auth } from "../../firebase/Firebase";
 
-export default function GenerateSecretSanta (props) {
+export default function GenerateSecretSanta(props) {
 
+    const [people, setPeople] = useState([{ name: "killian", email: "killianb31@gmail.com" }]);
+    const [openPopUp, setOpenPopUp] = useState(false);
+    const nameRef = useRef(null);
+    const emailRef = useRef(null);
 
     // ! Cette fonction ne sert qu'a tester l'algo de la fonction attribution
 
@@ -39,7 +45,7 @@ export default function GenerateSecretSanta (props) {
 
         function getRandomInt(max) {
             return Math.floor(Math.random() * max);
-          }
+        }
 
         for (var i = 0; i < size - 2; i++) {
             var gifterIndex = 0;
@@ -49,16 +55,16 @@ export default function GenerateSecretSanta (props) {
                 gifterIndex = getRandomInt(size - i);
                 giftedIndex = getRandomInt(size - i);
             }
-            assossiationArray.push({gifter: gifter[gifterIndex], gifted: gifted[giftedIndex]});
+            assossiationArray.push({ gifter: gifter[gifterIndex], gifted: gifted[giftedIndex] });
             gifter.splice(gifterIndex, 1);
             gifted.splice(giftedIndex, 1);
         }
         if (gifter[0] === gifted[0] || gifter[1] === gifted[1]) {
-            assossiationArray.push({gifter: gifter[0], gifted: gifted[1]});
-            assossiationArray.push({gifter: gifter[1], gifted: gifted[0]});
+            assossiationArray.push({ gifter: gifter[0], gifted: gifted[1] });
+            assossiationArray.push({ gifter: gifter[1], gifted: gifted[0] });
         } else {
-            assossiationArray.push({gifter: gifter[0], gifted: gifted[0]});    
-            assossiationArray.push({gifter: gifter[1], gifted: gifted[1]});
+            assossiationArray.push({ gifter: gifter[0], gifted: gifted[0] });
+            assossiationArray.push({ gifter: gifter[1], gifted: gifted[1] });
         }
         console.table("assossiation", assossiationArray);
         // return assossiationArray;
@@ -67,6 +73,22 @@ export default function GenerateSecretSanta (props) {
     return (
         <div>
             <button onClick={attribution}>Generate</button>
+            {people.map((element, index) => (
+                <div>
+                    <h1>Participant n°{index + 1}</h1>
+                    <h2>{element.name}</h2>
+                    <h3>{element.email}</h3>
+                </div>
+            ))}
+            <div onClick={() => openPopUp(true)}>
+                <h2>Add people</h2>
+            </div>
+            <PopUp oncClose={() => setOpenPopUp(false)}>
+                <p>Name</p>
+                <Input placeholder="Thomas" type="text" ref={nameRef}/>
+                <p>Email</p>
+                <Input placeholder="Thomas@gmail.com" type="text" ref={emailRef}/>
+            </PopUp>
             <p>Resultat en console</p>
         </div>
     )

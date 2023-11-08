@@ -18,7 +18,10 @@ const routes = [
         element: <Home />,
         errorElement: <ErrorPage />,
         children: [
-          
+          {
+            path: 'GenerateSecretSanta',
+            element: <GenerateSecretSanta />,
+          }
         ]
       },
       {
@@ -31,11 +34,6 @@ const routes = [
         element: <SignUp />,
         errorElement: <ErrorPage />,
       },
-      {
-        path: '/GenerateSecretSanta',
-        element: <GenerateSecretSanta />,
-        errorElement: <ErrorPage />,
-      }
 
     ]
   },
