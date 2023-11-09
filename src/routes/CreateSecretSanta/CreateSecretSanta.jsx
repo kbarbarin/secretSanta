@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { doc, setDoc, collection } from 'firebase/firestore'
 import { db } from '../../Firebase/Firebase'
@@ -13,6 +14,8 @@ export default function CreateSecretSanta() {
   const [eventDate, setEventDate] = useState('')
 
   const today = new Date().toISOString().split('T')[0]
+
+  const navigate = useNavigate()
 
   const incrementTotal = () => {
     setTotal(total + 1)
@@ -78,6 +81,8 @@ export default function CreateSecretSanta() {
         "Document ajouté avec l'ID généré automatiquement :",
         newDocRef.id
       )
+
+      navigate(`/CreateSecretSanta/${newDocRef.id}`)
     } catch (error) {
       console.error(
         "Erreur lors de l'enregistrement des données dans Firebase : ",
