@@ -5,8 +5,9 @@ export default function Input(props) {
         <input
             placeholder={props?.placeholder}
             type={props?.type}
-            ref={props?.ref}
-            onChangeText={props?.onChangeText}
+            ref={props?.inputRef}
+            onChange={props?.onChange}
+            required={props?.required}
         />
     )
 }

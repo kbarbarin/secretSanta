@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import PopUp from "../../components/PopUp/PopUp";
 import Input from "../../components/Input/Input";
+import Button from "../../components/Button/Button";
 // import { auth } from "../../firebase/Firebase";
 
 export default function GenerateSecretSanta(props) {
@@ -38,8 +39,8 @@ export default function GenerateSecretSanta(props) {
 
 
     const attribution = () => {
-        const gifter = ['Person 1', 'Person 2', 'Person 3', 'Person 4', 'Person 5', 'Person 6'];
-        const gifted = [...gifter];
+        const gifter = [...people];
+        const gifted = [...people];
         const assossiationArray = [] // tableau d'objet gifter, gifted
         const size = gifter.length;
 
@@ -70,25 +71,42 @@ export default function GenerateSecretSanta(props) {
         // return assossiationArray;
     }
 
+const addToArray = () => {
+    const buff = [...people];
+    buff.push({name: nameRef.current.value, email: emailRef.current.value});
+    setPeople(buff);
+}
+
+const removeFromArray = (index) => {
+    const buff = people.slice(0, index).concat(people.slice(index + 1));
+    setPeople(buff);
+}
+
     return (
         <div>
             <button onClick={attribution}>Generate</button>
             {people.map((element, index) => (
-                <div>
+                <div key={index}>
                     <h1>Participant n°{index + 1}</h1>
                     <h2>{element.name}</h2>
                     <h3>{element.email}</h3>
+                    <Button onClick={() => removeFromArray(index)}>-</Button>
                 </div>
             ))}
-            <div onClick={() => openPopUp(true)}>
+            <div onClick={() => setOpenPopUp(true)}>
                 <h2>Add people</h2>
             </div>
-            <PopUp oncClose={() => setOpenPopUp(false)}>
-                <p>Name</p>
-                <Input placeholder="Thomas" type="text" ref={nameRef}/>
-                <p>Email</p>
-                <Input placeholder="Thomas@gmail.com" type="text" ref={emailRef}/>
-            </PopUp>
+            {openPopUp &&
+                <PopUp onClose={() => setOpenPopUp(false)}>
+                    <p>Name</p>
+                    <Input placeholder="Thomas" type="text" inputRef={nameRef} required />
+                    <p>Email</p>
+                    <Input placeholder="Thomas@gmail.com" type="text" inputRef={emailRef} required />
+                    <Button onClick={addToArray}>
+                        Ajouter
+                    </Button>
+                </PopUp>
+            }
             <p>Resultat en console</p>
         </div>
     )
