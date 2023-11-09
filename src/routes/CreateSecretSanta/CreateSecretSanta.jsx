@@ -12,7 +12,7 @@ export default function CreateSecretSanta() {
 
   const incrementTotal = () => {
     setTotal(total + 1)
-    setParticipants([...participants], { email: '', firstName: '' })
+    setParticipants([...participants, { email: '', firstName: '' }])
   }
 
   const decrementTotal = () => {
