@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 
+import { doc, setDoc, collection } from 'firebase/firestore'
+import { db } from '../../Firebase/Firebase'
+
 export default function CreateSecretSanta() {
   const [total, setTotal] = useState(2)
   const [participants, setParticipants] = useState(
@@ -8,6 +11,7 @@ export default function CreateSecretSanta() {
   const [eventName, setEventName] = useState('')
   const [eventDesc, setEventDesc] = useState('')
   const [eventDate, setEventDate] = useState('')
+
   const today = new Date().toISOString().split('T')[0]
 
   const incrementTotal = () => {
@@ -44,8 +48,46 @@ export default function CreateSecretSanta() {
     }
   }
 
+  const generateSessionId = () => {
+    const length = 8
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    let code = ''
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length)
+      code += characters.charAt(randomIndex)
+    }
+    return code
+  }
+
+  const addToFirebase = async () => {
+    const session = {
+      id: generateSessionId(),
+      participant: participants,
+      eventName: eventName,
+      eventDesc: eventDesc,
+      eventDate: eventDate,
+    }
+
+    try {
+      const newDocRef = doc(collection(db, 'secretSanta'))
+      await setDoc(newDocRef, session)
+
+      console.log(
+        "Document ajouté avec l'ID généré automatiquement :",
+        newDocRef.id
+      )
+    } catch (error) {
+      console.error(
+        "Erreur lors de l'enregistrement des données dans Firebase : ",
+        error
+      )
+    }
+  }
+
   return (
-    <>
+    <div style={{ textAlign: 'center' }}>
       <h1>Créer un secret santa</h1>
       <div>
         <h2>Description de l'évènement</h2>
@@ -76,7 +118,7 @@ export default function CreateSecretSanta() {
       </div>
       <div>
         <h2>Nombre de participants</h2>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <button onClick={decrementTotal}>-</button>
           <p>{total}</p>
           <button onClick={incrementTotal}>+</button>
@@ -103,6 +145,7 @@ export default function CreateSecretSanta() {
           </div>
         ))}
       </div>
-    </>
+      <button onClick={addToFirebase}>Créer</button>
+    </div>
   )
 }
