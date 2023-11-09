@@ -6,6 +6,7 @@ import Home from './Home/Home'
 import SignIn from './SignIn/SignIn'
 import SignUp from './SignUp/SignUp'
 import CreateSecretSanta from './CreateSecretSanta/CreateSecretSanta'
+import SecretSanta from './SecretSanta/SecretSanta'
 
 const routes = [
   {
@@ -31,6 +32,10 @@ const routes = [
       {
         path: 'CreateSecretSanta',
         element: <CreateSecretSanta />,
+      },
+      {
+        path: 'CreateSecretSanta/:id',
+        element: <SecretSanta />,
       },
     ],
   },
