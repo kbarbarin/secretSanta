@@ -22,6 +22,7 @@ export default function Home() {
           </Button>
         </div>
       </div>
+      <div className="home__treeFooter"></div>
     </div>
   )
 }
