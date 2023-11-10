@@ -13,6 +13,7 @@
 
     &__color--primary {
         background-color: $primary-color;
+        border: $tertiary-color solid 2px;
     }
 
     &__color--secondary {
