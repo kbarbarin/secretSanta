@@ -1,11 +1,17 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 import './Home.scss'
 
 import Button from '../../components/Button/Button'
 
 export default function Home() {
+  const navigate = useNavigate()
+
+  const handleSecretSantaCreation = () => {
+    console.log('coucou')
+    navigate('/CreateSecretSanta')
+  }
   return (
     <div>
       <Outlet />
@@ -14,7 +20,10 @@ export default function Home() {
         <h1 className="home__title">Ho-Ho! </h1>
         <h1 className="home__title--yellow">It's Secret Santa Time!</h1>
         <div className="home__buttons">
-          <Button className="button__color--primary">
+          <Button
+            className="button__color--primary"
+            onClick={handleSecretSantaCreation}
+          >
             Create my Secret Santa
           </Button>
           <Button className="button__color--secondary">
