@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { doc, setDoc, collection } from 'firebase/firestore'
-import { db } from '../../firebase/Firebase'
+import { db } from '../../Firebase/Firebase'
 
 export default function CreateSecretSanta() {
   const [total, setTotal] = useState(2)

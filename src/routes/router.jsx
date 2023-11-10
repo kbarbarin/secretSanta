@@ -5,6 +5,7 @@ import ErrorPage from './ErrorPage/ErrorPage';
 import Home from './Home/Home';
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
+import QuestionPage from './QuestionPage/QuestionPage';
 
 import CreateSecretSanta from './CreateSecretSanta/CreateSecretSanta';
 import SecretSanta from './SecretSanta/SecretSanta';
@@ -28,6 +29,11 @@ const routes = [
       {
         path: '/SignUp',
         element: <SignUp />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/QuestionPage',
+        element: <QuestionPage />,
         errorElement: <ErrorPage />,
       },
       {
