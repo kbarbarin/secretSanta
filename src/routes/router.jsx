@@ -5,8 +5,10 @@ import ErrorPage from './ErrorPage/ErrorPage'
 import Home from './Home/Home'
 import SignIn from './SignIn/SignIn'
 import SignUp from './SignUp/SignUp'
+
 import CreateSecretSanta from './CreateSecretSanta/CreateSecretSanta'
 import SecretSanta from './SecretSanta/SecretSanta'
+import GenerateSecretSanta from './GenerateSecretSanta/GenerateSecretSanta'
 
 const routes = [
   {
@@ -18,14 +20,20 @@ const routes = [
         path: '/Home',
         element: <Home />,
         errorElement: <ErrorPage />,
+        children: [
+          {
+            path: 'GenerateSecretSanta',
+            element: <GenerateSecretSanta />,
+          }
+        ]
       },
       {
-        path: 'SignIn',
+        path: '/SignIn',
         element: <SignIn />,
         errorElement: <ErrorPage />,
       },
       {
-        path: 'SignUp',
+        path: '/SignUp',
         element: <SignUp />,
         errorElement: <ErrorPage />,
       },
@@ -38,6 +46,8 @@ const routes = [
         element: <SecretSanta />,
       },
     ],
+
+    ]
   },
 ]
 
