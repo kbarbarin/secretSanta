@@ -87,7 +87,7 @@ export default function CreateSecretSanta() {
   }
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <form style={{ textAlign: 'center' }}>
       <h1>Créer un secret santa</h1>
       <div>
         <h2>Description de l'évènement</h2>
@@ -95,9 +95,10 @@ export default function CreateSecretSanta() {
           type="text"
           name="event-name"
           id="event-name"
-          placeholder="Nom de l'évènement"
+          placeholder="Nom de l'évènement*"
           value={eventName}
           onChange={(e) => setEventName(e.target.value)}
+          required
         />
         <input
           type="text"
@@ -111,9 +112,10 @@ export default function CreateSecretSanta() {
           type="date"
           name="event-date"
           id="event-date"
-          placeholder="Date de l'événement"
+          placeholder="Date de l'événement*"
           value={eventDate}
           onChange={handleEventDateChange}
+          required
         />
       </div>
       <div>
@@ -145,7 +147,9 @@ export default function CreateSecretSanta() {
           </div>
         ))}
       </div>
-      <button onClick={addToFirebase}>Créer</button>
-    </div>
+      <button type="submit" onClick={addToFirebase}>
+        Créer
+      </button>
+    </form>
   )
 }
