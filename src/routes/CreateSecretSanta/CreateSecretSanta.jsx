@@ -136,6 +136,7 @@ export default function CreateSecretSanta() {
               placeholder="Prénom"
               value={participant.firstName}
               onChange={(e) => handleFirstNameChange(index, e.target.value)}
+              required
             />
             <input
               type="email"
@@ -143,6 +144,7 @@ export default function CreateSecretSanta() {
               value={participant.email}
               id={`mail${index}`}
               onChange={(e) => handleEmailChange(index, e.target.value)}
+              required
             />
           </div>
         ))}
