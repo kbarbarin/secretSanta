@@ -1,0 +1,29 @@
+@import '../../style/variables';
+
+.home {
+    text-align: center;
+    margin: 0 16px;
+
+    &__title {
+        text-align: left;
+        color: $secondary-color;
+
+        &--yellow {
+            color: $tertiary-color;
+            text-align: left;
+        }
+    }
+
+    &__buttons {
+        gap: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        &>* {
+            width: -moz-fit-content;
+            width: fit-content;
+        }
+    }
+}
