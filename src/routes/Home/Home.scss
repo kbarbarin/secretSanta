@@ -72,5 +72,14 @@
 .faq {
     margin: 40px 16px;
     height: max-content;
-    padding-bottom: 60px;
+    padding-bottom: 50px;
+}
+
+.privacy {
+    background-color: $secondary-color;
+    border: $secondary-color solid 1px;
+
+    &__container {
+        margin: 60px 16px;
+    }
 }

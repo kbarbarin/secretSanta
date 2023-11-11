@@ -88,6 +88,29 @@ export default function Home() {
           <Collapse key={index} label={el.label} text={el.text} />
         ))}
       </div>
+      <div className="privacy">
+        <div className="privacy__container">
+          <h2>
+            <span className="info__title--white">Your privacy </span>
+            <span className="info__title--red">matters</span>
+          </h2>
+          <div className="info__paragraph">
+            <p>
+              At our Secret Santa platform, your privacy is our priority. This
+              application operates with utmost respect for your confidentiality.
+            </p>
+            <p>
+              We do not collect any personal information, employ web analytics,
+              require registration, or engage in sending spam.
+            </p>
+            <p>
+              Our service is entirely free to use, ensuring a hassle-free and
+              secure experience for all participants. Your holiday fun remains
+              completely private and protected.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
