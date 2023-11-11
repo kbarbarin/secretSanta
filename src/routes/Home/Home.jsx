@@ -111,6 +111,16 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <div className="footer">
+        <div>
+          <p>
+            Bringing joy and surprises, powered by your holiday spirit. 🎁✨
+            Crafted with love by our team at Ho-Ho!. Hosting support from
+            Firebase. Illustrations and logo from Flaticon. Making the season
+            bright since 2023.
+          </p>
+        </div>
+      </div>
     </div>
   )
 }
