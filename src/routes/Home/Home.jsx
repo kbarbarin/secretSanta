@@ -4,6 +4,9 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import './Home.scss'
 
 import Button from '../../components/Button/Button'
+import Collapse from '../../components/Collapse/Collapse'
+
+import { aboutList } from '../../datas/faq'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -78,6 +81,12 @@ export default function Home() {
             </p>
           </div>
         </div>
+      </div>
+      <div className="faq">
+        <h2 className="info__title--yellow">FAQ</h2>
+        {aboutList.map((el, index) => (
+          <Collapse key={index} label={el.label} text={el.text} />
+        ))}
       </div>
     </div>
   )

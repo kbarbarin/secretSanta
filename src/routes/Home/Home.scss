@@ -53,6 +53,10 @@
         &--red {
             color: $primary-color;
         }
+
+        &--yellow {
+            color: $tertiary-color;
+        }
     }
 
     &__paragraph>* {
@@ -63,4 +67,10 @@
 .giftImg {
     display: block;
     margin: 0 auto 80px;
+}
+
+.faq {
+    margin: 40px 16px;
+    height: max-content;
+    padding-bottom: 60px;
 }
