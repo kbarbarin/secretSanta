@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../Firebase/Firebase';
+import { questions } from '../../Data/Question';
 
-const QuestionPage = () => {
+const RecommandationComponent = () => {
   const [recommandations, setRecommandations] = useState([]);
   const [reponses, setReponses] = useState({});
   const [loading, setLoading] = useState(false);
+  const [finalReponse, setFinalReponse] = useState(null);
 
   const buildQueryFromResponses = useCallback(() => {
     const filters = [];
@@ -13,13 +15,12 @@ const QuestionPage = () => {
     if (reponses.question1 && reponses.question1.trim() !== '') {
       filters.push(where('Category', '==', reponses.question1.trim().toLowerCase()));
     }
-
-    // Add other filters for additional questions
-
     return filters;
   }, [reponses]);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchRecommandations = async () => {
       try {
         setLoading(true);
@@ -41,15 +42,30 @@ const QuestionPage = () => {
 
         console.log('Recommandations récupérées depuis Firestore :', recommandationsData);
 
-        setRecommandations(recommandationsData);
+        if (isMounted && Object.keys(reponses).length === Object.keys(questions).length) {
+          const finalReponseText = `Réponses: ${Object.values(reponses).join(', ')} - Recommandation: ${
+            recommandationsData.length > 0 ? recommandationsData[0].Category : 'Aucune recommandation'
+          }`;
+          setFinalReponse(finalReponseText);
+        }
+
+        if (isMounted) {
+          setRecommandations(recommandationsData);
+        }
       } catch (error) {
         console.error('Erreur lors de la récupération des recommandations :', error);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchRecommandations();
+
+    return () => {
+      isMounted = false;
+    };
   }, [reponses, buildQueryFromResponses]);
 
   const handleQuestionResponse = (question, reponse) => {
@@ -59,7 +75,6 @@ const QuestionPage = () => {
     }));
 
     if (question === 'question1' && reponse === 'jeux video') {
-      // Reset the response to question2 or use a default value
       setReponses(prevReponses => ({
         ...prevReponses,
         question2: null,
@@ -71,29 +86,27 @@ const QuestionPage = () => {
     <div>
       <h2>Recommandations</h2>
       {loading && <p>Loading...</p>}
-      {!loading && recommandations.length > 0 && (
+      {!loading && finalReponse && <p>{finalReponse}</p>}
+      {!loading && !finalReponse && (
         <ul>
           {recommandations.map((recommandation, index) => (
-            <li key={index}>{recommandation.Category} {recommandation.name}</li>
+            <li key={index}>{recommandation.Category}</li>
           ))}
         </ul>
-      )}
-      {!loading && recommandations.length === 0 && (
-        <p>Aucune recommandation trouvée. Veuillez répondre à toutes les questions.</p>
       )}
 
       <h2>Questions</h2>
       <div>
         <Question
-          question="Quel type de produit recherchez-vous ?"
-          options={['livre', 'jeux video']}
+          question={questions.question1.text}
+          options={questions.question1.options}
           onAnswer={reponse => handleQuestionResponse('question1', reponse)}
         />
 
         {reponses.question1 === 'jeux video' && (
           <Question
-            question="Quel genre de jeu vidéo préférez-vous ?"
-            options={['action', 'aventure', 'stratégie']}
+            question={questions.question2.text}
+            options={questions.question2.options}
             onAnswer={reponse => handleQuestionResponse('question2', reponse)}
           />
         )}
@@ -117,4 +130,4 @@ const Question = ({ question, options, onAnswer }) => {
   );
 };
 
-export default QuestionPage;
+export default RecommandationComponent;
