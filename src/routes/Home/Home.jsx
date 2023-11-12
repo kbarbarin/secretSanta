@@ -21,7 +21,7 @@ export default function Home() {
       <Outlet />
       <div className="home">
         <img src="assets/logo.png" alt="secret santa's logo" />
-        <h1 className="home__title">Ho-Ho! </h1>
+        <h1 className="home__title--white">Ho-Ho! </h1>
         <h1 className="home__title--yellow">It's Secret Santa Time!</h1>
         <div className="home__buttons">
           <Button
