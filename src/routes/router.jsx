@@ -1,13 +1,13 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom'
 
 import Root from './Root/Root'
-import ErrorPage from './ErrorPage/ErrorPage';
-import Home from './Home/Home';
-import SignIn from './SignIn/SignIn';
-import SignUp from './SignUp/SignUp';
+import ErrorPage from './ErrorPage/ErrorPage'
+import Home from './Home/Home'
+import SignIn from './SignIn/SignIn'
+import SignUp from './SignUp/SignUp'
 
-import CreateSecretSanta from './CreateSecretSanta/CreateSecretSanta';
-import SecretSanta from './SecretSanta/SecretSanta';
+import CreateSecretSanta from './CreateSecretSanta/CreateSecretSanta'
+import SecretSanta from './SecretSanta/SecretSanta'
 
 const routes = [
   {
@@ -16,7 +16,7 @@ const routes = [
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/Home',
+        path: '/',
         element: <Home />,
         errorElement: <ErrorPage />,
       },
@@ -39,7 +39,7 @@ const routes = [
         element: <SecretSanta />,
       },
     ],
-  }
+  },
 ]
 
 export const router = createBrowserRouter(routes)

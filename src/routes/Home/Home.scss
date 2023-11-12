@@ -1,0 +1,116 @@
+@import '../../style/variables';
+
+.home {
+    text-align: center;
+    margin: 0 16px;
+
+    &__title {
+        text-align: left;
+
+        @media screen and (min-width: $medium) {
+            text-align: center;
+        }
+
+        &--white {
+            color: $secondary-color;
+        }
+
+        &--yellow {
+            color: $tertiary-color;
+        }
+    }
+
+    &__buttons {
+        gap: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        &>* {
+            width: -moz-fit-content;
+            width: fit-content;
+        }
+    }
+
+    &__treeFooter {
+        width: 100%;
+        height: 50px;
+        background-image: url('../../../public//assets/tree.png');
+        background-repeat: repeat-x;
+        background-position: bottom;
+        margin-top: 20px;
+    }
+}
+
+.info {
+    background-color: $secondary-color;
+    border: $secondary-color solid 1px;
+
+    &__container {
+        margin: 60px 16px;
+
+        @media screen and (min-width: $very-large) {
+            margin: 100px 200px;
+        }
+    }
+
+    &__title {
+        &--white {
+            color: black;
+        }
+
+        &--red {
+            color: $primary-color;
+        }
+
+        &--yellow {
+            color: $tertiary-color;
+        }
+    }
+
+    &__paragraph>* {
+        margin-top: 30px;
+    }
+}
+
+.giftImg {
+    display: block;
+    margin: 0 auto 80px;
+}
+
+.faq {
+    margin: 40px 16px;
+    height: max-content;
+    padding-bottom: 50px;
+
+    @media screen and (min-width: $very-large) {
+        margin: 100px 200px;
+    }
+}
+
+.privacy {
+    background-color: $secondary-color;
+    border: $secondary-color solid 1px;
+
+    &__container {
+        margin: 60px 16px;
+
+        @media screen and (min-width: $very-large) {
+            margin: 100px 200px;
+        }
+    }
+}
+
+.footer {
+    text-align: center;
+    margin: 50px 16px;
+    padding-bottom: 30px;
+    color: $secondary-color;
+    font-size: 14px;
+    letter-spacing: 0.25%;
+
+    @media screen and (min-width: $very-large) {
+        margin: 100px 200px;
+    }
+}
