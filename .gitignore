@@ -1,23 +1,38 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Node.js
+node_modules/
 
-# testing
-/coverage
+# Fichiers de build
+build/
+dist/
+*.css
+*.map
 
-# production
-/build
-
-# misc
-.DS_Store
+# Fichiers d'environnement
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.development
+.env.test
+.env.production
 
+# Firebase
+.firebase/
+.firebaserc
+
+# Les fichiers d'édition automatique
+.idea/
+.vscode/
+
+# Les fichiers de configuration pour les tests
+/coverage/
+
+# Fichiers de logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
