@@ -3,6 +3,12 @@ import React, { useState } from 'react'
 import { doc, setDoc, collection } from 'firebase/firestore'
 import { db } from '../../firebase/Firebase'
 
+import HeaderCard from '../../layout/HeaderCard/HeaderCard'
+import Input from '../../components/Input/Input'
+
+import './CreateSecretSanta.scss'
+import { text } from '@fortawesome/fontawesome-svg-core'
+
 export default function CreateSecretSanta() {
   const [total, setTotal] = useState(2)
   const [participants, setParticipants] = useState(
@@ -62,37 +68,40 @@ export default function CreateSecretSanta() {
   }
 
   const attribution = () => {
-    const gifter = participants; // mettre le tableau participants
-    const gifted = [...gifter];
+    const gifter = participants // mettre le tableau participants
+    const gifted = [...gifter]
     const assossiationArray = [] // tableau d'objet gifter, gifted
-    const size = gifter.length;
+    const size = gifter.length
 
     function getRandomInt(max) {
-        return Math.floor(Math.random() * max);
+      return Math.floor(Math.random() * max)
     }
 
     for (var i = 0; i < size - 2; i++) {
-        var gifterIndex = 0;
-        var giftedIndex = 0;
+      var gifterIndex = 0
+      var giftedIndex = 0
 
-        while (gifter[gifterIndex] === gifted[giftedIndex]) {
-            gifterIndex = getRandomInt(size - i);
-            giftedIndex = getRandomInt(size - i);
-        }
-        assossiationArray.push({ gifter: gifter[gifterIndex], gifted: gifted[giftedIndex] });
-        gifter.splice(gifterIndex, 1);
-        gifted.splice(giftedIndex, 1);
+      while (gifter[gifterIndex] === gifted[giftedIndex]) {
+        gifterIndex = getRandomInt(size - i)
+        giftedIndex = getRandomInt(size - i)
+      }
+      assossiationArray.push({
+        gifter: gifter[gifterIndex],
+        gifted: gifted[giftedIndex],
+      })
+      gifter.splice(gifterIndex, 1)
+      gifted.splice(giftedIndex, 1)
     }
     if (gifter[0] === gifted[0] || gifter[1] === gifted[1]) {
-        assossiationArray.push({ gifter: gifter[0], gifted: gifted[1] });
-        assossiationArray.push({ gifter: gifter[1], gifted: gifted[0] });
+      assossiationArray.push({ gifter: gifter[0], gifted: gifted[1] })
+      assossiationArray.push({ gifter: gifter[1], gifted: gifted[0] })
     } else {
-        assossiationArray.push({ gifter: gifter[0], gifted: gifted[0] });
-        assossiationArray.push({ gifter: gifter[1], gifted: gifted[1] });
+      assossiationArray.push({ gifter: gifter[0], gifted: gifted[0] })
+      assossiationArray.push({ gifter: gifter[1], gifted: gifted[1] })
     }
-    console.table("assossiation", assossiationArray);
-    return assossiationArray;
-}
+    console.table('assossiation', assossiationArray)
+    return assossiationArray
+  }
 
   const addToFirebase = async (event) => {
     event.preventDefault()
@@ -121,97 +130,99 @@ export default function CreateSecretSanta() {
   }
 
   return (
-    <form style={{ textAlign: 'center' }} onSubmit={addToFirebase}>
-      <h1>Créer un secret santa</h1>
-      <div>
-        <h2>Description de l'évènement</h2>
-        <input
-          type="text"
-          name="event-name"
-          id="event-name"
-          placeholder="Nom de l'évènement*"
-          value={eventName}
-          onChange={(e) => setEventName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          name="event-desc"
-          id="event-desc"
-          placeholder="Description"
-          value={eventDesc}
-          onChange={(e) => setEventDesc(e.target.value)}
-        />
-        <input
-          type="date"
-          name="event-date"
-          id="event-date"
-          placeholder="Date de l'événement*"
-          value={eventDate}
-          onChange={handleEventDateChange}
-          required
-        />
-      </div>
-      <div>
-        <h2>Nombre de participants</h2>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <button onClick={decrementTotal}>-</button>
-          <p>{total}</p>
-          <button onClick={incrementTotal}>+</button>
-        </div>
-      </div>
-      <div>
-        <h2>Participants</h2>
-        {participants.map((participant, index) => (
-          <div key={index}>
-            <input
-              type="text"
-              id={`name_${index}`}
-              placeholder="Prénom"
-              value={participant.firstName}
-              onChange={(e) => handleFirstNameChange(index, e.target.value)}
-              required
-            />
-            <input
-              type="email"
-              placeholder="Adresse e-mail"
-              value={participant.email}
-              id={`mail${index}`}
-              onChange={(e) => handleEmailChange(index, e.target.value)}
-              required
-            />
+    <>
+      <form onSubmit={addToFirebase} className="form">
+        <HeaderCard mainTitle={'Create my Secret Santa'} />
+        <div>
+          <div className="titles">
+            <h2 className="form__title--white">Tell us more about your</h2>
+            <h2 className="form__title--yellow">Secret Santa</h2>
           </div>
-        ))}
-      </div>
-      <button type="submit">
-        Créer
-      </button>
-    </form>
+          <Input
+            type={text}
+            placeholder={'Name of the event'}
+            onChange={(e) => setEventName(e.target.value)}
+            value={eventName}
+            name="event-name"
+            id="event-name"
+            required={true}
+          />
+          <input
+            type="text"
+            name="event-desc"
+            id="event-desc"
+            placeholder="Description"
+            value={eventDesc}
+            onChange={(e) => setEventDesc(e.target.value)}
+          />
+          <input
+            type="date"
+            name="event-date"
+            id="event-date"
+            placeholder="Date de l'événement*"
+            value={eventDate}
+            onChange={handleEventDateChange}
+            required
+          />
+        </div>
+        <div>
+          <h2>Nombre de participants</h2>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <button onClick={decrementTotal}>-</button>
+            <p>{total}</p>
+            <button onClick={incrementTotal}>+</button>
+          </div>
+        </div>
+        <div>
+          <h2>Participants</h2>
+          {participants.map((participant, index) => (
+            <div key={index}>
+              <input
+                type="text"
+                id={`name_${index}`}
+                placeholder="Prénom"
+                value={participant.firstName}
+                onChange={(e) => handleFirstNameChange(index, e.target.value)}
+                required
+              />
+              <input
+                type="email"
+                placeholder="Adresse e-mail"
+                value={participant.email}
+                id={`mail${index}`}
+                onChange={(e) => handleEmailChange(index, e.target.value)}
+                required
+              />
+            </div>
+          ))}
+        </div>
+        <button type="submit">Créer</button>
+      </form>
+    </>
   )
 }
 
+// ! Cette fonction ne sert qu'a tester l'algo de la fonction attribution
 
-    // ! Cette fonction ne sert qu'a tester l'algo de la fonction attribution
+// const attribution_test = () => {
+//     var nbTry = 100000; // eviter de dépasser les 100K
+//     var fail = 0;
 
-    // const attribution_test = () => {
-    //     var nbTry = 100000; // eviter de dépasser les 100K
-    //     var fail = 0;
+//     const checkAutoGift = (result) => {
+//         for (var i = 0; i !== result.length; i++) {
+//             if (result[i].gifted === result[i].gifter)
+//             return -1;
+//         }
+//         return 1;
+//     }
 
-    //     const checkAutoGift = (result) => {
-    //         for (var i = 0; i !== result.length; i++) {
-    //             if (result[i].gifted === result[i].gifter)
-    //             return -1;
-    //         }
-    //         return 1;
-    //     }
+//     for (var i = 0; i !== nbTry; i++) {
+//         const result = attribution();
+//         if (checkAutoGift(result) === -1) {
+//             fail++;
+//             console.log(result);
+//         }
+//     }
 
-    //     for (var i = 0; i !== nbTry; i++) {
-    //         const result = attribution();
-    //         if (checkAutoGift(result) === -1) {
-    //             fail++;
-    //             console.log(result);
-    //         }
-    //     }
-
-    //     console.log("algo fail " +  fail + " times for " + nbTry + " tests");
-    // }
+//     console.log("algo fail " +  fail + " times for " + nbTry + " tests");
+// }
