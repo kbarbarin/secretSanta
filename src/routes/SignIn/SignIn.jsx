@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { auth } from "../../firebase/Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
+import Input from '../../components/Input/Input';
+
 export default function SignUp(props) {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -12,15 +14,10 @@ export default function SignUp(props) {
         signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
             .then((userCredential) => {
                 setMessage("Connexion réussie");
-                // Signed up 
-                // const user = userCredential.user;
-                // ...
             })
             .catch((error) => {
-                // const errorCode = error.code;
                 const errorMessage = error.message;
                 setMessage(errorMessage);
-                // ..
             });
     }
 
@@ -28,11 +25,8 @@ export default function SignUp(props) {
         <div>
             <h1>SignIn</h1>
             <form onSubmit={createAccount}>
-                <label htmlFor="email">Email :</label>
-                <input type="email" id="email" ref={emailRef} required /><br /><br />
-
-                <label htmlFor="password">Mot de passe :</label>
-                <input type="password" id="password" ref={passwordRef} required /><br /><br />
+                <Input placeholder="yourmail@gmail.com" type="email" id="email" ref={emailRef} required /><br /><br />
+                <Input placeholder="your secret password" type="password" id="password" ref={passwordRef} required /><br /><br />
                 {message && <p>{message}</p>}
 
                 <input type="submit" value="SignIn" />
