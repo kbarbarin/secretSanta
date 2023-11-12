@@ -12,7 +12,6 @@ export default function Home() {
   const navigate = useNavigate()
 
   const handleSecretSantaCreation = () => {
-    console.log('coucou')
     navigate('/CreateSecretSanta')
   }
 
