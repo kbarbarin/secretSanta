@@ -2,6 +2,9 @@ import React, { useRef, useState } from "react";
 import { auth } from "../../firebase/Firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
+import { doc, collection, setDoc } from "firebase/firestore";
+import { db } from "../../firebase/Firebase";
+
 export default function SignUp(props) {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -10,29 +13,30 @@ export default function SignUp(props) {
 
     const createAccount = (e) => {
         e.preventDefault();
-        if (
-            emailRef.current.value
-            && passwordRef.current.value
-            && confirmPasswordRef.current.value
-            && (passwordRef.current.value === confirmPasswordRef.current.value)
-        ) {
-            createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
-                .then((userCredential) => {
-                    setMessage("Création de compte réussie");
-                    // Signed up 
-                    // const user = userCredential.user;
-                    // ...
-                })
-                .catch((error) => {
-                    // const errorCode = error.code;
-                    const errorMessage = error.message;
-                    setMessage(errorMessage);
-                    // ..
-                });
+        if (passwordRef.current.value === confirmPasswordRef.current.value) {
+          createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
+            .then(async (userCredential) => {
+              setMessage('Création de compte réussie');
+              console.log(userCredential.user.uid);
+      
+              const userDocRef = doc(collection(db, 'users'));
+              console.log(userDocRef);
+              const userData = {
+                // username: userCredential.user.displayName,
+                uid: userCredential.user.uid,
+                email: userCredential.user.email,
+                secretSantaSessionId: [],
+              };
+              await setDoc(userDocRef, userData);
+            })
+            .catch((error) => {
+              console.error('Erreur lors de la création du compte :', error.code, error.message);
+              setMessage(error.message);
+            });
         } else {
-            setMessage("Rempli correctement le formulaire");
+          setMessage('Remplissez correctement le formulaire');
         }
-    }
+      };
 
     return (
         <div>
