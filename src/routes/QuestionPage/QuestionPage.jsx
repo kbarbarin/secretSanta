@@ -1,83 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import questionsData from '../../data/question.json';
-import recommendationsData from '../../data/recommendations.json';
-import Input from '../../components/Input/Input'
-import Button from '../../components/Button/Button'
+import React, { useEffect, useState, useCallback } from 'react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../Firebase/Firebase';
 
 const QuestionPage = () => {
-  const [questions, setQuestions] = useState([]);
-  const [answers, setAnswers] = useState({});
-  const [recommendation, setRecommendation] = useState('');
+  const [recommandations, setRecommandations] = useState([]);
+  const [reponses, setReponses] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setQuestions(questionsData.questions);
-  }, []);
+  const buildQueryFromResponses = useCallback(() => {
+    const filters = [];
 
-  const handleAnswer = (questionId, answer) => {
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [questionId]: answer
-    }));
-  };
-
-  const handleFinish = () => {
-    const conditions = recommendationsData.recommendations.conditions;
-    const defaultRecommendation = recommendationsData.recommendations.default;
-
-    for (const condition of conditions) {
-      const { questionId, value, type, recommendation } = condition;
-      const answer = answers[questionId];
-
-      switch (type) {
-        case 'number':
-          if (answer === value) {
-            setRecommendation(recommendation);
-            return;
-          }
-          break;
-        case 'checkbox':
-          if (Array.isArray(answer) && answer.includes(value)) {
-            setRecommendation(recommendation);
-            return;
-          }
-          break;
-        default:
-          break;
-      }
+    if (reponses.question1 && reponses.question1.trim() !== '') {
+      filters.push(where('Category', '==', reponses.question1.trim().toLowerCase()));
     }
 
-    setRecommendation(defaultRecommendation);
+    // Add other filters for additional questions
+
+    return filters;
+  }, [reponses]);
+
+  useEffect(() => {
+    const fetchRecommandations = async () => {
+      try {
+        setLoading(true);
+
+        let q;
+
+        if (reponses.question1 === 'jeux video' && reponses.question2) {
+          q = query(
+            collection(db, 'Product'),
+            where('Category', '==', 'jeux video'),
+            where('Theme', '==', reponses.question2.trim().toLowerCase())
+          );
+        } else {
+          q = query(collection(db, 'Product'), ...buildQueryFromResponses());
+        }
+
+        const snapshot = await getDocs(q);
+        const recommandationsData = snapshot.docs.map(doc => doc.data());
+
+        console.log('Recommandations récupérées depuis Firestore :', recommandationsData);
+
+        setRecommandations(recommandationsData);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des recommandations :', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecommandations();
+  }, [reponses, buildQueryFromResponses]);
+
+  const handleQuestionResponse = (question, reponse) => {
+    setReponses(prevReponses => ({
+      ...prevReponses,
+      [question]: reponse,
+    }));
+
+    if (question === 'question1' && reponse === 'jeux video') {
+      // Reset the response to question2 or use a default value
+      setReponses(prevReponses => ({
+        ...prevReponses,
+        question2: null,
+      }));
+    }
   };
 
   return (
     <div>
-      <h1>Questionnaire</h1>
-      {questions.map((question) => (
-        <div key={question.id}>
-          <p>{question.question}</p>
-          {question.type === 'number' && (
-            <Input
-              type="number"
-              onChange={(e) => handleAnswer(question.id, e.target.value)}
-            />
-          )}
-          {question.type === 'checkbox' && (
-            <div>
-              {question.options.map((option) => (
-                <label key={option}>
-                  <Input
-                    type="checkbox"
-                    onChange={(e) => handleAnswer(question.id, option)}
-                  />
-                  {option}
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-      <Button onClick={handleFinish}>Terminer</Button>
-      <p>Recommandation : {recommendation}</p>
+      <h2>Recommandations</h2>
+      {loading && <p>Loading...</p>}
+      {!loading && recommandations.length > 0 && (
+        <ul>
+          {recommandations.map((recommandation, index) => (
+            <li key={index}>{recommandation.Category} {recommandation.name}</li>
+          ))}
+        </ul>
+      )}
+      {!loading && recommandations.length === 0 && (
+        <p>Aucune recommandation trouvée. Veuillez répondre à toutes les questions.</p>
+      )}
+
+      <h2>Questions</h2>
+      <div>
+        <Question
+          question="Quel type de produit recherchez-vous ?"
+          options={['livre', 'jeux video']}
+          onAnswer={reponse => handleQuestionResponse('question1', reponse)}
+        />
+
+        {reponses.question1 === 'jeux video' && (
+          <Question
+            question="Quel genre de jeu vidéo préférez-vous ?"
+            options={['action', 'aventure', 'stratégie']}
+            onAnswer={reponse => handleQuestionResponse('question2', reponse)}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+const Question = ({ question, options, onAnswer }) => {
+  return (
+    <div>
+      <p>{question}</p>
+      <ul>
+        {options.map((option, index) => (
+          <li key={index}>
+            <button onClick={() => onAnswer(option)}>{option}</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

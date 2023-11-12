@@ -8,6 +8,7 @@ export default function Input(props) {
             ref={props?.inputRef}
             onChange={props?.onChange}
             required={props?.required}
+            question={props?.question}
         />
     )
 }
