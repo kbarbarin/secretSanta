@@ -33,6 +33,36 @@ const routes = [
         errorElement: <ErrorPage />,
       },
       {
+        path: '/ForgottenPassword',
+        // element: < />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'Summary',
+        // element: < />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'Quizz',
+        // element: < />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/GiftIdeas',
+        // element: < />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'YourSecretSanta',
+        // element: < />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'Profil',
+        // element:  <PrivateRoute>< /> </PrivateRoute>,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: 'CreateSecretSanta',
         element:
           <PrivateRoute>
@@ -41,7 +71,10 @@ const routes = [
       },
       {
         path: 'CreateSecretSanta/:id',
-        element: <SecretSanta />,
+        element:
+          <PrivateRoute>
+            <SecretSanta />
+          </PrivateRoute>,
       },
     ],
   },
