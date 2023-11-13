@@ -15,6 +15,13 @@ const RecommandationComponent = () => {
     if (reponses.question1 && reponses.question1.trim() !== '') {
       filters.push(where('Category', '==', reponses.question1.trim().toLowerCase()));
     }
+
+    if (reponses.budget) {
+      const budgetRange = convertBudgetResponseToRange(reponses.budget);
+      filters.push(where('Budget', '>=', budgetRange.min));
+      filters.push(where('Budget', '<=', budgetRange.max));
+    }
+
     return filters;
   }, [reponses]);
 
@@ -31,7 +38,8 @@ const RecommandationComponent = () => {
           q = query(
             collection(db, 'Product'),
             where('Category', '==', 'jeux video'),
-            where('Theme', '==', reponses.question2.trim().toLowerCase())
+            where('Theme', '==', reponses.question2.trim().toLowerCase()),
+            ...buildQueryFromResponses()
           );
         } else {
           q = query(collection(db, 'Product'), ...buildQueryFromResponses());
@@ -44,7 +52,7 @@ const RecommandationComponent = () => {
 
         if (isMounted && Object.keys(reponses).length === Object.keys(questions).length) {
           const finalReponseText = `Réponses: ${Object.values(reponses).join(', ')} - Recommandation: ${
-            recommandationsData.length > 0 ? recommandationsData[0].Category : 'Aucune recommandation'
+            recommandationsData.length > 0 ? recommandationsData[0].name : 'Aucune recommandation'
           }`;
           setFinalReponse(finalReponseText);
         }
@@ -78,7 +86,23 @@ const RecommandationComponent = () => {
       setReponses(prevReponses => ({
         ...prevReponses,
         question2: null,
+        budget: null, 
       }));
+    }
+  };
+
+  const convertBudgetResponseToRange = response => {
+    switch (response) {
+      case '< 50':
+        return { min: 0, max: 50 };
+      case '50 - 100':
+        return { min: 50, max: 100 };
+      case '100 - 200':
+        return { min: 100, max: 200 };
+      case '> 200':
+        return { min: 200, max: Infinity };
+      default:
+        return { min: 0, max: Infinity };
     }
   };
 
@@ -104,11 +128,18 @@ const RecommandationComponent = () => {
         />
 
         {reponses.question1 === 'jeux video' && (
-          <Question
-            question={questions.question2.text}
-            options={questions.question2.options}
-            onAnswer={reponse => handleQuestionResponse('question2', reponse)}
-          />
+          <>
+            <Question
+              question={questions.question2.text}
+              options={questions.question2.options}
+              onAnswer={reponse => handleQuestionResponse('question2', reponse)}
+            />
+            <Question
+              question={questions.budget.text}
+              options={questions.budget.options}
+              onAnswer={reponse => handleQuestionResponse('budget', reponse)}
+            />
+          </>
         )}
       </div>
     </div>

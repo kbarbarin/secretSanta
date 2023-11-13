@@ -7,6 +7,9 @@ export const questions = {
       text: "Quel genre de jeu vidéo préférez-vous ?",
       options: ['action', 'aventure', 'stratégie'],
     },
-    // Ajoutez d'autres questions au besoin
-  };
+    budget: {
+        text: "Quel est votre budget ?",
+        options: ["< 50", "50 - 100", "100 - 200", "> 200"],
+      },
+};
   
