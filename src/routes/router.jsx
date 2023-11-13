@@ -8,8 +8,15 @@ import SignUp from './SignUp/SignUp'
 
 import CreateSecretSanta from './CreateSecretSanta/CreateSecretSanta'
 import SecretSanta from './SecretSanta/SecretSanta'
+import ForgottenPassword from './ForgottenPassword/ForgottenPassword'
+import Summary from './Summary/Summary'
+
 
 import PrivateRoute from './PrivateRoute/PrivateRoute'
+import Quizz from './Quizz/Quizz'
+import GiftIdeas from './GiftIdeas/GiftIdeas'
+import Profil from './Profil/Profil'
+
 
 const routes = [
   {
@@ -34,32 +41,32 @@ const routes = [
       },
       {
         path: '/ForgottenPassword',
-        // element: < />,
+        element: <ForgottenPassword/>,
         errorElement: <ErrorPage />,
       },
       {
         path: 'Summary',
-        // element: < />,
+        element: <Summary/>,
         errorElement: <ErrorPage />,
       },
       {
         path: 'Quizz',
-        // element: < />,
+        element: <Quizz />,
         errorElement: <ErrorPage />,
       },
       {
         path: '/GiftIdeas',
-        // element: < />,
+        element: <GiftIdeas />,  
         errorElement: <ErrorPage />,
       },
       {
         path: 'YourSecretSanta',
-        // element: < />,
+        element: <GiftIdeas />,
         errorElement: <ErrorPage />,
       },
       {
         path: 'Profil',
-        // element:  <PrivateRoute>< /> </PrivateRoute>,
+        element:  <PrivateRoute><Profil /> </PrivateRoute>,
         errorElement: <ErrorPage />,
       },
       {
