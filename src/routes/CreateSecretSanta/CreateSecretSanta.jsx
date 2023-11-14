@@ -170,7 +170,7 @@ const handleEventDateChange = (e) => {
             onChange={(e) => handleEventDateChange(e)}
           />
         </div>
-        <div className="participants">
+        <div className="participant">
           <h2 className="form__catTitle">
             <span className="info__title--white">Who is </span>
             <span className="info__title--yellow">invited?</span>
