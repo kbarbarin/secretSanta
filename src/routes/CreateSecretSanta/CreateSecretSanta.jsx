@@ -189,21 +189,21 @@ const handleEventDateChange = (e) => {
           {participants.map((participant, index) => (
             <div key={index} className="participant__container">
               <p className='participant__index'>{index + 1}.</p>
-              <input
+              <Input
                 type="text"
                 id={`name_${index}`}
                 placeholder="Prénom"
                 value={participant.firstName}
                 onChange={(e) => handleFirstNameChange(index, e.target.value)}
-                required
+                required={true}
               />
-              <input
+              <Input
                 type="email"
                 placeholder="Adresse e-mail"
                 value={participant.email}
                 id={`mail${index}`}
                 onChange={(e) => handleEmailChange(index, e.target.value)}
-                required
+                required={true}
               />
             </div>
           ))}
