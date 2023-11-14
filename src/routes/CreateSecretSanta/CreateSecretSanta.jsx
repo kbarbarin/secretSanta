@@ -5,6 +5,7 @@ import { db } from '../../firebase/Firebase'
 
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
+import Button from '../../components/Button/Button'
 
 import './CreateSecretSanta.scss'
 
@@ -186,8 +187,8 @@ const handleEventDateChange = (e) => {
         </div>
         <div>
           {participants.map((participant, index) => (
-            <div key={index}>
-              <p>{index + 1}.</p>
+            <div key={index} className="participant__container">
+              <p className='participant__index'>{index + 1}.</p>
               <input
                 type="text"
                 id={`name_${index}`}
@@ -207,7 +208,8 @@ const handleEventDateChange = (e) => {
             </div>
           ))}
         </div>
-        <button type="submit">Créer</button>
+        <button type="submit" className='form__button'>Create</button>
+        <Button />
       </form>
     </>
   )
