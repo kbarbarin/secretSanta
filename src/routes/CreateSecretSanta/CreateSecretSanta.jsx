@@ -7,7 +7,6 @@ import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
 
 import './CreateSecretSanta.scss'
-import { text } from '@fortawesome/fontawesome-svg-core'
 
 export default function CreateSecretSanta() {
   const [total, setTotal] = useState(2)
@@ -44,15 +43,15 @@ export default function CreateSecretSanta() {
     setParticipants(updatedParticipants)
   }
 
-  const handleEventDateChange = (e) => {
-    const enteredDate = e.target.value
+const handleEventDateChange = (e) => {
+  const enteredDate = e.target.value
 
-    if (enteredDate < today) {
-      alert("La date de l'événement ne peut pas être antérieure à aujourd'hui.")
-    } else {
-      setEventDate(enteredDate)
-    }
+  if (enteredDate < today) {
+    alert("La date de l'événement ne peut pas être antérieure à aujourd'hui.")
+  } else {
+    setEventDate(enteredDate)
   }
+}
 
   const generateSessionId = () => {
     const length = 8
@@ -138,45 +137,57 @@ export default function CreateSecretSanta() {
             <h2 className="form__title--white">Tell us more about your</h2>
             <h2 className="form__title--yellow">Secret Santa</h2>
           </div>
+          <div className="form__group">
+            <Input
+              type={'text'}
+              placeholder={'Name of the event*'}
+              onChange={(e) => setEventName(e.target.value)}
+              value={eventName}
+              name="event-name"
+              id="event-name"
+              required={true}
+            />
+            <Input
+              type={'text'}
+              name="event-desc"
+              id="event-desc"
+              placeholder="Description"
+              value={eventDesc}
+              onChange={(e) => setEventDesc(e.target.value)}
+            />
+          </div>
+          <h2 className="form__catTitle">
+            <span className="info__title--white">When is your </span>
+            <span className="info__title--yellow">Secret Santa?</span>
+          </h2>
           <Input
-            type={text}
-            placeholder={'Name of the event'}
-            onChange={(e) => setEventName(e.target.value)}
-            value={eventName}
-            name="event-name"
-            id="event-name"
-            required={true}
-          />
-          <input
-            type="text"
-            name="event-desc"
-            id="event-desc"
-            placeholder="Description"
-            value={eventDesc}
-            onChange={(e) => setEventDesc(e.target.value)}
-          />
-          <input
-            type="date"
+            type={'date'}
             name="event-date"
             id="event-date"
-            placeholder="Date de l'événement*"
+            placeholder="Date of the event"
             value={eventDate}
-            onChange={handleEventDateChange}
-            required
+            onChange={(e) => handleEventDateChange(e)}
           />
         </div>
-        <div>
-          <h2>Nombre de participants</h2>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <button onClick={decrementTotal}>-</button>
-            <p>{total}</p>
-            <button onClick={incrementTotal}>+</button>
+        <div className="participants">
+          <h2 className="form__catTitle">
+            <span className="info__title--white">Who is </span>
+            <span className="info__title--yellow">invited?</span>
+          </h2>
+          <div className="participant__buttonContainer">
+            <button onClick={decrementTotal} className="participant__button">
+              -
+            </button>
+            <h2 className="participant__number">{total}</h2>
+            <button onClick={incrementTotal} className="participant__button">
+              +
+            </button>
           </div>
         </div>
         <div>
-          <h2>Participants</h2>
           {participants.map((participant, index) => (
             <div key={index}>
+              <p>{index + 1}.</p>
               <input
                 type="text"
                 id={`name_${index}`}
