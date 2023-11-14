@@ -1,0 +1,25 @@
+.input {
+    width: 80%;
+    padding: 10px;
+    background-color: #F6F6F6;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+
+    input {
+        flex: 19;
+        color: #333;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        margin-right: 10px;
+        font-family: 'Poppins';
+    }
+
+    .input-icon {
+        flex: 1;
+        font-size: 1.2em;
+        color: #555;
+    }
+}
