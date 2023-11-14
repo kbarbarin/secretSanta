@@ -1,29 +1,76 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '../../Firebase/Firebase';
-import { questions } from '../../Data/Question';
+// RecommandationComponent.js
+
+import React, { useEffect, useState, useCallback } from "react";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../../Firebase/Firebase";
+import { questions, initialResponses } from "../../Data/Question";
 
 const RecommandationComponent = () => {
   const [recommandations, setRecommandations] = useState([]);
-  const [reponses, setReponses] = useState({});
+  const [responses, setResponses] = useState(initialResponses);
   const [loading, setLoading] = useState(false);
-  const [finalReponse, setFinalReponse] = useState(null);
+  const [finalResponse, setFinalResponse] = useState(null);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const buildQueryFromResponses = useCallback(() => {
     const filters = [];
 
-    if (reponses.question1 && reponses.question1.trim() !== '') {
-      filters.push(where('Category', '==', reponses.question1.trim().toLowerCase()));
-    }
+    const filterConfig = [
+      {
+        step: 1,
+        condition: (response) => response === "Yes",
+        filters: [{ field: "Category", value: "video games" }],
+      },
+      {
+        step: 2,
+        condition: (response) => response === "Yes",
+        filters: [{ field: "Theme", value: "adventure" }],
+      },
+      {
+        step: 2,
+        condition: (response) => response === "No",
+        filters: [{ field: "Theme", value: "anotherTheme" }],
+      },
+      {
+        step: 3,
+        condition: (response) => response === "Yes",
+        filters: [{ field: "Category", value: "books" }],
+      },
+      // Ajoutez d'autres configurations en fonction de votre logique
+    ];
 
-    if (reponses.budget) {
-      const budgetRange = convertBudgetResponseToRange(reponses.budget);
-      filters.push(where('Budget', '>=', budgetRange.min));
-      filters.push(where('Budget', '<=', budgetRange.max));
+    for (const config of filterConfig) {
+      const response = responses[config.step];
+      if (response !== null && response !== undefined && config.condition(response)) {
+        filters.push(...config.filters.map(({ field, value }) => where(field, "==", value)));
+      }
     }
 
     return filters;
-  }, [reponses]);
+  }, [responses]);
+
+  const findNextStep = (currentStep, response) => {
+    const nextStep = currentStep + 1;
+
+    // Vérifiez s'il y a une question suivante et si elle doit être affichée en fonction de la réponse actuelle
+    if (questions[nextStep] && (!questions[nextStep].condition || questions[nextStep].condition(response))) {
+      return nextStep;
+    }
+
+    // Si la question suivante ne doit pas être affichée, recherchez la prochaine question qui doit l'être
+    for (let step = nextStep + 1; step <= Object.keys(questions).length; step++) {
+      if (questions[step]) {
+        if (!questions[step].condition || questions[step].condition(response)) {
+          return step;
+        } else {
+          // Si la question conditionnelle suivante ne doit pas être affichée, passez à la suivante
+          continue;
+        }
+      }
+    }
+
+    return null; // Aucune question suivante
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -32,36 +79,25 @@ const RecommandationComponent = () => {
       try {
         setLoading(true);
 
-        let q;
-
-        if (reponses.question1 === 'jeux video' && reponses.question2) {
-          q = query(
-            collection(db, 'Product'),
-            where('Category', '==', 'jeux video'),
-            where('Theme', '==', reponses.question2.trim().toLowerCase()),
-            ...buildQueryFromResponses()
-          );
-        } else {
-          q = query(collection(db, 'Product'), ...buildQueryFromResponses());
-        }
+        const q = query(collection(db, "Product"), ...buildQueryFromResponses());
 
         const snapshot = await getDocs(q);
-        const recommandationsData = snapshot.docs.map(doc => doc.data());
+        const recommandationsData = snapshot.docs.map((doc) => doc.data());
 
-        console.log('Recommandations récupérées depuis Firestore :', recommandationsData);
+        console.log("Recommandations récupérées depuis Firestore :", recommandationsData);
 
-        if (isMounted && Object.keys(reponses).length === Object.keys(questions).length) {
-          const finalReponseText = `Réponses: ${Object.values(reponses).join(', ')} - Recommandation: ${
-            recommandationsData.length > 0 ? recommandationsData[0].name : 'Aucune recommandation'
+        if (isMounted && Object.values(responses).every((response) => response !== null)) {
+          const finalResponseText = `Réponses: ${Object.values(responses).join(", ")} - Recommandation: ${
+            recommandationsData.length > 0 ? recommandationsData[0].Category : "Aucune recommandation"
           }`;
-          setFinalReponse(finalReponseText);
+          setFinalResponse(finalResponseText);
         }
 
         if (isMounted) {
           setRecommandations(recommandationsData);
         }
       } catch (error) {
-        console.error('Erreur lors de la récupération des recommandations :', error);
+        console.error("Erreur lors de la récupération des recommandations :", error);
       } finally {
         if (isMounted) {
           setLoading(false);
@@ -74,35 +110,20 @@ const RecommandationComponent = () => {
     return () => {
       isMounted = false;
     };
-  }, [reponses, buildQueryFromResponses]);
+  }, [responses, buildQueryFromResponses]);
 
-  const handleQuestionResponse = (question, reponse) => {
-    setReponses(prevReponses => ({
-      ...prevReponses,
-      [question]: reponse,
+  const handleQuestionResponse = (step, response) => {
+    setResponses((prevResponses) => ({
+      ...prevResponses,
+      [step]: response,
     }));
 
-    if (question === 'question1' && reponse === 'jeux video') {
-      setReponses(prevReponses => ({
-        ...prevReponses,
-        question2: null,
-        budget: null, 
-      }));
-    }
-  };
-
-  const convertBudgetResponseToRange = response => {
-    switch (response) {
-      case '< 50':
-        return { min: 0, max: 50 };
-      case '50 - 100':
-        return { min: 50, max: 100 };
-      case '100 - 200':
-        return { min: 100, max: 200 };
-      case '> 200':
-        return { min: 200, max: Infinity };
-      default:
-        return { min: 0, max: Infinity };
+    // Logique pour changer d'étape en fonction des réponses et conditions
+    const nextStep = findNextStep(step, response);
+    if (nextStep !== null) {
+      setCurrentStep(nextStep);
+    } else {
+      // Si aucune question suivante, finalisez le processus ici
     }
   };
 
@@ -110,8 +131,8 @@ const RecommandationComponent = () => {
     <div>
       <h2>Recommandations</h2>
       {loading && <p>Loading...</p>}
-      {!loading && finalReponse && <p>{finalReponse}</p>}
-      {!loading && !finalReponse && (
+      {!loading && finalResponse && <p>{finalResponse}</p>}
+      {!loading && (
         <ul>
           {recommandations.map((recommandation, index) => (
             <li key={index}>{recommandation.Category}</li>
@@ -121,35 +142,24 @@ const RecommandationComponent = () => {
 
       <h2>Questions</h2>
       <div>
-        <Question
-          question={questions.question1.text}
-          options={questions.question1.options}
-          onAnswer={reponse => handleQuestionResponse('question1', reponse)}
-        />
-
-        {reponses.question1 === 'jeux video' && (
-          <>
-            <Question
-              question={questions.question2.text}
-              options={questions.question2.options}
-              onAnswer={reponse => handleQuestionResponse('question2', reponse)}
-            />
-            <Question
-              question={questions.budget.text}
-              options={questions.budget.options}
-              onAnswer={reponse => handleQuestionResponse('budget', reponse)}
-            />
-          </>
+        {questions[currentStep] && (
+          <Question
+            step={currentStep}
+            text={questions[currentStep].text}
+            options={questions[currentStep].options}
+            onAnswer={(response) => handleQuestionResponse(currentStep, response)}
+          />
         )}
+        {/* Add other steps/questions based on your logic */}
       </div>
     </div>
   );
 };
 
-const Question = ({ question, options, onAnswer }) => {
+const Question = ({ step, text, options, onAnswer }) => {
   return (
     <div>
-      <p>{question}</p>
+      <p>{text}</p>
       <ul>
         {options.map((option, index) => (
           <li key={index}>
