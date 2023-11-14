@@ -170,7 +170,7 @@ const handleEventDateChange = (e) => {
             onChange={(e) => handleEventDateChange(e)}
           />
         </div>
-        <div className="participants">
+        <div className="participant">
           <h2 className="form__catTitle">
             <span className="info__title--white">Who is </span>
             <span className="info__title--yellow">invited?</span>
@@ -189,21 +189,21 @@ const handleEventDateChange = (e) => {
           {participants.map((participant, index) => (
             <div key={index} className="participant__container">
               <p className='participant__index'>{index + 1}.</p>
-              <input
+              <Input
                 type="text"
                 id={`name_${index}`}
                 placeholder="Prénom"
                 value={participant.firstName}
                 onChange={(e) => handleFirstNameChange(index, e.target.value)}
-                required
+                required={true}
               />
-              <input
+              <Input
                 type="email"
                 placeholder="Adresse e-mail"
                 value={participant.email}
                 id={`mail${index}`}
                 onChange={(e) => handleEmailChange(index, e.target.value)}
-                required
+                required={true}
               />
             </div>
           ))}
