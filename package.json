@@ -46,6 +46,11 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.12.1"
+    "@babel/plugin-proposal-private-property-in-object": "^7.12.1",
+    "css-loader": "^6.8.1",
+    "sass": "^1.69.5",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0"
   }
 }

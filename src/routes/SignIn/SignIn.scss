@@ -1,28 +1,49 @@
-// SignIn.scss
+@import '../../style/variables';
+
 .signin {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0;
-    /* Supprimer la marge par défaut du corps */
+    margin: 0 16px;
+
+    & h2 {
+        color: $secondary-color;
+    }
+
+    & .mainTitle {
+        display: none;
+        margin: 0;
+    }
+
+    & .mainTitle__desc {
+        display: none;
+        margin: 0;
+    }
 
     h1 {
-        color: #FFF;
-        margin-bottom: 20px; /* Ajouter une marge en bas pour l'espace autour du titre */
+        color: $secondary-color;
+        margin-bottom: 20px;
     }
 
     form {
-        width: 100%; /* Vous pouvez ajuster la largeur du formulaire selon vos préférences */
-
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 25px;
+
+        @media screen and (min-width: $medium) {
+            width: 80%;
+        }
+
+        @media screen and (min-width: $large) {
+            width: 50%;
+        }
     }
 
     .errorMessage {
-        color: #FFDD64;
+        color: $tertiary-color;
         margin: 0;
         padding: 0;
     }
@@ -31,19 +52,16 @@
         align-self: flex-end;
         margin-right: 10%;
         text-decoration: underline;
-        color: #FFF;
+        color: $secondary-color;
     }
 
     input[type="submit"] {
         margin-top: 15px;
-        /* Ajouter une marge en haut pour l'espace autour du bouton de soumission */
         padding: 10px;
         padding-inline: 40px;
-        border: 2px solid #FFF;
-        background-color: #ED1C24;
-        /* Changer la couleur de fond du bouton */
-        color: #fff;
-        /* Changer la couleur du texte du bouton */
+        border: 2px solid $secondary-color;
+        background-color: $primary-color;
+        color: $secondary-color;
         cursor: pointer;
         border-radius: 6px;
     }
@@ -53,14 +71,13 @@
         align-items: center;
 
         &-text {
-            color: #FFF;
+            color: $secondary-color;
             margin: 0;
             padding: 0;
         }
 
         &-link {
-            color: #FFDD64;
-            text-decoration: none;
+            color: $tertiary-color;
         }
     }
 }
