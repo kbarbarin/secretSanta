@@ -12,6 +12,7 @@ export default function SignUp(props) {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
     const [message, setMessage] = useState("");
+    const [showPassord, setShowPassword] = useState(false);
 
     const createAccount = (e) => {
         e.preventDefault();
@@ -29,8 +30,23 @@ export default function SignUp(props) {
         <div className="signin">
             <h1>SignIn</h1>
             <form onSubmit={createAccount}>
-                <Input placeholder="yourmail@gmail.com" type="email" id="email" ref={emailRef} required icon={faUser} />
-                <Input placeholder="your secret password" type="password" id="password" ref={passwordRef} required icon={faEye} />
+                <Input
+                    placeholder="yourmail@gmail.com"
+                    type="email"
+                    id="email"
+                    ref={emailRef}
+                    icon={faUser}
+                    required
+                />
+                <Input
+                    placeholder="your secret password"
+                    type={showPassord ? "text" : "password"}
+                    icon={showPassord ? faEyeSlash : faEye}
+                    onClickIcon={() => setShowPassword(!showPassord)}
+                    id="password"
+                    ref={passwordRef}
+                    required
+                />
                 {message && <p>{message}</p>}
 
                 <input type="submit" value="SIGN IN" />
