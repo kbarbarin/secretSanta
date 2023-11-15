@@ -45,15 +45,15 @@ export default function CreateSecretSanta() {
     setParticipants(updatedParticipants)
   }
 
-const handleEventDateChange = (e) => {
-  const enteredDate = e.target.value
+  const handleEventDateChange = (e) => {
+    const enteredDate = e.target.value
 
-  if (enteredDate < today) {
-    alert("La date de l'événement ne peut pas être antérieure à aujourd'hui.")
-  } else {
-    setEventDate(enteredDate)
+    if (enteredDate < today) {
+      alert("La date de l'événement ne peut pas être antérieure à aujourd'hui.")
+    } else {
+      setEventDate(enteredDate)
+    }
   }
-}
 
   const generateSessionId = () => {
     const length = 8
@@ -122,7 +122,20 @@ const handleEventDateChange = (e) => {
         "Document ajouté avec l'ID généré automatiquement :",
         newDocRef.id
       )
-      emailjs.send("service_ktjeuxa", "template_bklalgq", {receiver_email: 'audreyraso79@gmail.com',receiver: 'Audrey', organisator: 'Killian', date: 'november, 30th', link: 'https://youtube.com'}, "yF0RNO3NA52uH5dgL");
+      session.participants.forEach((element) => {
+        emailjs.send(
+          "service_ktjeuxa",
+          "template_bklalgq",
+          {
+            receiver_email: element.gifted.email,
+            receiver: element.gifted.firstName,
+            organisator: 'an elf',
+            date: eventDate,
+            link: 'https://youtube.com'
+          },
+          "yF0RNO3NA52uH5dgL");
+      })
+
     } catch (error) {
       console.error(
         "Erreur lors de l'enregistrement des données dans Firebase : ",
