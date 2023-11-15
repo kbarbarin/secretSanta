@@ -22,11 +22,10 @@
         gap: 25px;
     }
 
-    p {
-        margin-top: 10px;
-        /* Ajouter une marge en haut pour l'espace autour du message */
-        color: red;
-        /* Changer la couleur du message d'erreur */
+    .errorMessage {
+        color: #FFDD64;
+        margin: 0;
+        padding: 0;
     }
 
     .link {

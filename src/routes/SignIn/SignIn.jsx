@@ -18,11 +18,10 @@ export default function SignUp(props) {
     const createAccount = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
-            .then((userCredential) => {
+            .then(() => {
                 setMessage("Connexion réussie");
             })
             .catch((error) => {
-                const errorMessage = error.message;
                 setMessage("Make sure to fill all fields correctly !");
             });
     }
@@ -35,7 +34,7 @@ export default function SignUp(props) {
                     placeholder="yourmail@gmail.com"
                     type="email"
                     id="email"
-                    ref={emailRef}
+                    inputRef={emailRef}
                     icon={faUser}
                     required
                 />
@@ -45,11 +44,11 @@ export default function SignUp(props) {
                     icon={showPassord ? faEyeSlash : faEye}
                     onClickIcon={() => setShowPassword(!showPassord)}
                     id="password"
-                    ref={passwordRef}
+                    inputRef={passwordRef}
                     required
                 />
                 <Link to='/forgottenPassword' className="link">Forgot Password ?</Link>
-                {message && <p>{message}</p>}
+                {message && <p className="errorMessage">{message}</p>}
 
                 <input type="submit" value="SIGN IN" />
                 <div className="signup">
