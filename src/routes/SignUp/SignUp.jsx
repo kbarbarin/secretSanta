@@ -7,6 +7,8 @@ import { db } from "../../firebase/Firebase";
 import { Link } from "react-router-dom";
 
 import Input from "../../components/Input/Input";
+import HeaderCard from '../../layout/HeaderCard/HeaderCard'
+
 
 import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
@@ -48,43 +50,46 @@ export default function SignUp(props) {
       };
 
     return (
-        <div className="signup">
-            <h1>SignUp</h1>
-            <form onSubmit={createAccount}>
-            <Input
-                    placeholder="yourmail@gmail.com"
-                    type="email"
-                    id="email"
-                    inputRef={emailRef}
-                    icon={faUser}
-                    required
-                />
-                <Input
-                    placeholder="your secret password"
-                    type={showPassord ? "text" : "password"}
-                    icon={showPassord ? faEyeSlash : faEye}
-                    onClickIcon={() => setShowPassword(!showPassord)}
-                    id="password"
-                    inputRef={passwordRef}
-                    required
-                />
-                <Input
-                    placeholder="confirm your secret password"
-                    type={showPassord ? "text" : "password"}
-                    icon={showPassord ? faEyeSlash : faEye}
-                    onClickIcon={() => setShowConfirmPassword(!showConfirmPassord)}
-                    id="password"
-                    inputRef={passwordRef}
-                    required
-                />
-                {message && <p className="errorMessage">{message}</p>}
+      <div className="signup">
+        <HeaderCard secondaryTitle={'SignUp'} />
 
-                <input type="submit" value="SIGN UP" />
-                <div className="signin">
-                    <p className="signin-text">Already have an account ? &#160;</p>
-                    <Link to="/SignIn" className="signin-link">Click here !</Link>
-                </div>
-            </form>
-        </div>
+        <form onSubmit={createAccount}>
+          <Input
+            placeholder="yourmail@gmail.com"
+            type="email"
+            id="email"
+            inputRef={emailRef}
+            icon={faUser}
+            required
+          />
+          <Input
+            placeholder="your secret password"
+            type={showPassord ? 'text' : 'password'}
+            icon={showPassord ? faEyeSlash : faEye}
+            onClickIcon={() => setShowPassword(!showPassord)}
+            id="password"
+            inputRef={passwordRef}
+            required
+          />
+          <Input
+            placeholder="confirm your secret password"
+            type={showPassord ? 'text' : 'password'}
+            icon={showPassord ? faEyeSlash : faEye}
+            onClickIcon={() => setShowConfirmPassword(!showConfirmPassord)}
+            id="password"
+            inputRef={passwordRef}
+            required
+          />
+          {message && <p className="errorMessage">{message}</p>}
+
+          <input type="submit" value="SIGN UP" />
+          <div className="signin">
+            <p className="signin-text">Already have an account ? &#160;</p>
+            <Link to="/SignIn" className="signin-link">
+              Click here !
+            </Link>
+          </div>
+        </form>
+      </div>
     )
 }
