@@ -1,4 +1,8 @@
 import React from "react";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import {faUser} from '@fortawesome/free-svg-icons'
+
+import './Input.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
