@@ -122,7 +122,7 @@ const handleEventDateChange = (e) => {
         "Document ajouté avec l'ID généré automatiquement :",
         newDocRef.id
       )
-      emailjs.send("service_7coyuxk", "template_bklalgq", {to_name: 'Audrey', from_name: 'Killian', link: 'https://youtube.com'}, "yF0RNO3NA52uH5dgL");
+      emailjs.send("service_ktjeuxa", "template_bklalgq", {receiver_email: 'audreyraso79@gmail.com',receiver: 'Audrey', organisator: 'Killian', date: 'november, 30th', link: 'https://youtube.com'}, "yF0RNO3NA52uH5dgL");
     } catch (error) {
       console.error(
         "Erreur lors de l'enregistrement des données dans Firebase : ",
