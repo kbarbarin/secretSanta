@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { auth } from '../../firebase/Firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
@@ -17,6 +17,7 @@ export default function SignUp(props) {
   const passwordRef = useRef(null)
   const [message, setMessage] = useState('')
   const [showPassord, setShowPassword] = useState(false)
+  const navigation = useNavigate();
 
   const createAccount = (e) => {
     e.preventDefault()
@@ -27,6 +28,8 @@ export default function SignUp(props) {
     )
       .then(() => {
         setMessage('Connexion réussie')
+        navigation('/create');
+        
       })
       .catch((error) => {
         setMessage('Make sure to fill all fields correctly !')

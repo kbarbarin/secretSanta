@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { doc, collection, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/Firebase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Input from "../../components/Input/Input";
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
@@ -19,8 +19,9 @@ export default function SignUp(props) {
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
   const [message, setMessage] = useState("");
-  const [showPassord, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassord, setShowConfirmPassword] = useState(false);
+  const navigation = useNavigate();
 
     const createAccount = (e) => {
         e.preventDefault();
@@ -39,6 +40,7 @@ export default function SignUp(props) {
                 secretSantaSessionId: [],
               };
               await setDoc(userDocRef, userData);
+              navigation('/create');
             })
             .catch((error) => {
               console.error('Erreur lors de la création du compte :', error.code, error.message);
@@ -64,20 +66,20 @@ export default function SignUp(props) {
           />
           <Input
             placeholder="your secret password"
-            type={showPassord ? 'text' : 'password'}
-            icon={showPassord ? faEyeSlash : faEye}
-            onClickIcon={() => setShowPassword(!showPassord)}
+            type={showPassword ? 'text' : 'password'}
+            icon={showPassword ? faEyeSlash : faEye}
+            onClickIcon={() => setShowPassword(!showPassword)}
             id="password"
             inputRef={passwordRef}
             required
           />
           <Input
             placeholder="confirm your secret password"
-            type={showPassord ? 'text' : 'password'}
-            icon={showPassord ? faEyeSlash : faEye}
+            type={showConfirmPassord ? 'text' : 'password'}
+            icon={showConfirmPassord ? faEyeSlash : faEye}
             onClickIcon={() => setShowConfirmPassword(!showConfirmPassord)}
-            id="password"
-            inputRef={passwordRef}
+            id="confirmPassword"
+            inputRef={confirmPasswordRef}
             required
           />
           {message && <p className="errorMessage">{message}</p>}

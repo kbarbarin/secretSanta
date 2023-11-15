@@ -6,6 +6,7 @@ import { db } from '../../firebase/Firebase'
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
+import emailjs from '@emailjs/browser';
 
 import './CreateSecretSanta.scss'
 
@@ -121,6 +122,7 @@ const handleEventDateChange = (e) => {
         "Document ajouté avec l'ID généré automatiquement :",
         newDocRef.id
       )
+      emailjs.send("service_7coyuxk", "template_bklalgq", {to_name: 'Audrey', from_name: 'Killian', link: 'https://youtube.com'}, "yF0RNO3NA52uH5dgL");
     } catch (error) {
       console.error(
         "Erreur lors de l'enregistrement des données dans Firebase : ",
