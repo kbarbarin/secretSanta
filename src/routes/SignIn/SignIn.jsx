@@ -4,6 +4,10 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 import Input from '../../components/Input/Input';
 
+import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+
+import './SignIn.scss'
+
 export default function SignUp(props) {
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -22,14 +26,15 @@ export default function SignUp(props) {
     }
 
     return (
-        <div>
+        <div className="signin">
             <h1>SignIn</h1>
             <form onSubmit={createAccount}>
-                <Input placeholder="yourmail@gmail.com" type="email" id="email" ref={emailRef} required /><br /><br />
-                <Input placeholder="your secret password" type="password" id="password" ref={passwordRef} required /><br /><br />
+                <Input placeholder="yourmail@gmail.com" type="email" id="email" ref={emailRef} required icon={faUser} />
+                <Input placeholder="your secret password" type="password" id="password" ref={passwordRef} required icon={faEye} />
+
                 {message && <p>{message}</p>}
 
-                <input type="submit" value="SignIn" />
+                <input type="submit" value="SIGN IN" />
             </form>
         </div>
     )

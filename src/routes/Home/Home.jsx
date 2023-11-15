@@ -38,7 +38,7 @@ export default function Home() {
       <div className="info">
         <div className="info__container">
           <h2>
-            <span className="info__title--white">What's a </span>
+            <span className="info__title--black">What's a </span>
             <span className="info__title--red">Secret Santa?</span>
           </h2>
           <div className="info__paragraph">
@@ -62,7 +62,7 @@ export default function Home() {
         />
         <div className="info__container">
           <h2>
-            <span className="info__title--white">How does it </span>
+            <span className="info__title--black">How does it </span>
             <span className="info__title--red">works?</span>
           </h2>
           <div className="info__paragraph">
@@ -90,7 +90,7 @@ export default function Home() {
       <div className="privacy">
         <div className="privacy__container">
           <h2>
-            <span className="info__title--white">Your privacy </span>
+            <span className="info__title--black">Your privacy </span>
             <span className="info__title--red">matters</span>
           </h2>
           <div className="info__paragraph">

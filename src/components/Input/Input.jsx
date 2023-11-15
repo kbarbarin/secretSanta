@@ -4,9 +4,13 @@ import React from "react";
 
 import './Input.scss';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import './Input.scss'
+
 export default function Input(props) {
     return (
-        <div>
+        <div className="input">
             <input
                 placeholder={props?.placeholder}
                 name={props?.name}
@@ -17,7 +21,7 @@ export default function Input(props) {
                 onChange={props?.onChange}
                 required={props?.required}
             />
-            {/* <FontAwesomeIcon icon={faUser} /> */}
+            <FontAwesomeIcon className="input-icon" icon={props?.icon} />
         </div>
     )
 }

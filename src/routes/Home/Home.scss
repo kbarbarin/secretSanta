@@ -57,6 +57,10 @@
 
     &__title {
         &--white {
+            color: $secondary-color;
+        }
+
+        &--black {
             color: black;
         }
 
