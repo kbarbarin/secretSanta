@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
 import { auth } from "../../firebase/Firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+import { Link } from "react-router-dom";
 
 import Input from '../../components/Input/Input';
 
-import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
 import './SignIn.scss'
-import { Link } from "react-router-dom";
 
 export default function SignUp(props) {
     const emailRef = useRef(null);

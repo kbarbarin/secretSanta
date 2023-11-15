@@ -4,12 +4,21 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { doc, collection, setDoc } from "firebase/firestore";
 import { db } from "../../firebase/Firebase";
+import { Link } from "react-router-dom";
+
+import Input from "../../components/Input/Input";
+
+import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+
+import './SignUp.scss';
 
 export default function SignUp(props) {
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
-    const confirmPasswordRef = useRef(null);
-    const [message, setMessage] = useState("");
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const confirmPasswordRef = useRef(null);
+  const [message, setMessage] = useState("");
+  const [showPassord, setShowPassword] = useState(false);
+  const [showConfirmPassord, setShowConfirmPassword] = useState(false);
 
     const createAccount = (e) => {
         e.preventDefault();
@@ -39,20 +48,42 @@ export default function SignUp(props) {
       };
 
     return (
-        <div>
+        <div className="signup">
             <h1>SignUp</h1>
             <form onSubmit={createAccount}>
-                <label htmlFor="email">Email :</label>
-                <input type="email" id="email" ref={emailRef} required /><br /><br />
+            <Input
+                    placeholder="yourmail@gmail.com"
+                    type="email"
+                    id="email"
+                    inputRef={emailRef}
+                    icon={faUser}
+                    required
+                />
+                <Input
+                    placeholder="your secret password"
+                    type={showPassord ? "text" : "password"}
+                    icon={showPassord ? faEyeSlash : faEye}
+                    onClickIcon={() => setShowPassword(!showPassord)}
+                    id="password"
+                    inputRef={passwordRef}
+                    required
+                />
+                <Input
+                    placeholder="confirm your secret password"
+                    type={showPassord ? "text" : "password"}
+                    icon={showPassord ? faEyeSlash : faEye}
+                    onClickIcon={() => setShowConfirmPassword(!showConfirmPassord)}
+                    id="password"
+                    inputRef={passwordRef}
+                    required
+                />
+                {message && <p className="errorMessage">{message}</p>}
 
-                <label htmlFor="password">Mot de passe :</label>
-                <input type="password" id="password" ref={passwordRef} required /><br /><br />
-
-                <label htmlFor="confirm_password">Confirmer le mot de passe :</label>
-                <input type="password" id="confirm_password" ref={confirmPasswordRef} required /><br /><br />
-                {message && <p>{message}</p>}
-
-                <input type="submit" value="SignUp" />
+                <input type="submit" value="SIGN UP" />
+                <div className="signin">
+                    <p className="signin-text">Already have an account ? &#160;</p>
+                    <Link to="/SignIn" className="signin-link">Click here !</Link>
+                </div>
             </form>
         </div>
     )

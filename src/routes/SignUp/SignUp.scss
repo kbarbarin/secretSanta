@@ -1,0 +1,67 @@
+// SignIn.scss
+.signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    /* Supprimer la marge par défaut du corps */
+
+    h1 {
+        color: #FFF;
+        margin-bottom: 20px;
+        /* Ajouter une marge en bas pour l'espace autour du titre */
+    }
+
+    form {
+        width: 100%;
+        /* Vous pouvez ajuster la largeur du formulaire selon vos préférences */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .errorMessage {
+        color: #FFDD64;
+        margin: 0;
+        padding: 0;
+    }
+
+    .link {
+        align-self: flex-end;
+        margin-right: 10%;
+        text-decoration: underline;
+        color: #FFF;
+    }
+
+    input[type="submit"] {
+        margin-top: 15px;
+        /* Ajouter une marge en haut pour l'espace autour du bouton de soumission */
+        padding: 10px;
+        padding-inline: 40px;
+        border: 2px solid #FFF;
+        background-color: #ED1C24;
+        /* Changer la couleur de fond du bouton */
+        color: #fff;
+        /* Changer la couleur du texte du bouton */
+        cursor: pointer;
+        border-radius: 6px;
+    }
+
+    .signin {
+        display: flex;
+        align-items: center;
+
+        &-text {
+            color: #FFF;
+            margin: 0;
+            padding: 0;
+        }
+
+        &-link {
+            color: #FFDD64;
+            text-decoration: none;
+        }
+    }
+}
