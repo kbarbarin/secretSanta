@@ -1,5 +1,5 @@
 // SignIn.scss
-.signin {
+.signup {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,12 +9,13 @@
 
     h1 {
         color: #FFF;
-        margin-bottom: 20px; /* Ajouter une marge en bas pour l'espace autour du titre */
+        margin-bottom: 20px;
+        /* Ajouter une marge en bas pour l'espace autour du titre */
     }
 
     form {
-        width: 100%; /* Vous pouvez ajuster la largeur du formulaire selon vos préférences */
-
+        width: 100%;
+        /* Vous pouvez ajuster la largeur du formulaire selon vos préférences */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -48,8 +49,9 @@
         border-radius: 6px;
     }
 
-    .signup {
+    .signin {
         display: flex;
+        flex-direction: row;
         align-items: center;
 
         &-text {

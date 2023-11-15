@@ -17,7 +17,7 @@ export default function Input(props) {
                 onChange={props?.onChange}
                 required={props?.required}
             />
-            <FontAwesomeIcon className="input-icon" icon={props?.icon} />
+            {props?.icon && <FontAwesomeIcon className="input-icon" onClick={props?.onClickIcon} icon={props?.icon} />}
         </div>
     )
 }
