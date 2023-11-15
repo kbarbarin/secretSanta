@@ -12,7 +12,7 @@ export default function Home() {
   const navigate = useNavigate()
 
   const handleSecretSantaCreation = () => {
-    navigate('/CreateSecretSanta')
+    navigate('/create')
   }
 
   return (

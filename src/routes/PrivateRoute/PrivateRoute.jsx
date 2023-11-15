@@ -7,7 +7,7 @@ export default function PrivateRoute(props) {
 
     useEffect(() => {
         if (auth.currentUser === null) {
-            navigation('/signIn')
+            navigation('/signin')
         }
     }, [navigation])
 
