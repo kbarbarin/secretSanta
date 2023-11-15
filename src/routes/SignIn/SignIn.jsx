@@ -7,6 +7,7 @@ import Input from '../../components/Input/Input';
 import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
 import './SignIn.scss'
+import { Link } from "react-router-dom";
 
 export default function SignUp(props) {
     const emailRef = useRef(null);
@@ -47,9 +48,14 @@ export default function SignUp(props) {
                     ref={passwordRef}
                     required
                 />
+                <Link to='/forgottenPassword' className="link">Forgot Password ?</Link>
                 {message && <p>{message}</p>}
 
                 <input type="submit" value="SIGN IN" />
+                <div className="signup">
+                    <p className="signup-text">Don't have an account ? &#160;</p>
+                    <Link to="/SignUp" className="signup-link">Click here !</Link>
+                </div>
             </form>
         </div>
     )
