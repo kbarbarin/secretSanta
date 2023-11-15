@@ -1,24 +1,45 @@
-// SignIn.scss
+@import '../../style/variables';
+
 .signin {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0;
-    /* Supprimer la marge par défaut du corps */
+    margin: 0 16px;
+
+    & h2 {
+        color: $secondary-color;
+    }
+
+    & .mainTitle {
+        display: none;
+        margin: 0;
+    }
+
+    & .mainTitle__desc {
+        display: none;
+        margin: 0;
+    }
 
     h1 {
         color: #FFF;
-        margin-bottom: 20px; /* Ajouter une marge en bas pour l'espace autour du titre */
+        margin-bottom: 20px;
     }
 
     form {
-        width: 100%; /* Vous pouvez ajuster la largeur du formulaire selon vos préférences */
-
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 25px;
+
+        @media screen and (min-width: $medium) {
+            width: 80%;
+        }
+
+        @media screen and (min-width: $large) {
+            width: 50%;
+        }
     }
 
     .errorMessage {
@@ -36,14 +57,11 @@
 
     input[type="submit"] {
         margin-top: 15px;
-        /* Ajouter une marge en haut pour l'espace autour du bouton de soumission */
         padding: 10px;
         padding-inline: 40px;
         border: 2px solid #FFF;
         background-color: #ED1C24;
-        /* Changer la couleur de fond du bouton */
         color: #fff;
-        /* Changer la couleur du texte du bouton */
         cursor: pointer;
         border-radius: 6px;
     }
@@ -60,7 +78,6 @@
 
         &-link {
             color: #FFDD64;
-            text-decoration: none;
         }
     }
 }
