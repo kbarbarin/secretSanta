@@ -62,7 +62,7 @@ export default function SignUp(props) {
         <input type="submit" value="SIGN IN" />
         <div className="signup">
           <p className="signup-text">Don't have an account ? &#160;</p>
-          <Link to="/SignUp" className="signup-link">
+          <Link to="/signup" className="signup-link">
             Click here !
           </Link>
         </div>
