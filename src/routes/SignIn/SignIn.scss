@@ -22,7 +22,7 @@
     }
 
     h1 {
-        color: #FFF;
+        color: $secondary-color;
         margin-bottom: 20px;
     }
 
@@ -43,7 +43,7 @@
     }
 
     .errorMessage {
-        color: #FFDD64;
+        color: $tertiary-color;
         margin: 0;
         padding: 0;
     }
@@ -52,16 +52,16 @@
         align-self: flex-end;
         margin-right: 10%;
         text-decoration: underline;
-        color: #FFF;
+        color: $secondary-color;
     }
 
     input[type="submit"] {
         margin-top: 15px;
         padding: 10px;
         padding-inline: 40px;
-        border: 2px solid #FFF;
-        background-color: #ED1C24;
-        color: #fff;
+        border: 2px solid $secondary-color;
+        background-color: $primary-color;
+        color: $secondary-color;
         cursor: pointer;
         border-radius: 6px;
     }
@@ -71,13 +71,13 @@
         align-items: center;
 
         &-text {
-            color: #FFF;
+            color: $secondary-color;
             margin: 0;
             padding: 0;
         }
 
         &-link {
-            color: #FFDD64;
+            color: $tertiary-color;
         }
     }
 }
