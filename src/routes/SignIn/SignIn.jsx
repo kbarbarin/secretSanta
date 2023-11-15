@@ -23,7 +23,7 @@ export default function SignUp(props) {
             })
             .catch((error) => {
                 const errorMessage = error.message;
-                setMessage(errorMessage);
+                setMessage("Make sure to fill all fields correctly !");
             });
     }
 
