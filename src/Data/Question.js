@@ -1,5 +1,3 @@
-// Questions.js
-
 export const questions = {
   1: {
     text: 'Do you like video games?',
@@ -8,30 +6,24 @@ export const questions = {
   2: {
     text: 'Do you prefer adventure games?',
     options: ['Yes', 'No'],
-    condition: (response) => response === 'Yes',
+    condition: (response, responses) => responses[1] === 'Yes',
   },
   3: {
-    text: 'Do you like books?',
-    options: ['Yes', 'No'],
-    condition: (response) => response === 'No',
-  },
-  4: {
-    text: 'Do you like music?',
-    options: ['Yes', 'No'],
-    condition: (response) => response === 'No',
-  },
-  5: {
-    text: 'Do you like sports?',
-    options: ['Yes', 'No'],
-    condition: (response) => response === 'No',
-  },
-  6 : {
     text: 'Do you prefer strategy games?',
     options: ['Yes', 'No'],
-    condition: (response) => response === 'No',
-
+    condition: (response, responses) => responses[2] === 'No',
   },
-  // Add more questions based on your logic
+  4: {
+    text: 'Do you like books?',
+    options: ['Yes', 'No'],
+    condition: (response, responses) => responses[1] === 'No',
+  },
+  5: {
+    text: 'Do you like musics?',
+    options: ['Yes', 'No'],
+    condition: (response, responses) => responses[5] === 'No',
+  },
+  // Ajoutez d'autres questions en fonction de votre logique
 }
 
 export const initialResponses = {
@@ -41,5 +33,7 @@ export const initialResponses = {
   4: null,
   5: null,
   6: null,
-  // Add more questions based on your logic
+  7: null,
+  8: null,
+  // Ajoutez plus de questions en fonction de votre logique
 }
