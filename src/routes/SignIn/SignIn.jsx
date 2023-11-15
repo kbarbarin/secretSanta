@@ -9,8 +9,6 @@ import Input from '../../components/Input/Input';
 
 import './SignIn.scss'
 
-import Input from '../../components/Input/Input';
-
 import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
 import './SignIn.scss'
