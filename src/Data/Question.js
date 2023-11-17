@@ -1,39 +1,42 @@
-export const questions = {
-  1: {
+export const questions = [
+  {
+    id: 1,
     text: 'Do you like video games?',
-    options: ['Yes', 'No'],
+    category: 'video games',
   },
-  2: {
+  {
+    id: 2,
     text: 'Do you prefer adventure games?',
-    options: ['Yes', 'No'],
-    condition: (response, responses) => responses[1] === 'Yes',
+    category: 'video games',
+    theme: 'adventure',
   },
-  3: {
-    text: 'Do you prefer strategy games?',
-    options: ['Yes', 'No'],
-    condition: (response, responses) => responses[2] === 'No',
+  {
+    id: 3,
+    text: 'Do you prefer action game?',
+    category: 'video games',
+    theme: 'action',
   },
-  4: {
+  {
+    id: 4,
     text: 'Do you like books?',
-    options: ['Yes', 'No'],
-    condition: (response, responses) => responses[1] === 'No',
+    category: 'books',
   },
-  5: {
+  {
+    id: 5,
     text: 'Do you like musics?',
-    options: ['Yes', 'No'],
-    condition: (response, responses) => responses[5] === 'No',
+    category: 'musics',
   },
-  // Ajoutez d'autres questions en fonction de votre logique
-}
-
-export const initialResponses = {
-  1: null,
-  2: null,
-  3: null,
-  4: null,
-  5: null,
-  6: null,
-  7: null,
-  8: null,
-  // Ajoutez plus de questions en fonction de votre logique
-}
+  {
+    id: 6,
+    text: 'Do you prefer pop music?',
+    category: 'musics',
+    theme: 'rap',
+  },
+  {
+    id: 7,
+    text: 'Do you prefer rock music?',
+    category: 'musics',
+    theme: 'rock',
+  },
+  // Add more questions here...
+]
