@@ -1,26 +1,26 @@
 import React, { useRef, useState } from "react";
-import { auth } from "../../firebase/Firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { doc, collection, setDoc } from "firebase/firestore";
-import { db } from "../../firebase/Firebase";
 import { Link } from "react-router-dom";
 
 import Input from "../../components/Input/Input";
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 
 
-import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
+import { faUser, faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
+import { db, auth } from "../../firebase/Firebase";
 import './SignUp.scss';
 
 export default function SignUp(props) {
+  const nameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
   const [message, setMessage] = useState("");
-  const [showPassord, setShowPassword] = useState(false);
-  const [showConfirmPassord, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const createAccount = (e) => {
         e.preventDefault();
@@ -54,29 +54,37 @@ export default function SignUp(props) {
         <HeaderCard secondaryTitle={'SignUp'} />
 
         <form onSubmit={createAccount}>
+        <Input
+            placeholder="John Doe"
+            type="text"
+            id="name"
+            inputRef={nameRef}
+            icon={faUser}
+            required
+          />
           <Input
             placeholder="yourmail@gmail.com"
             type="email"
             id="email"
             inputRef={emailRef}
-            icon={faUser}
+            icon={faEnvelope}
             required
           />
           <Input
             placeholder="your secret password"
-            type={showPassord ? 'text' : 'password'}
-            icon={showPassord ? faEyeSlash : faEye}
-            onClickIcon={() => setShowPassword(!showPassord)}
+            type={showPassword ? 'text' : 'password'}
+            icon={showPassword ? faEyeSlash : faEye}
+            onClickIcon={() => setShowPassword(!showPassword)}
             id="password"
             inputRef={passwordRef}
             required
           />
           <Input
             placeholder="confirm your secret password"
-            type={showPassord ? 'text' : 'password'}
-            icon={showPassord ? faEyeSlash : faEye}
-            onClickIcon={() => setShowConfirmPassword(!showConfirmPassord)}
-            id="password"
+            type={showConfirmPassword ? 'text' : 'password'}
+            icon={showConfirmPassword ? faEyeSlash : faEye}
+            onClickIcon={() => setShowConfirmPassword(!showConfirmPassword)}
+            id="confirmPassword"
             inputRef={passwordRef}
             required
           />
