@@ -65,7 +65,7 @@ const routes = [
         errorElement: <ErrorPage />,
       },
       {
-        path: 'profil',
+        path: 'profile',
         element:  <PrivateRoute><Profil /> </PrivateRoute>,
         errorElement: <ErrorPage />,
       },

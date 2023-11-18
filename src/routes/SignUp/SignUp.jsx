@@ -2,7 +2,8 @@ import React, { useRef, useState } from 'react'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 
 import { doc, collection, setDoc } from 'firebase/firestore'
-import { Link } from 'react-router-dom'
+
+import { Link, useNavigate } from 'react-router-dom'
 
 import Input from '../../components/Input/Input'
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
@@ -18,6 +19,8 @@ import { db, auth } from '../../firebase/Firebase'
 import './SignUp.scss'
 
 export default function SignUp(props) {
+  const navigate = useNavigate()
+
   const nameRef = useRef(null)
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
@@ -35,8 +38,7 @@ export default function SignUp(props) {
         passwordRef.current.value
       )
         .then(async (userCredential) => {
-          setMessage('Création de compte réussie')
-          console.log(userCredential.user.uid)
+          navigate('/profile')
 
           const userDocRef = doc(collection(db, 'users'))
           console.log(userDocRef)

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-import { Link, useNavigation } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { auth } from '../../firebase/Firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
@@ -13,11 +13,11 @@ import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import './SignIn.scss'
 
 export default function SignIn() {
+  const navigate = useNavigate()
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const [message, setMessage] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const navigation = useNavigation()
 
   const handleSignIn = async (e) => {
     e.preventDefault()
@@ -27,8 +27,7 @@ export default function SignIn() {
         emailRef.current.value,
         passwordRef.current.value
       )
-      setMessage('Connexion réussie')
-      navigation.navigate('Profile')
+      navigate('/profile')
     } catch (error) {
       setMessage('Make sure to fill in all fields correctly!')
     }
