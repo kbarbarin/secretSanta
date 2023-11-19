@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { auth } from '../../firebase/Firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from 'firebase/auth'
 
 import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
@@ -12,31 +12,31 @@ import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 
 import './SignIn.scss'
 
-export default function SignUp(props) {
+export default function SignIn() {
+  const navigate = useNavigate()
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const [message, setMessage] = useState('')
-  const [showPassord, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
-  const createAccount = (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault()
-    signInWithEmailAndPassword(
+   setPersistence(auth, browserLocalPersistence).then(async () => {
+    await signInWithEmailAndPassword(
       auth,
       emailRef.current.value,
       passwordRef.current.value
     )
-      .then(() => {
-        setMessage('Connexion réussie')
-      })
-      .catch((error) => {
-        setMessage('Make sure to fill all fields correctly !')
-      })
+    return navigate('/profile')
+   }).catch(() => {
+      setMessage('Make sure to fill in all fields correctly!')
+    })
   }
 
   return (
     <div className="signin">
       <HeaderCard secondaryTitle={'SignIn'} />
-      <form onSubmit={createAccount}>
+      <form onSubmit={handleSignIn}>
         <Input
           placeholder="yourmail@gmail.com"
           type="email"
@@ -47,9 +47,9 @@ export default function SignUp(props) {
         />
         <Input
           placeholder="your secret password"
-          type={showPassord ? 'text' : 'password'}
-          icon={showPassord ? faEyeSlash : faEye}
-          onClickIcon={() => setShowPassword(!showPassord)}
+          type={showPassword ? 'text' : 'password'}
+          icon={showPassword ? faEyeSlash : faEye}
+          onClickIcon={() => setShowPassword(!showPassword)}
           id="password"
           inputRef={passwordRef}
           required
@@ -58,7 +58,6 @@ export default function SignUp(props) {
           Forgot Password ?
         </Link>
         {message && <p className="errorMessage">{message}</p>}
-
         <input type="submit" value="SIGN IN" />
         <div className="signup">
           <p className="signup-text">Don't have an account ? &#160;</p>
