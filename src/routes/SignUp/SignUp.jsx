@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { browserLocalPersistence, createUserWithEmailAndPassword, setPersistence, } from 'firebase/auth'
 
 import { doc, collection, setDoc } from 'firebase/firestore'
 
@@ -32,23 +32,24 @@ export default function SignUp(props) {
   const createAccount = (e) => {
     e.preventDefault()
     if (passwordRef.current.value === confirmPasswordRef.current.value) {
-      createUserWithEmailAndPassword(
-        auth,
-        emailRef.current.value,
-        passwordRef.current.value
-      )
-        .then(async (userCredential) => {
-          navigate('/profile')
+      setPersistence(auth, browserLocalPersistence).then(async () => {
+        await createUserWithEmailAndPassword(
+          auth,
+          emailRef.current.value,
+          passwordRef.current.value
+        )
 
-          const userDocRef = doc(collection(db, 'users'))
-          console.log(userDocRef)
-          const userData = {
-            uid: userCredential.user.uid,
-            email: userCredential.user.email,
-            secretSantaSessionId: [],
-          }
-          await setDoc(userDocRef, userData)
-        })
+        const userDocRef = doc(collection(db, 'users'))
+        console.log(userDocRef)
+        const userData = {
+          name: nameRef.current.value,
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+          secretSantaSessionId: [],
+        }
+        await setDoc(userDocRef, userData)
+        navigate('/profile')
+      })
         .catch((error) => {
           console.error(
             'Erreur lors de la création du compte :',
