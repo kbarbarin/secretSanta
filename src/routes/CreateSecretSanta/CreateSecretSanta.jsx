@@ -103,6 +103,10 @@ const handleEventDateChange = (e) => {
     return assossiationArray
   }
 
+  const generateParticipantsArray = () => {
+    
+  }
+
   const addToFirebase = async (event) => {
     event.preventDefault()
     const session = {
