@@ -33,7 +33,7 @@ export default function SignUp(props) {
     e.preventDefault()
     if (passwordRef.current.value === confirmPasswordRef.current.value) {
       setPersistence(auth, browserLocalPersistence).then(async () => {
-        await createUserWithEmailAndPassword(
+        const userCredential = await createUserWithEmailAndPassword(
           auth,
           emailRef.current.value,
           passwordRef.current.value
