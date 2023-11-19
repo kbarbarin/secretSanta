@@ -36,7 +36,7 @@ export default function Profil() {
         {sessions.map((session, index) => (
           <div className="sessions__recap" key={index}>
             <Button className="button__tertiary">{session}</Button>
-            <FontAwesomeIcon icon={faTrash} style={{ color: '#f5f5f5' }} />
+            <FontAwesomeIcon icon={faTrash} className="sessions__icon" />
           </div>
         ))}
         <Button

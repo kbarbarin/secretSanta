@@ -58,7 +58,6 @@
 
         &>.button {
             width: 100%;
-            border-radius: 20px;
         }
     }
 
@@ -69,5 +68,13 @@
     .bottom {
         margin-bottom: 20px;
         margin-top: 30px;
+    }
+
+    &__icon {
+        color: $secondary-color;
+        padding: 15px;
+        border: solid 2px $secondary-color;
+        background-color: #ED1C24;
+        border-radius: 5px;
     }
 }
