@@ -81,7 +81,7 @@ const routes = [
     errorElement: <ErrorPage />,
   },
   {
-    path: 'profile',
+    path: '/profile',
     element: (
       <PrivateRoute>
         <Profil />
