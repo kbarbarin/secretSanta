@@ -1,0 +1,21 @@
+#error-page {
+  min-height: 100vh;
+  background-color: #f0fbff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  .santaError {
+    margin: 2rem 0;
+  }
+
+  .btnGoHome {
+    background: #a8d6ed;
+    padding: 0.2rem 2rem;
+    border: white 2px solid;
+    font-size: 1.1rem;
+    box-shadow: 0px 0px 18px 0px rgba(0, 0, 0, 0.08);
+  }
+}
