@@ -1,0 +1,17 @@
+@import '../../style/variables';
+
+.back {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+    color: $secondary-color;
+    font-weight: 500;
+    text-transform: uppercase;
+    border: 2px solid $secondary-color;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-bottom: 50px;
+}

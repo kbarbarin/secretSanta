@@ -33,6 +33,16 @@
   // &:active {
   //     background-color: #1e6ca6;
   // }
+  
+  
+    &__tertiary {
+        border: solid 2px $secondary-color;
+        background-color: #ED1C24;
+    }
+
+    &__profile {
+        background-color: #A8161B;
+    }
 
   /* Button title */
   & p {

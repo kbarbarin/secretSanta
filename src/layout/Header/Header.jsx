@@ -7,7 +7,7 @@ import './Header.scss'
 export default function Header() {
   const navigate = useNavigate()
   const handleLogin = () => {
-    navigate('/SignIn')
+    navigate('/signin')
   }
   return (
     <header>
