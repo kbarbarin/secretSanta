@@ -3,6 +3,8 @@ import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../../firebase/Firebase";
 
+import Button from '../../components/Button/Button';
+
 const LogoutButton = () => {
   const navigate = useNavigate();
 
@@ -16,8 +18,10 @@ const LogoutButton = () => {
   };
 
   return (
-    <button onClick={handleLogout}>Déconnexion</button>
-  );
+    <Button className={'button__tertiary'} onClick={handleLogout}>
+      Disconnect
+    </Button>
+  )
 }
 
 export default LogoutButton;
