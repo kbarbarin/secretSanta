@@ -22,6 +22,15 @@
         color: $primary-color;
     }
 
+    &__tertiary {
+        border: solid 2px $secondary-color;
+        background-color: transparent;
+    }
+
+    &__profile {
+        background-color: #A8161B;
+    }
+
     // transition: background-color 0.3s;
 
     /* Button hover state */
