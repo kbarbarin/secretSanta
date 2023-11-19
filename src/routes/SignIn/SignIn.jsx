@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { auth } from '../../firebase/Firebase'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from 'firebase/auth'
 
 import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
@@ -21,16 +21,16 @@ export default function SignIn() {
 
   const handleSignIn = async (e) => {
     e.preventDefault()
-    try {
-      await signInWithEmailAndPassword(
-        auth,
-        emailRef.current.value,
-        passwordRef.current.value
-      )
-      navigate('/profile')
-    } catch (error) {
+   setPersistence(auth, browserSessionPersistence).then(async () => {
+    await signInWithEmailAndPassword(
+      auth,
+      emailRef.current.value,
+      passwordRef.current.value
+    )
+    return navigate('/profile')
+   }).catch(() => {
       setMessage('Make sure to fill in all fields correctly!')
-    }
+    })
   }
 
   return (
