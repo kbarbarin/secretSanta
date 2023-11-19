@@ -1,0 +1,29 @@
+@import '../../style/variables';
+
+.collapse {
+    border-bottom: rgba(255, 209, 209, 0.5) solid 2px;
+
+    &__titleContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 20px;
+    }
+
+    &__icon {
+        color: $tertiary-color;
+    }
+
+    &__title {
+        font-weight: 600;
+        color: $secondary-color;
+    }
+
+    &__desc {
+        color: $secondary-color;
+        font-size: 14px;
+        letter-spacing: 0.25%;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+}

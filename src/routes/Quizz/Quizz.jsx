@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
-import { db } from '../../Firebase/Firebase'
-import { questions } from '../../data/Questions'
-import './QuestionPage.scss'
+import { db } from '../../firebase/Firebase'
+import { questions } from '../../datas/questions'
 
 const budgets = [5, 10, 20, 30]
 

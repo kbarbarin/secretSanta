@@ -1,42 +1,71 @@
-import React, { useRef, useState } from "react";
-import { auth } from "../../Firebase/Firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useRef, useState } from 'react'
 
-export default function SignUp(props) {
-    const emailRef = useRef(null);
-    const passwordRef = useRef(null);
-    const [message, setMessage] = useState("");
+import { Link, useNavigate } from 'react-router-dom'
 
-    const createAccount = (e) => {
-        e.preventDefault();
-        signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
-            .then((userCredential) => {
-                setMessage("Connexion réussie");
-                // Signed up 
-                // const user = userCredential.user;
-                // ...
-            })
-            .catch((error) => {
-                // const errorCode = error.code;
-                const errorMessage = error.message;
-                setMessage(errorMessage);
-                // ..
-            });
-    }
+import { auth } from '../../firebase/Firebase'
+import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from 'firebase/auth'
 
-    return (
-        <div>
-            <h1>SignIn</h1>
-            <form onSubmit={createAccount}>
-                <label htmlFor="email">Email :</label>
-                <input type="email" id="email" ref={emailRef} required /><br /><br />
+import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
-                <label htmlFor="password">Mot de passe :</label>
-                <input type="password" id="password" ref={passwordRef} required /><br /><br />
-                {message && <p>{message}</p>}
+import Input from '../../components/Input/Input'
+import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 
-                <input type="submit" value="SignIn" />
-            </form>
-        </div>
+import './SignIn.scss'
+
+export default function SignIn() {
+  const navigate = useNavigate()
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
+  const [message, setMessage] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleSignIn = async (e) => {
+    e.preventDefault()
+   setPersistence(auth, browserLocalPersistence).then(async () => {
+    await signInWithEmailAndPassword(
+      auth,
+      emailRef.current.value,
+      passwordRef.current.value
     )
+    return navigate('/profile')
+   }).catch(() => {
+      setMessage('Make sure to fill in all fields correctly!')
+    })
+  }
+
+  return (
+    <div className="signin">
+      <HeaderCard secondaryTitle={'SignIn'} />
+      <form onSubmit={handleSignIn}>
+        <Input
+          placeholder="yourmail@gmail.com"
+          type="email"
+          id="email"
+          inputRef={emailRef}
+          icon={faUser}
+          required
+        />
+        <Input
+          placeholder="your secret password"
+          type={showPassword ? 'text' : 'password'}
+          icon={showPassword ? faEyeSlash : faEye}
+          onClickIcon={() => setShowPassword(!showPassword)}
+          id="password"
+          inputRef={passwordRef}
+          required
+        />
+        <Link to="/forgottenPassword" className="link">
+          Forgot Password ?
+        </Link>
+        {message && <p className="errorMessage">{message}</p>}
+        <input type="submit" value="SIGN IN" />
+        <div className="signup">
+          <p className="signup-text">Don't have an account ? &#160;</p>
+          <Link to="/signup" className="signup-link">
+            Click here !
+          </Link>
+        </div>
+      </form>
+    </div>
+  )
 }
