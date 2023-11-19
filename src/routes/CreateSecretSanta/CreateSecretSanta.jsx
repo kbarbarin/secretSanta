@@ -6,6 +6,7 @@ import { db } from '../../firebase/Firebase'
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
+import Back from '../../components/Back/Back'
 
 import './CreateSecretSanta.scss'
 
@@ -44,15 +45,15 @@ export default function CreateSecretSanta() {
     setParticipants(updatedParticipants)
   }
 
-const handleEventDateChange = (e) => {
-  const enteredDate = e.target.value
+  const handleEventDateChange = (e) => {
+    const enteredDate = e.target.value
 
-  if (enteredDate < today) {
-    alert("La date de l'événement ne peut pas être antérieure à aujourd'hui.")
-  } else {
-    setEventDate(enteredDate)
+    if (enteredDate < today) {
+      alert("La date de l'événement ne peut pas être antérieure à aujourd'hui.")
+    } else {
+      setEventDate(enteredDate)
+    }
   }
-}
 
   const generateSessionId = () => {
     const length = 8
@@ -130,7 +131,8 @@ const handleEventDateChange = (e) => {
   }
 
   return (
-    <>
+    <div className='create'>
+      <Back />
       <form onSubmit={addToFirebase} className="form">
         <HeaderCard mainTitle={'Create my Secret Santa'} />
         <div>
@@ -188,7 +190,7 @@ const handleEventDateChange = (e) => {
         <div>
           {participants.map((participant, index) => (
             <div key={index} className="participant__container">
-              <p className='participant__index'>{index + 1}.</p>
+              <p className="participant__index">{index + 1}.</p>
               <Input
                 type="text"
                 id={`name_${index}`}
@@ -208,10 +210,12 @@ const handleEventDateChange = (e) => {
             </div>
           ))}
         </div>
-        <button type="submit" className='form__button'>Create</button>
+        <button type="submit" className="form__button">
+          Create
+        </button>
         <Button />
       </form>
-    </>
+    </div>
   )
 }
 
