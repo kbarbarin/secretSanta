@@ -11,12 +11,10 @@ import SecretSanta from './SecretSanta/SecretSanta'
 import ForgottenPassword from './ForgottenPassword/ForgottenPassword'
 import Summary from './Summary/Summary'
 
-
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import Quizz from './Quizz/Quizz'
 import GiftIdeas from './GiftIdeas/GiftIdeas'
 import Profil from './Profil/Profil'
-
 
 const routes = [
   {
@@ -30,23 +28,13 @@ const routes = [
         errorElement: <ErrorPage />,
       },
       {
-        path: '/signin',
-        element: <SignIn />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: '/signup',
-        element: <SignUp />,
-        errorElement: <ErrorPage />,
-      },
-      {
         path: '/forgottenpassword',
-        element: <ForgottenPassword/>,
+        element: <ForgottenPassword />,
         errorElement: <ErrorPage />,
       },
       {
         path: 'summary',
-        element: <Summary/>,
+        element: <Summary />,
         errorElement: <ErrorPage />,
       },
       {
@@ -56,7 +44,7 @@ const routes = [
       },
       {
         path: '/giftideas',
-        element: <GiftIdeas />,  
+        element: <GiftIdeas />,
         errorElement: <ErrorPage />,
       },
       {
@@ -65,25 +53,41 @@ const routes = [
         errorElement: <ErrorPage />,
       },
       {
-        path: 'profile',
-        element:  <PrivateRoute><Profil /> </PrivateRoute>,
-        errorElement: <ErrorPage />,
-      },
-      {
         path: 'create',
-        element:
+        element: (
           <PrivateRoute>
             <CreateSecretSanta />
-          </PrivateRoute>,
+          </PrivateRoute>
+        ),
       },
       {
         path: 'create/:id',
-        element:
+        element: (
           <PrivateRoute>
             <SecretSanta />
-          </PrivateRoute>,
+          </PrivateRoute>
+        ),
       },
     ],
+  },
+  {
+    path: '/signin',
+    element: <SignIn />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignUp />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: 'profile',
+    element: (
+      <PrivateRoute>
+        <Profil />
+      </PrivateRoute>
+    ),
+    errorElement: <ErrorPage />,
   },
 ]
 
