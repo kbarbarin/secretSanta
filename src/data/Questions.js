@@ -3,24 +3,32 @@ export const questions = [
     id: 1,
     text: 'Do you like video games?',
     category: 'video games',
+    imageUrl:
+      'https://cdn.pixabay.com/photo/2016/06/29/14/12/joystick-1486900_960_720.png',
   },
   {
     id: 2,
     text: 'Do you prefer strategy games?',
     category: 'video games',
     theme: 'strategy',
+    imageUrl:
+      'https://cdn.pixabay.com/photo/2017/09/16/01/02/bishop-2754226_960_720.png',
   },
   {
     id: 3,
     text: 'Do you prefer racing game?',
     category: 'video games',
     theme: 'racing',
+    imageUrl:
+      'https://cdn.pixabay.com/photo/2016/03/31/21/07/checkered-1296203_960_720.png',
   },
   {
     id: 4,
     text: 'Do you prefer adventure game?',
     category: 'video games',
     theme: 'adventure',
+    imageUrl:
+      'https://cdn.pixabay.com/photo/2021/10/08/20/28/healer-6692464_960_720.png',
   },
   {
     id: 5,

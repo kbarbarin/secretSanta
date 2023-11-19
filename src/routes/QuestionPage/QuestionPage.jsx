@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../Firebase/Firebase'
 import { questions } from '../../data/Questions'
+import './QuestionPage.scss'
 
 const budgets = [5, 10, 20, 30]
 
@@ -22,7 +23,7 @@ const RecommandationComponent = () => {
         setLoading(true)
 
         const q = query(
-          collection(db, 'Product'),
+          collection(db, 'product'),
           where('category', '==', question.category),
           where('theme', '==', question.theme),
           where('price', '<=', selectedBudget)
@@ -98,10 +99,13 @@ const RecommandationComponent = () => {
             <img
               src={questions[currentQuestionIndex].imageUrl}
               alt="Question"
+              style={{ width: '100px', height: '100px' }}
             />
           )}
-          <button onClick={() => handleQuestionResponse('Yes')}>Yes</button>
-          <button onClick={() => handleQuestionResponse('No')}>No</button>
+          <div>
+            <button onClick={() => handleQuestionResponse('Yes')}>Yes</button>
+            <button onClick={() => handleQuestionResponse('No')}>No</button>
+          </div>
           {isCategoryQuestion(questions[currentQuestionIndex]) && (
             <div>
               At what price would you like the gift to be?
