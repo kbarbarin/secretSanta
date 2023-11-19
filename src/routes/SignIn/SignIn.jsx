@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 import { auth } from '../../firebase/Firebase'
-import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from 'firebase/auth'
+import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from 'firebase/auth'
 
 import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
 
@@ -21,7 +21,7 @@ export default function SignIn() {
 
   const handleSignIn = async (e) => {
     e.preventDefault()
-   setPersistence(auth, browserSessionPersistence).then(async () => {
+   setPersistence(auth, browserLocalPersistence).then(async () => {
     await signInWithEmailAndPassword(
       auth,
       emailRef.current.value,
