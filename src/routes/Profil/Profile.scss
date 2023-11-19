@@ -13,6 +13,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        margin-bottom: 50px;
 
         &>* {
             width: 100%;
@@ -38,5 +39,35 @@
         font-size: 18px;
         font-weight: 500;
         color: $primary-color;
+    }
+}
+
+.sessions {
+    background-color: #BD151C;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__recap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        column-gap: 15px;
+
+        &>.button {
+            width: 100%;
+            border-radius: 20px;
+        }
+    }
+
+    & h2 {
+        color: $secondary-color;
+    }
+
+    .bottom {
+        margin-bottom: 20px;
+        margin-top: 30px;
     }
 }
