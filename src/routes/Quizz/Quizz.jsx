@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/Firebase'
 import { questions } from '../../datas/questions'
+import './Quizz.scss'
 
 const budgets = [5, 10, 20, 30]
 
@@ -9,7 +10,7 @@ const RecommandationComponent = () => {
   const [loading, setLoading] = useState(false)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [recommandations, setRecommandations] = useState([])
-  const [selectedBudget, setSelectedBudget] = useState(budgets[0])
+  const [sliderValue, setSliderValue] = useState(budgets[0])
   const [response, setResponse] = useState(null)
 
   const isCategoryQuestion = (question) => {
@@ -25,7 +26,7 @@ const RecommandationComponent = () => {
           collection(db, 'product'),
           where('category', '==', question.category),
           where('theme', '==', question.theme),
-          where('price', '<=', selectedBudget)
+          where('price', '<=', sliderValue)
         )
 
         try {
@@ -44,10 +45,8 @@ const RecommandationComponent = () => {
         }
       }
     },
-    [selectedBudget]
+    [sliderValue]
   )
-
-  useEffect(() => {}, [currentQuestionIndex, fetchRecommandations, response])
 
   const handleQuestionResponse = (response) => {
     setResponse(response)
@@ -87,52 +86,63 @@ const RecommandationComponent = () => {
   }
 
   return (
-    <div>
-      <h1>Quizz</h1>
+    <div className="quizz">
       {loading ? (
-        <p>Loading...</p>
+        <p className="loading">Loading...</p>
       ) : currentQuestionIndex < questions.length ? (
-        <div>
-          <p>{questions[currentQuestionIndex].text}</p>
-          {questions[currentQuestionIndex].imageUrl && (
-            <img
-              src={questions[currentQuestionIndex].imageUrl}
-              alt="Question"
-              style={{ width: '100px', height: '100px' }}
-            />
-          )}
-          <div>
+        <div className="question">
+          <h2>Quizz</h2>
+          <div className="test">
+            <p className="question-text">
+              {questions[currentQuestionIndex].text}
+            </p>
+            {questions[currentQuestionIndex].imageUrl && (
+              <img
+                src={questions[currentQuestionIndex].imageUrl}
+                alt="Question"
+                style={{ width: '100px', height: '100px' }}
+                className="question-image"
+              />
+            )}
+          </div>
+          <div className="response-buttons">
             <button onClick={() => handleQuestionResponse('Yes')}>Yes</button>
             <button onClick={() => handleQuestionResponse('No')}>No</button>
           </div>
           {isCategoryQuestion(questions[currentQuestionIndex]) && (
-            <div>
-              At what price would you like the gift to be?
-              <div>
-                {budgets.map((budget) => (
-                  <button
-                    key={budget}
-                    onClick={() => setSelectedBudget(budget)}
-                  >
-                    {budget}
-                  </button>
-                ))}
+            <div className="price-question">
+              <p>At what price would you like the gift to be?</p>
+              <span>{sliderValue}€</span>
+              <div className="slider">
+                <input
+                  type="range"
+                  min={Math.min(...budgets)}
+                  max={Math.max(...budgets)}
+                  step={5}
+                  value={sliderValue}
+                  onChange={(e) => setSliderValue(parseInt(e.target.value, 10))}
+                  className="slider-input"
+                />
               </div>
             </div>
           )}
         </div>
       ) : (
-        <div>
+        <div className="recommendations">
           <p>Ho-Ho</p>
           <p>Leo has been a good girl</p>
           <p>this year send this</p>
           <p>sweetie a present!</p>
-          <h2>Recommendations:</h2>
+          <h2 className="recommendations-title">Recommendations:</h2>
           {recommandations.map((rec, index) => (
-            <div key={index}>
-              <p>{rec.name}</p>
+            <div key={index} className="recommendation">
+              <p className="recommendation-name">{rec.name}</p>
               {rec.imageUrl && (
-                <img src={rec.imageUrl} alt={`Recommendation ${index}`} />
+                <img
+                  src={rec.imageUrl}
+                  alt={`Recommendation ${index}`}
+                  className="recommendation-image"
+                />
               )}
             </div>
           ))}
