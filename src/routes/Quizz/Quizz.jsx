@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/Firebase'
 import { questions } from '../../datas/questions'
+
 import './Quizz.scss'
 
 const budgets = [5, 10, 20, 30]
@@ -13,6 +14,8 @@ const RecommandationComponent = () => {
   const [sliderValue, setSliderValue] = useState(budgets[0])
   const [response, setResponse] = useState(null)
   const [showRecommendations, setShowRecommendations] = useState(false)
+  const [showPriceRange, setShowPriceRange] = useState(false)
+  const [priceRange, setPriceRange] = useState(null)
 
   const isCategoryQuestion = (question) => {
     return !question.theme
@@ -36,7 +39,7 @@ const RecommandationComponent = () => {
             const data = doc.data()
             return {
               ...data,
-              priceRange: sliderValue, // Ajoutez la propriété priceRange
+              priceRange: sliderValue,
             }
           })
 
@@ -45,15 +48,23 @@ const RecommandationComponent = () => {
             ...prevRecommandations,
             ...recommandationsData,
           ])
+
+          if (currentQuestionIndex === questions.length - 1) {
+            setShowRecommendations(true)
+          }
+
+          if (!showPriceRange) {
+            setPriceRange(sliderValue)
+            setShowPriceRange(true)
+          }
         } catch (error) {
           console.error('Error fetching recommandations:', error)
         } finally {
           setLoading(false)
-          setShowRecommendations(true)
         }
       }
     },
-    [sliderValue]
+    [sliderValue, currentQuestionIndex, questions.length, showPriceRange]
   )
 
   const handleQuestionResponse = (response) => {
@@ -135,18 +146,15 @@ const RecommandationComponent = () => {
         </div>
       ) : (
         <div className="recommendations">
+          <p>Ho-Ho!</p>
+          <p>Leo has been a good girl this year send this sweetie a present!</p>
+          <img src="/assets/logo.png" alt="Ho-Ho!'s logo" />
+          <p className="recommendation-price-range">
+            The limit price is {priceRange}€
+          </p>
+          <h2 className="recommendations-title">Recommendations:</h2>
           {recommandations.map((rec, index) => (
             <div key={index} className="recommendation">
-              <p>Ho-Ho</p>
-              <p>Leo has been a good girl</p>
-              <p>this year send this</p>
-              <p>sweetie a present!</p>
-              {rec.priceRange && (
-                <p className="recommendation-price-range">
-                  The limit price is {rec.priceRange}€
-                </p>
-              )}
-              <h2 className="recommendations-title">Recommendations:</h2>
               <p className="recommendation-name">{rec.name}</p>
               {rec.imageUrl && (
                 <img
