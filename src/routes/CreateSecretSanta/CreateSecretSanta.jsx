@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
-import { doc, setDoc, collection } from 'firebase/firestore'
-import { db } from '../../firebase/Firebase'
+import { doc, setDoc, updateDoc, collection, arrayUnion } from 'firebase/firestore'
+
+import { db, auth } from '../../firebase/Firebase'
 
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
@@ -44,18 +45,17 @@ export default function CreateSecretSanta() {
     setParticipants(updatedParticipants)
   }
 
-const handleEventDateChange = (e) => {
-  const enteredDate = e.target.value
+  const handleEventDateChange = (e) => {
+    const enteredDate = e.target.value
 
-  if (enteredDate < today) {
-    alert("La date de l'événement ne peut pas être antérieure à aujourd'hui.")
-  } else {
-    setEventDate(enteredDate)
+    if (enteredDate < today) {
+      alert("La date de l'événement ne peut pas être antérieure à aujourd'hui.")
+    } else {
+      setEventDate(enteredDate)
+    }
   }
-}
 
-  const generateSessionId = () => {
-    const length = 8
+  const generateSessionId = (length) => {
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     let code = ''
@@ -104,14 +104,25 @@ const handleEventDateChange = (e) => {
   }
 
   const generateParticipantsArray = () => {
-    
+    const arrayBuff = []
+
+    participants.forEach((element) => {
+      arrayBuff.push({
+        name: element.firstName,
+        email: element.email,
+        id: generateSessionId(6),
+        isProfilCompleted: false,
+        giftedIdeas: []
+      })
+    })
+    return arrayBuff;
   }
 
   const addToFirebase = async (event) => {
     event.preventDefault()
     const session = {
-      id: generateSessionId(),
-      participants: attribution(participants),
+      id: generateSessionId(8),
+      participants: generateParticipantsArray(participants),
       eventName: eventName,
       eventDesc: eventDesc,
       eventDate: eventDate,
@@ -121,10 +132,11 @@ const handleEventDateChange = (e) => {
       const newDocRef = doc(collection(db, 'secretSanta'))
       await setDoc(newDocRef, session)
 
-      console.log(
-        "Document ajouté avec l'ID généré automatiquement :",
-        newDocRef.id
-      )
+      const userDocRef = doc(collection(db, 'users'), auth.currentUser.uid);
+      await updateDoc(userDocRef, {
+        sessionIds: arrayUnion(newDocRef.id),
+      });
+
     } catch (error) {
       console.error(
         "Erreur lors de l'enregistrement des données dans Firebase : ",
