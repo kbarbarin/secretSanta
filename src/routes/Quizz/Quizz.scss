@@ -11,31 +11,32 @@
     height: 400px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Adjust as needed */
+    justify-content: space-around;
     align-items: center;
 
     h2 {
       text-align: center;
-      margin-bottom: 10px; /* Adjust as needed */
+      margin-bottom: 10px;
     }
 
     .test {
       width: 220px;
-      height: 200px;
+      height: 220px;
       display: flex;
       flex-direction: column;
-      justify-content: space-around; /* Adjust as needed */
+      justify-content: space-around;
       align-items: center;
-      margin-bottom: 40px;
+      padding-bottom: 40px;
     }
 
     .response-buttons {
       display: flex;
       flex-direction: row;
       align-items: center;
+      margin-top: 10px;
 
       button {
-        margin-bottom: 10px; /* Adjust as needed */
+        margin-bottom: 10px;
       }
     }
 
@@ -43,15 +44,32 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-
       .slider {
-        width: 80%;
-        margin-top: 10px; /* Adjust as needed */
+        width: 100%;
+        margin-top: 10px;
 
-        input {
+        .slider-input {
+          background: #D61920;
+          height: 20px; /* Ajustez la hauteur du slider selon vos besoins */
+          width: 100%;
           /* Change the color of the slider thumb */
           &::-webkit-slider-thumb {
-            background-color: $primary-color;
+            background-color: white(227, 62, 62);
+          }
+
+          /* Change the color of the slider track */
+          &::-webkit-slider-runnable-track {
+            background-color: red; /* Ajustez selon vos besoins */
+          }
+
+          &::-moz-range-thumb {
+            border: none;
+            background-color: rgb(255, 0, 0);
+          }
+
+          &::-moz-range-track {
+            height: 5px;
+            background-color: rgba(180, 3, 3, 0.716); /* Ajustez selon vos besoins */
           }
         }
       }
