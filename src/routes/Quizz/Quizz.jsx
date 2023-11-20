@@ -92,7 +92,7 @@ const RecommandationComponent = () => {
       ) : currentQuestionIndex < questions.length ? (
         <div className="question">
           <h2>Quizz</h2>
-          <div className="test">
+          <div className="card-question">
             <p className="question-text">
               {questions[currentQuestionIndex].text}
             </p>
@@ -106,12 +106,12 @@ const RecommandationComponent = () => {
             )}
           </div>
           <div className="response-buttons">
-            <button onClick={() => handleQuestionResponse('Yes')}>Yes</button>
-            <button onClick={() => handleQuestionResponse('No')}>No</button>
+            <button onClick={() => handleQuestionResponse('No')}>😵‍💫</button>
+            <button onClick={() => handleQuestionResponse('Yes')}>😍</button>
           </div>
           {isCategoryQuestion(questions[currentQuestionIndex]) && (
             <div className="price-question">
-              <p>At what price would you like the gift to be?</p>
+              <p className='test'>At what price would you like the gift to be?</p>
               <span>{sliderValue}€</span>
               <div className="slider">
                 <input

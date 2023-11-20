@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   color: $secondary-color;
+  font-weight: 600;
 
   .question {
     width: 240px;
@@ -19,7 +20,7 @@
       margin-bottom: 10px;
     }
 
-    .test {
+    .card-question {
       width: 220px;
       height: 220px;
       display: flex;
@@ -36,7 +37,12 @@
       margin-top: 10px;
 
       button {
-        margin-bottom: 10px;
+        margin-right: 15px;
+        border: none;
+        background-color: rgba(180, 3, 3, 0.716);
+        padding: 10px;
+        border-radius: 10px;
+        cursor: pointer;
       }
     }
 
@@ -44,32 +50,36 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      span {
+        position: absolute;
+        bottom: 80px;
+        padding-top: 20px;
+      }
       .slider {
         width: 100%;
         margin-top: 10px;
 
         .slider-input {
-          background: #D61920;
-          height: 20px; /* Ajustez la hauteur du slider selon vos besoins */
+          background: #d61920;
+          height: 20px;
           width: 100%;
-          /* Change the color of the slider thumb */
           &::-webkit-slider-thumb {
             background-color: white(227, 62, 62);
           }
 
-          /* Change the color of the slider track */
           &::-webkit-slider-runnable-track {
-            background-color: red; /* Ajustez selon vos besoins */
+            background-color: red;
           }
 
           &::-moz-range-thumb {
             border: none;
             background-color: rgb(255, 0, 0);
+            cursor: pointer;
           }
 
           &::-moz-range-track {
             height: 5px;
-            background-color: rgba(180, 3, 3, 0.716); /* Ajustez selon vos besoins */
+            background-color: rgba(180, 3, 3, 0.716);
           }
         }
       }
