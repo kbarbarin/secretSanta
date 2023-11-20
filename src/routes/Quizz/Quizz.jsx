@@ -12,6 +12,7 @@ const RecommandationComponent = () => {
   const [recommandations, setRecommandations] = useState([])
   const [sliderValue, setSliderValue] = useState(budgets[0])
   const [response, setResponse] = useState(null)
+  const [showRecommendations, setShowRecommendations] = useState(false)
 
   const isCategoryQuestion = (question) => {
     return !question.theme
@@ -31,7 +32,13 @@ const RecommandationComponent = () => {
 
         try {
           const snapshot = await getDocs(q)
-          const recommandationsData = snapshot.docs.map((doc) => doc.data())
+          const recommandationsData = snapshot.docs.map((doc) => {
+            const data = doc.data()
+            return {
+              ...data,
+              priceRange: sliderValue, // Ajoutez la propriété priceRange
+            }
+          })
 
           console.log('Recommandations from Firestore:', recommandationsData)
           setRecommandations((prevRecommandations) => [
@@ -42,6 +49,7 @@ const RecommandationComponent = () => {
           console.error('Error fetching recommandations:', error)
         } finally {
           setLoading(false)
+          setShowRecommendations(true)
         }
       }
     },
@@ -60,7 +68,6 @@ const RecommandationComponent = () => {
           (q, index) => index > currentQuestionIndex && isCategoryQuestion(q)
         )
       } else {
-        // Check if the current question is the last theme question of the current category
         const isLastThemeQuestion = !questions.find(
           (q, index) =>
             index > currentQuestionIndex &&
@@ -68,7 +75,6 @@ const RecommandationComponent = () => {
             q.theme !== questions[currentQuestionIndex].theme
         )
         if (isLastThemeQuestion) {
-          // If it is the last theme question and the response is 'No', find the next category question
           nextIndex = questions.findIndex(
             (q, index) => index > currentQuestionIndex && isCategoryQuestion(q)
           )
@@ -89,7 +95,7 @@ const RecommandationComponent = () => {
     <div className="quizz">
       {loading ? (
         <p className="loading">Loading...</p>
-      ) : currentQuestionIndex < questions.length ? (
+      ) : !showRecommendations && currentQuestionIndex < questions.length ? (
         <div className="question">
           <h2>Quizz</h2>
           <div className="card-question">
@@ -111,7 +117,7 @@ const RecommandationComponent = () => {
           </div>
           {isCategoryQuestion(questions[currentQuestionIndex]) && (
             <div className="price-question">
-              <p className='test'>At what price would you like the gift to be?</p>
+              <p>At what price would you like the gift to be?</p>
               <span>{sliderValue}€</span>
               <div className="slider">
                 <input
@@ -143,6 +149,14 @@ const RecommandationComponent = () => {
                   alt={`Recommendation ${index}`}
                   className="recommendation-image"
                 />
+              )}
+              {rec.price && (
+                <p className="recommendation-price">Price: {rec.price}€</p>
+              )}
+              {rec.priceRange && (
+                <p className="recommendation-price-range">
+                  Price Range: {rec.priceRange}€
+                </p>
               )}
             </div>
           ))}
