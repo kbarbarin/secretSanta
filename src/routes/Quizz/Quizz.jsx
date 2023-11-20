@@ -135,13 +135,18 @@ const RecommandationComponent = () => {
         </div>
       ) : (
         <div className="recommendations">
-          <p>Ho-Ho</p>
-          <p>Leo has been a good girl</p>
-          <p>this year send this</p>
-          <p>sweetie a present!</p>
-          <h2 className="recommendations-title">Recommendations:</h2>
           {recommandations.map((rec, index) => (
             <div key={index} className="recommendation">
+              <p>Ho-Ho</p>
+              <p>Leo has been a good girl</p>
+              <p>this year send this</p>
+              <p>sweetie a present!</p>
+              {rec.priceRange && (
+                <p className="recommendation-price-range">
+                  The limit price is {rec.priceRange}€
+                </p>
+              )}
+              <h2 className="recommendations-title">Recommendations:</h2>
               <p className="recommendation-name">{rec.name}</p>
               {rec.imageUrl && (
                 <img
@@ -152,11 +157,6 @@ const RecommandationComponent = () => {
               )}
               {rec.price && (
                 <p className="recommendation-price">Price: {rec.price}€</p>
-              )}
-              {rec.priceRange && (
-                <p className="recommendation-price-range">
-                  Price Range: {rec.priceRange}€
-                </p>
               )}
             </div>
           ))}
