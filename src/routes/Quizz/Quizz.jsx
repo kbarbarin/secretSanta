@@ -146,28 +146,35 @@ const RecommandationComponent = () => {
         </div>
       ) : (
         <div className="recommendations">
-          <p>Ho-Ho!</p>
-          <p>Leo has been a good girl this year send this sweetie a present!</p>
-          <img src="/assets/logo.png" alt="Ho-Ho!'s logo" />
-          <p className="recommendation-price-range">
-            The limit price is {priceRange}€
-          </p>
-          <h2 className="recommendations-title">Recommendations:</h2>
-          {recommandations.map((rec, index) => (
-            <div key={index} className="recommendation">
-              <p className="recommendation-name">{rec.name}</p>
-              {rec.imageUrl && (
-                <img
-                  src={rec.imageUrl}
-                  alt={`Recommendation ${index}`}
-                  className="recommendation-image"
-                />
-              )}
-              {rec.price && (
-                <p className="recommendation-price">Price: {rec.price}€</p>
-              )}
-            </div>
-          ))}
+          <div>
+            <p>Ho-Ho!</p>
+            <p>
+              Leo has been a good girl this year send this sweetie a present!
+            </p>
+            <img src="/assets/logo.png" alt="Ho-Ho!'s logo" />
+            <p className="recommendation-price-range">
+              The limit price is {priceRange}€
+            </p>
+          </div>
+          <div className="test">
+            <h2 className="recommendations-title">Recommendations:</h2>
+            {recommandations.map((rec, index) => (
+              <div key={index} className="recommendation">
+                <p className="recommendation-name">{rec.name}</p>
+                {rec.imageUrl && (
+                  <img
+                    src={rec.imageUrl}
+                    alt={`Recommendation ${index}`}
+                    className="recommendation-image"
+                    style={{ width: '100px', height: '100px' }}
+                  />
+                )}
+                {rec.price && (
+                  <p className="recommendation-price">Price: {rec.price}€</p>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
