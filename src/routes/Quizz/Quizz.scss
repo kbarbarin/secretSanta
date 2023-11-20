@@ -5,7 +5,6 @@
   justify-content: center;
   align-items: center;
   color: $secondary-color;
-  font-weight: 600;
 
   .question {
     width: 240px;
@@ -14,6 +13,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    font-weight: 600;
 
     h2 {
       text-align: center;
@@ -83,12 +83,64 @@
     }
   }
   .recommendations {
-    width: 240px;
-    height: 400px;
-    .test {
+    text-align: center;
+
+    > div {
+      p {
+        margin: 10px 0;
+      }
+    }
+
+    .container-recommendations {
+      display: flex;
+      flex-direction: column;
+      align-items: center; // Ajouté pour centrer la grille
+
       background-color: white;
       color: black;
-      width: 100px;
+      width: 1032px;
+      height: 100vh;
+      border-radius: 10px;
+      font-weight: 500;
+
+      .recommendations-title {
+        padding-top: 10px;
+      }
+
+      .recommendations-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 20px;
+
+        .recommendation-product {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          overflow: hidden; // Ajout de cette ligne
+
+          .recommendations-image {
+            width: 100px;
+            height: 100px;
+          }
+          .test {
+            background-color: rgb(215, 211, 211);
+            padding-top: 5px;
+            width: 160px;
+          }
+          .recommendation-name {
+            margin-top: 10px;
+            padding: 4px;
+          }
+
+          .recommendation-price {
+            margin-top: 5px;
+            color: $primary-color;
+          }
+        }
+      }
     }
   }
 }

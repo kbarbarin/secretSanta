@@ -156,24 +156,28 @@ const RecommandationComponent = () => {
               The limit price is {priceRange}€
             </p>
           </div>
-          <div className="test">
-            <h2 className="recommendations-title">Recommendations:</h2>
-            {recommandations.map((rec, index) => (
-              <div key={index} className="recommendation">
-                <p className="recommendation-name">{rec.name}</p>
-                {rec.imageUrl && (
-                  <img
-                    src={rec.imageUrl}
-                    alt={`Recommendation ${index}`}
-                    className="recommendation-image"
-                    style={{ width: '100px', height: '100px' }}
-                  />
-                )}
-                {rec.price && (
-                  <p className="recommendation-price">Price: {rec.price}€</p>
-                )}
-              </div>
-            ))}
+          <div className="container-recommendations">
+            <p className="recommendations-title">Dont't worry!</p>
+            <p className="">Here is a list of gifts that Léo might like:</p>
+            <div className="recommendations-info">
+              {recommandations.map((rec, index) => (
+                <div key={index} className="recommendation-product">
+                  <div className='test'>
+                    {rec.imageUrl && (
+                      <img
+                        src={rec.imageUrl}
+                        alt={`Recommendation ${index}`}
+                        className="recommendations-image"
+                      />
+                    )}
+                  </div>
+                  <p className="recommendation-name">{rec.name}</p>
+                  {rec.price && (
+                    <p className="recommendation-price">Price: {rec.price}€</p>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
