@@ -5,7 +5,7 @@ import { questions } from '../../datas/questions'
 
 import './Quizz.scss'
 
-const budgets = [5, 10, 20, 30]
+const budgets = [5, 10, 20, 30, 40, 50]
 
 const RecommandationComponent = () => {
   const [loading, setLoading] = useState(false)
