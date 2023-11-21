@@ -1,0 +1,13 @@
+@import '../../style/variables';
+
+.summary {
+    margin: 0 16px;
+    text-align: center;
+
+    & h1,
+    & .mainTitle__desc {
+        text-align: left;
+        color: $secondary-color;
+    }
+
+}
