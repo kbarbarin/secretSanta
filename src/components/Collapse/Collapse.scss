@@ -1,29 +1,35 @@
 @import '../../style/variables';
 
 .collapse {
-    border-bottom: rgba(255, 209, 209, 0.5) solid 2px;
+  border-bottom: rgba(255, 209, 209, 0.5) solid 2px;
+  cursor: pointer;
+  transition: 0.3s;
 
-    &__titleContainer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 5px 20px;
-    }
+  &:hover {
+    background-color: rgba(255, 209, 209, 0.132);
+  }
 
-    &__icon {
-        color: $tertiary-color;
-    }
+  &__titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+  }
 
-    &__title {
-        font-weight: 600;
-        color: $secondary-color;
-    }
+  &__icon {
+    color: $tertiary-color;
+  }
 
-    &__desc {
-        color: $secondary-color;
-        font-size: 14px;
-        letter-spacing: 0.25%;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
+  &__title {
+    font-weight: 600;
+    color: $secondary-color;
+  }
+
+  &__desc {
+    color: $secondary-color;
+    font-size: 14px;
+    letter-spacing: 0.25%;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
 }

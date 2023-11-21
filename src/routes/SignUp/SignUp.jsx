@@ -105,9 +105,9 @@ export default function SignUp(props) {
         {message && <p className="errorMessage">{message}</p>}
 
         <input type="submit" value="SIGN UP" />
-        <div className="signin">
-          <p className="signin-text">Already have an account ? &#160;</p>
-          <Link to="/signin" className="signin-link">
+        <div className="signin2">
+          <p className="signin2-text">Already have an account ? &#160;</p>
+          <Link to="/signin" className="signin2-link">
             Click here !
           </Link>
         </div>
