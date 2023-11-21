@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 
 import './Header.scss'
@@ -7,6 +7,7 @@ import Back from '../../components/Back/Back'
 
 export default function Header() {
   const [button, setButton] = useState("Login");
+  const location = useLocation()
   const navigate = useNavigate()
   const handleLogin = () => {
     navigate('/signin')
