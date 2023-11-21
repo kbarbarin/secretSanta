@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
-import { doc, setDoc, collection } from 'firebase/firestore'
-import { db } from '../../firebase/Firebase'
+import { doc, setDoc, updateDoc, collection, arrayUnion, query, getDocs, where } from 'firebase/firestore'
+
+import { db, auth } from '../../firebase/Firebase'
 
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
@@ -55,8 +56,7 @@ export default function CreateSecretSanta() {
     }
   }
 
-  const generateSessionId = () => {
-    const length = 8
+  const generateSessionId = (length) => {
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     let code = ''
@@ -104,31 +104,53 @@ export default function CreateSecretSanta() {
     return assossiationArray
   }
 
+  const generateParticipantsArray = () => {
+    const arrayBuff = []
+
+    participants.forEach((element) => {
+      arrayBuff.push({
+        name: element.firstName,
+        email: element.email,
+        id: generateSessionId(6),
+        isProfilCompleted: false,
+        giftedIdeas: []
+      })
+    })
+    return arrayBuff;
+  }
+
   const addToFirebase = async (event) => {
     event.preventDefault()
     const session = {
-      id: generateSessionId(),
-      participants: attribution(participants),
+      id: generateSessionId(8),
+      participants: generateParticipantsArray(participants),
       eventName: eventName,
       eventDesc: eventDesc,
       eventDate: eventDate,
     }
 
     try {
-      const newDocRef = doc(collection(db, 'secretSanta'))
-      await setDoc(newDocRef, session)
+      const newDocRef = doc(collection(db, 'secretSanta'));
+      await setDoc(newDocRef, session);
 
-      console.log(
-        "Document ajouté avec l'ID généré automatiquement :",
-        newDocRef.id
-      )
+      const newDocId = newDocRef.id;
+      const usersCollectionRef = collection(db, 'users');
+      const q = query(usersCollectionRef, where('uid', '==', auth.currentUser.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const userDocRef = querySnapshot.docs[0].ref;
+        await updateDoc(userDocRef, {
+          secretSantaSessionId: arrayUnion(newDocId),
+        });
+      }
     } catch (error) {
       console.error(
         "Erreur lors de l'enregistrement des données dans Firebase : ",
         error
-      )
+      );
     }
-  }
+  };
 
   return (
     <div className='create'>
@@ -188,9 +210,11 @@ export default function CreateSecretSanta() {
           </div>
         </div>
         <div>
+        </div>
+        <div>
           {participants.map((participant, index) => (
             <div key={index} className="participant__container">
-              <p className="participant__index">{index + 1}.</p>
+              <p className='participant__index'>{index + 1}.</p>
               <Input
                 type="text"
                 id={`name_${index}`}
@@ -210,9 +234,7 @@ export default function CreateSecretSanta() {
             </div>
           ))}
         </div>
-        <button type="submit" className="form__button">
-          Create
-        </button>
+        <button type="submit" className='form__button'>Create</button>
         <Button />
       </form>
     </div>
