@@ -147,9 +147,9 @@ const RecommandationComponent = () => {
       ) : (
         <div className="recommendations">
           <div>
-            <p>Ho-Ho!</p>
-            <p>
-              Leo has been a good girl this year send this sweetie a present!
+            <p className="title">
+              Ho-Ho! Leo has been a good girl this year send this sweetie a
+              present!
             </p>
             <img src="/assets/logo.png" alt="Ho-Ho!'s logo" />
             <p className="recommendation-price-range">
@@ -157,12 +157,14 @@ const RecommandationComponent = () => {
             </p>
           </div>
           <div className="container-recommendations">
-            <p className="recommendations-title">Dont't worry!</p>
-            <p className="">Here is a list of gifts that Léo might like:</p>
+            <p className="recommendations-title">Don't worry!</p>
+            <p className="-title">
+              Here is a list of gifts that Léo might like:
+            </p>
             <div className="recommendations-info">
               {recommandations.map((rec, index) => (
                 <div key={index} className="recommendation-product">
-                  <div className='test'>
+                  <div className="box-product">
                     {rec.imageUrl && (
                       <img
                         src={rec.imageUrl}

@@ -35,6 +35,14 @@ export const questions = [
     text: 'Do you like books?',
     category: 'books',
   },
+  {
+    id: 6,
+    text: 'Do you prefer fantasy books?',
+    category: 'books',
+    theme: 'fantasy',
+    imageUrl:
+      'https://cdn.pixabay.com/photo/2021/10/08/20/28/healer-6692464_960_720.png',
+  },
   // {
   //   id: 5,
   //   text: 'Do you like musics?',
