@@ -59,9 +59,9 @@ export default function SignIn() {
         </Link>
         {message && <p className="errorMessage">{message}</p>}
         <input type="submit" value="SIGN IN" />
-        <div className="signup">
-          <p className="signup-text">Don't have an account ? &#160;</p>
-          <Link to="/signup" className="signup-link">
+        <div className="signup2">
+          <p className="signup2-text">Don't have an account ? &#160;</p>
+          <Link to="/signup" className="signup2-link">
             Click here !
           </Link>
         </div>

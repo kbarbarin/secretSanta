@@ -7,6 +7,7 @@ import { db, auth } from '../../firebase/Firebase'
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
+import Back from '../../components/Back/Back'
 
 import './CreateSecretSanta.scss'
 
@@ -132,24 +133,24 @@ export default function CreateSecretSanta() {
       // Ajouter le document à la collection 'secretSanta'
       const newDocRef = doc(collection(db, 'secretSanta'));
       await setDoc(newDocRef, session);
-  
+
       // Récupérer l'ID du document créé
       const newDocId = newDocRef.id;
-  
+
       // Récupérer le document dans la collection 'users' avec la propriété 'uid' égale à l'ID de l'utilisateur actuellement authentifié
       const usersCollectionRef = collection(db, 'users');
       const q = query(usersCollectionRef, where('uid', '==', auth.currentUser.uid));
       const querySnapshot = await getDocs(q);
-  
+
       // Vérifier s'il y a un document correspondant (il ne devrait y en avoir qu'un)
       if (!querySnapshot.empty) {
         const userDocRef = querySnapshot.docs[0].ref;
-  
+
         // Mettre à jour le document dans la collection 'users' en ajoutant l'ID au tableau
         await updateDoc(userDocRef, {
           secretSantaSessionId: arrayUnion(newDocId),
         });
-  
+
         console.log(
           "Document ajouté avec l'ID généré automatiquement :",
           newDocId
@@ -166,90 +167,93 @@ export default function CreateSecretSanta() {
   };
 
   return (
-      <>
-        <form onSubmit={addToFirebase} className="form">
-          <HeaderCard mainTitle={'Create my Secret Santa'} />
-          <div>
-            <div className="titles">
-              <h2 className="form__title--white">Tell us more about your</h2>
-              <h2 className="form__title--yellow">Secret Santa</h2>
-            </div>
-            <div className="form__group">
+    <div className='create'>
+      <Back />
+      <form onSubmit={addToFirebase} className="form">
+        <HeaderCard mainTitle={'Create my Secret Santa'} />
+        <div>
+          <div className="titles">
+            <h2 className="form__title--white">Tell us more about your</h2>
+            <h2 className="form__title--yellow">Secret Santa</h2>
+          </div>
+          <div className="form__group">
+            <Input
+              type={'text'}
+              placeholder={'Name of the event*'}
+              onChange={(e) => setEventName(e.target.value)}
+              value={eventName}
+              name="event-name"
+              id="event-name"
+              required={true}
+            />
+            <Input
+              type={'text'}
+              name="event-desc"
+              id="event-desc"
+              placeholder="Description"
+              value={eventDesc}
+              onChange={(e) => setEventDesc(e.target.value)}
+            />
+          </div>
+          <h2 className="form__catTitle">
+            <span className="info__title--white">When is your </span>
+            <span className="info__title--yellow">Secret Santa?</span>
+          </h2>
+          <Input
+            type={'date'}
+            name="event-date"
+            id="event-date"
+            placeholder="Date of the event"
+            value={eventDate}
+            onChange={(e) => handleEventDateChange(e)}
+          />
+        </div>
+        <div className="participant">
+          <h2 className="form__catTitle">
+            <span className="info__title--white">Who is </span>
+            <span className="info__title--yellow">invited?</span>
+          </h2>
+          <div className="participant__buttonContainer">
+            <button onClick={decrementTotal} className="participant__button">
+              -
+            </button>
+            <h2 className="participant__number">{total}</h2>
+            <button onClick={incrementTotal} className="participant__button">
+              +
+            </button>
+          </div>
+        </div>
+        <div>
+        </div>
+        <div>
+          {participants.map((participant, index) => (
+            <div key={index} className="participant__container">
+              <p className='participant__index'>{index + 1}.</p>
               <Input
-                type={'text'}
-                placeholder={'Name of the event*'}
-                onChange={(e) => setEventName(e.target.value)}
-                value={eventName}
-                name="event-name"
-                id="event-name"
+                type="text"
+                id={`name_${index}`}
+                placeholder="Prénom"
+                value={participant.firstName}
+                onChange={(e) => handleFirstNameChange(index, e.target.value)}
                 required={true}
               />
               <Input
-                type={'text'}
-                name="event-desc"
-                id="event-desc"
-                placeholder="Description"
-                value={eventDesc}
-                onChange={(e) => setEventDesc(e.target.value)}
+                type="email"
+                placeholder="Adresse e-mail"
+                value={participant.email}
+                id={`mail${index}`}
+                onChange={(e) => handleEmailChange(index, e.target.value)}
+                required={true}
               />
             </div>
-            <h2 className="form__catTitle">
-              <span className="info__title--white">When is your </span>
-              <span className="info__title--yellow">Secret Santa?</span>
-            </h2>
-            <Input
-              type={'date'}
-              name="event-date"
-              id="event-date"
-              placeholder="Date of the event"
-              value={eventDate}
-              onChange={(e) => handleEventDateChange(e)}
-            />
-          </div>
-          <div className="participant">
-            <h2 className="form__catTitle">
-              <span className="info__title--white">Who is </span>
-              <span className="info__title--yellow">invited?</span>
-            </h2>
-            <div className="participant__buttonContainer">
-              <button onClick={decrementTotal} className="participant__button">
-                -
-              </button>
-              <h2 className="participant__number">{total}</h2>
-              <button onClick={incrementTotal} className="participant__button">
-                +
-              </button>
-            </div>
-          </div>
-          <div>
-            {participants.map((participant, index) => (
-              <div key={index} className="participant__container">
-                <p className='participant__index'>{index + 1}.</p>
-                <Input
-                  type="text"
-                  id={`name_${index}`}
-                  placeholder="Prénom"
-                  value={participant.firstName}
-                  onChange={(e) => handleFirstNameChange(index, e.target.value)}
-                  required={true}
-                />
-                <Input
-                  type="email"
-                  placeholder="Adresse e-mail"
-                  value={participant.email}
-                  id={`mail${index}`}
-                  onChange={(e) => handleEmailChange(index, e.target.value)}
-                  required={true}
-                />
-              </div>
-            ))}
-          </div>
-          <button type="submit" className='form__button'>Create</button>
-          <Button />
-        </form>
-      </>
-    )
-  }
+          ))}
+        </div>
+        <button type="submit" className='form__button'>Create</button>
+        <Button />
+      </form>
+    </div>
+  )
+}
 
 // ! Cette fonction ne sert qu'a tester l'algo de la fonction attribution
 
