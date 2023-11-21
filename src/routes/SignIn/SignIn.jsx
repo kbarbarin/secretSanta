@@ -75,7 +75,7 @@ export default function SignUp(props) {
         <button type="button" onClick={handleSignInAnonymously}>
           Sign In Anonymously
         </button>
-        <input type="submit" value="SIGN IN" />
+        <input type="submit" value="SIGN IN"/>
         <div className="signup">
           <p className="signup-text">Don't have an account ? &#160;</p>
           <Link to="/signup" className="signup-link">
