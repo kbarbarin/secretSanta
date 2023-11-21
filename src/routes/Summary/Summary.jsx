@@ -61,12 +61,12 @@ export default function Summary() {
               <p>Ready</p>
             </div>
           </div>
-          <div className="summary__desc">
+          <div className="summary_desc">
             <p className="summary__descTitle">Description:</p>
             <p className="summary__descContent">{secretSanta?.eventDesc}</p>
           </div>
           <div className="summary__invited">
-            <h2>Elf invited:</h2>
+            <h1>Elf invited:</h1>
             <div className="summary__recap">
               <img src="/assets/elf.png" alt="elf" />
               {secretSanta?.participants?.map((participant) => (
