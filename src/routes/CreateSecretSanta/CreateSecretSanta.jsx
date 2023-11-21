@@ -130,33 +130,19 @@ export default function CreateSecretSanta() {
     }
 
     try {
-      // Ajouter le document à la collection 'secretSanta'
       const newDocRef = doc(collection(db, 'secretSanta'));
       await setDoc(newDocRef, session);
 
-      // Récupérer l'ID du document créé
       const newDocId = newDocRef.id;
-
-      // Récupérer le document dans la collection 'users' avec la propriété 'uid' égale à l'ID de l'utilisateur actuellement authentifié
       const usersCollectionRef = collection(db, 'users');
       const q = query(usersCollectionRef, where('uid', '==', auth.currentUser.uid));
       const querySnapshot = await getDocs(q);
 
-      // Vérifier s'il y a un document correspondant (il ne devrait y en avoir qu'un)
       if (!querySnapshot.empty) {
         const userDocRef = querySnapshot.docs[0].ref;
-
-        // Mettre à jour le document dans la collection 'users' en ajoutant l'ID au tableau
         await updateDoc(userDocRef, {
           secretSantaSessionId: arrayUnion(newDocId),
         });
-
-        console.log(
-          "Document ajouté avec l'ID généré automatiquement :",
-          newDocId
-        );
-      } else {
-        console.error("Aucun document utilisateur trouvé pour l'ID actuel.");
       }
     } catch (error) {
       console.error(
