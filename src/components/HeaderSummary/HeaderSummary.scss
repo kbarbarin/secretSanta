@@ -1,0 +1,48 @@
+@import "../../style/variables";
+
+.headerSum {
+    border: $secondary-color 3px solid;
+    border-radius: 25px;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+
+    @media screen and (min-width: $large) {
+        width: 50%;
+    }
+
+    &__title {
+        padding: 15px;
+        margin-top: 0;
+        background-color: $secondary-color;
+        color: $primary-color;
+        font-weight: 600;
+        border: $secondary-color solid 2px;
+    }
+
+    &__desc {
+        font-weight: 600;
+        color: $secondary-color;
+    }
+
+    &__date {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 30px;
+
+        & p {
+            margin: 0;
+            margin-bottom: 10px;
+            color: $secondary-color;
+            font-size: 14px;
+        }
+
+        & p:first-child {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+    }
+}
