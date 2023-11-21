@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { auth } from '../../firebase/Firebase'
+import { signInAnonymously } from 'firebase/auth';
 import { signInWithEmailAndPassword } from 'firebase/auth'
 
 import { faUser, faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons'
@@ -33,6 +34,17 @@ export default function SignUp(props) {
       })
   }
 
+  const handleAnonymousSignIn = async () => {
+    try {
+      await signInAnonymously(auth);
+      console.log('Connexion anonyme réussie');
+    } catch (error) {
+      console.error('Erreur de connexion:', error);
+    }
+  };
+
+  
+
   return (
     <div className="signin">
       <HeaderCard secondaryTitle={'SignIn'} />
@@ -59,6 +71,10 @@ export default function SignUp(props) {
         </Link>
         {message && <p className="errorMessage">{message}</p>}
 
+        <input type="submit" value="SIGN IN" />
+        <button type="button" onClick={handleSignInAnonymously}>
+          Sign In Anonymously
+        </button>
         <input type="submit" value="SIGN IN" />
         <div className="signup">
           <p className="signup-text">Don't have an account ? &#160;</p>
