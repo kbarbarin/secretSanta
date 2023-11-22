@@ -15,7 +15,6 @@ export default function Header() {
   const isCreateOrSummaryPage = /^\/(create\/?)?$|^\/create\/\w+$|^\/summary$/i.test(location.pathname);
 
   useEffect(() => {
-    console.log(location.pathname);
     if (location.pathname === '/') {
       setButton('SIGN IN');
       setNavigation("/signin");

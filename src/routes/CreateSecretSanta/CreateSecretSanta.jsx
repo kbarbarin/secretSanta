@@ -133,24 +133,24 @@ export default function CreateSecretSanta() {
     try {
       const newDocRef = doc(collection(db, 'secretSanta'));
       await setDoc(newDocRef, session);
+      const newDocId = newDocRef.id;
+      const usersCollectionRef = collection(db, 'users');
+      const q = query(usersCollectionRef, where('uid', '==', auth.currentUser.uid));
+      const querySnapshot = await getDocs(q);
       session.participants.forEach((element) => {
         emailjs.send(
           "service_ktjeuxa",
           "template_bklalgq",
           {
-            receiver_email: element.gifted.email,
-            receiver: element.gifted.firstName,
+            receiver_email: element.email,
+            receiver: element.name,
             organisator: 'an elf',
             date: eventDate,
-            link: 'https://youtube.com'
+            link: 'https://secretsanta-c60ad.web.app/summary/' + session.id + '/' + element.id
           },
           "yF0RNO3NA52uH5dgL");
       })
-      const newDocId = newDocRef.id;
-      const usersCollectionRef = collection(db, 'users');
-      const q = query(usersCollectionRef, where('uid', '==', auth.currentUser.uid));
-      const querySnapshot = await getDocs(q);
-
+      
       if (!querySnapshot.empty) {
         const userDocRef = querySnapshot.docs[0].ref;
         await updateDoc(userDocRef, {
