@@ -43,7 +43,7 @@ export default function Header() {
       setButton('');
       setNavigation("");
   }
-  }, [location])
+  }, [location, isCreateOrSummaryPage])
 
   const handleNavigation = () => {
     navigate(navigation);
