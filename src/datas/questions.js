@@ -84,7 +84,7 @@ export const questions = [
   },
   {
     id: 7,
-    text: 'Do you prefer rock music?',
+    text: 'Do you prefer classic music?',
     category: 'musics',
     theme: 'classic',
   },

@@ -39,7 +39,7 @@ export default function SignUp(props) {
           passwordRef.current.value
         )
 
-        const userDocRef = doc(collection(db, 'users'))
+        const userDocRef = doc(collection(db, 'users'), userCredential.user.uid)
         console.log(userDocRef)
         const userData = {
           name: nameRef.current.value,
