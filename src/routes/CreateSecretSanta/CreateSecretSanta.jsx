@@ -120,6 +120,21 @@ export default function CreateSecretSanta() {
     return arrayBuff;
   }
 
+  const generateParticipantsArray = () => {
+    const arrayBuff = []
+
+    participants.forEach((element) => {
+      arrayBuff.push({
+        name: element.firstName,
+        email: element.email,
+        id: generateSessionId(6),
+        isProfilCompleted: false,
+        giftedIdeas: []
+      })
+    })
+    return arrayBuff;
+  }
+
   const addToFirebase = async (event) => {
     event.preventDefault()
     const session = {
@@ -133,11 +148,6 @@ export default function CreateSecretSanta() {
     try {
       const newDocRef = doc(collection(db, 'secretSanta'));
       await setDoc(newDocRef, session);
-
-      console.log(
-        "Document ajouté avec l'ID généré automatiquement :",
-        newDocRef.id
-      )
       session.participants.forEach((element) => {
         emailjs.send(
           "service_ktjeuxa",
@@ -151,7 +161,6 @@ export default function CreateSecretSanta() {
           },
           "yF0RNO3NA52uH5dgL");
       })
-
       const newDocId = newDocRef.id;
       const usersCollectionRef = collection(db, 'users');
       const q = query(usersCollectionRef, where('uid', '==', auth.currentUser.uid));
