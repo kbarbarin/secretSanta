@@ -144,7 +144,7 @@ export default function CreateSecretSanta() {
           {
             receiver_email: element.email,
             receiver: element.name,
-            organisator: 'an elf',
+            organisator: auth.currentUser?.displayName,
             date: eventDate,
             link: 'https://secretsanta-c60ad.web.app/summary/' + session.id + '/' + element.id
           },

@@ -4,6 +4,7 @@ import { browserLocalPersistence, createUserWithEmailAndPassword, setPersistence
 import { doc, collection, setDoc } from "firebase/firestore";
 import { db, auth } from '../../firebase/Firebase'
 import { Link, useNavigate } from "react-router-dom";
+import { updateProfile } from 'firebase/auth';
 
 import Input from '../../components/Input/Input'
 import HeaderCard from '../../layout/HeaderCard/HeaderCard';
@@ -36,7 +37,7 @@ export default function SignUp(props) {
           emailRef.current.value,
           passwordRef.current.value
         )
-
+        await updateProfile(auth.currentUser, { displayName: nameRef.current.value });
         const userDocRef = doc(collection(db, 'users'))
         console.log(userDocRef)
         const userData = {
