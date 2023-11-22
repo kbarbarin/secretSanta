@@ -120,21 +120,6 @@ export default function CreateSecretSanta() {
     return arrayBuff;
   }
 
-  const generateParticipantsArray = () => {
-    const arrayBuff = []
-
-    participants.forEach((element) => {
-      arrayBuff.push({
-        name: element.firstName,
-        email: element.email,
-        id: generateSessionId(6),
-        isProfilCompleted: false,
-        giftedIdeas: []
-      })
-    })
-    return arrayBuff;
-  }
-
   const addToFirebase = async (event) => {
     event.preventDefault()
     const session = {
