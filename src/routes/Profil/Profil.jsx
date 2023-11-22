@@ -24,7 +24,6 @@ export default function Profile() {
   return (
     <div className="profile">
       <h1>Welcome, {userName}!</h1>
-      {/* ... */}
     </div>
   )
 }

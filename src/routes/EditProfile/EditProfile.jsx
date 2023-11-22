@@ -1,10 +1,5 @@
 import React, { useRef, useState } from 'react'
-import {
-  updateEmail,
-  updatePassword,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
-} from 'firebase/auth'
+import { updateEmail, updatePassword } from 'firebase/auth'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db, auth } from '../../firebase/Firebase'
 
@@ -12,31 +7,34 @@ export default function EditProfile() {
   const nameRef = useRef(null)
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
+  const newPasswordRef = useRef(null)
   const [message, setMessage] = useState('')
 
   const updateProfile = async (e) => {
     e.preventDefault()
 
     const user = auth.currentUser
-    const credential = EmailAuthProvider.credential(
-      user.email,
-      passwordRef.current.value
-    )
 
     try {
-      await reauthenticateWithCredential(user, credential)
+      // Collecter les nouvelles informations du profil
+      const newName = nameRef.current.value
+      const newEmail = emailRef.current.value
+      const newPassword = newPasswordRef.current.value
 
-      if (nameRef.current.value !== '') {
+      // Mettre à jour le nom dans Firestore si fourni
+      if (newName !== '') {
         const userDocRef = doc(db, 'users', user.uid)
-        await updateDoc(userDocRef, { name: nameRef.current.value })
+        await updateDoc(userDocRef, { name: newName })
       }
 
-      if (emailRef.current.value !== '') {
-        await updateEmail(user, emailRef.current.value)
+      // Mettre à jour l'email si fourni
+      if (newEmail !== '') {
+        await updateEmail(user, newEmail)
       }
 
-      if (passwordRef.current.value !== '') {
-        await updatePassword(user, passwordRef.current.value)
+      // Mettre à jour le mot de passe si fourni
+      if (newPassword !== '') {
+        await updatePassword(user, newPassword)
       }
 
       setMessage('Profile updated successfully')
@@ -56,9 +54,8 @@ export default function EditProfile() {
         <input type="email" placeholder="New Email" ref={emailRef} />
         <input
           type="password"
-          placeholder="Current Password"
-          ref={passwordRef}
-          required
+          placeholder="New Password"
+          ref={newPasswordRef}
         />
 
         <input type="submit" value="Update Profile" />
