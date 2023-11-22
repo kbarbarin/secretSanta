@@ -1,2 +1,23 @@
 @import './globals';
 @import './variables';
+
+// Components 
+
+@import '../components/Button/Button.scss';
+@import '../components/Collapse/Collapse.scss';
+@import '../components/Input/Input.scss';
+@import '../components/PopUp/PopUp.scss';
+@import '../components/Back/Back.scss';
+
+// Layout
+
+@import '../layout/Header/Header.scss';
+@import '../layout/HeaderCard/HeaderCard.scss';
+
+// Routes
+
+@import '../routes/CreateSecretSanta/CreateSecretSanta.scss';
+@import '../routes/Home/Home.scss';
+@import '../routes/SignIn/SignIn.scss';
+@import '../routes/SignUp/SignUp.scss';
+@import '../routes/Profil/Profile.scss';

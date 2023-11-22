@@ -8,6 +8,9 @@ import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
 import emailjs from '@emailjs/browser';
 
+import Back from '../../components/Back/Back'
+
+
 import './CreateSecretSanta.scss'
 
 export default function CreateSecretSanta() {
@@ -145,7 +148,8 @@ export default function CreateSecretSanta() {
   }
 
   return (
-    <>
+    <div className='create'>
+      <Back />
       <form onSubmit={addToFirebase} className="form">
         <HeaderCard mainTitle={'Create my Secret Santa'} />
         <div>
@@ -203,7 +207,7 @@ export default function CreateSecretSanta() {
         <div>
           {participants.map((participant, index) => (
             <div key={index} className="participant__container">
-              <p className='participant__index'>{index + 1}.</p>
+              <p className="participant__index">{index + 1}.</p>
               <Input
                 type="text"
                 id={`name_${index}`}
@@ -223,10 +227,12 @@ export default function CreateSecretSanta() {
             </div>
           ))}
         </div>
-        <button type="submit" className='form__button'>Create</button>
+        <button type="submit" className="form__button">
+          Create
+        </button>
         <Button />
       </form>
-    </>
+    </div>
   )
 }
 
