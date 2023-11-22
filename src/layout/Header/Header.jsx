@@ -24,7 +24,7 @@ export default function Header() {
       setButton('MY PROFILE');
       setNavigation("/profile");
     }
-    if (
+    else if (
       location.pathname === '/quizz' ||
       location.pathname === '/giftideas' ||
       location.pathname === '/secretsanta'
@@ -36,7 +36,13 @@ export default function Header() {
         setButton('SIGN IN');
         setNavigation("/signin");
       }
-    }
+    } else if  (location.pathname === '/signin') {
+        setButton('SIGN UP');
+        setNavigation("/signup");
+    } else if  (location.pathname === '/profile') {
+      setButton('');
+      setNavigation("");
+  }
   }, [location])
 
   const handleNavigation = () => {
@@ -46,9 +52,9 @@ export default function Header() {
     <header>
       <nav>
         <Back />
-        <Button className="button__color--primary" onClick={handleNavigation}>
+        {button !== "" && <Button className="button__color--primary" onClick={handleNavigation}>
           {button}
-        </Button>
+        </Button>}
       </nav>
     </header>
   )
