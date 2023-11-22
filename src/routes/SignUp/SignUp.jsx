@@ -2,11 +2,11 @@ import React, { useRef, useState } from 'react'
 import { browserLocalPersistence, createUserWithEmailAndPassword, setPersistence, } from 'firebase/auth'
 
 import { doc, collection, setDoc } from "firebase/firestore";
-import { db } from "../../firebase/Firebase";
+import { db, auth } from '../../firebase/Firebase'
 import { Link, useNavigate } from "react-router-dom";
-import { Link, useNavigate } from 'react-router-dom'
 
 import Input from '../../components/Input/Input'
+import HeaderCard from '../../layout/HeaderCard/HeaderCard';
 
 import {
   faUser,
@@ -15,7 +15,6 @@ import {
   faEyeSlash,
 } from '@fortawesome/free-regular-svg-icons'
 
-import { db, auth } from '../../firebase/Firebase'
 import './SignUp.scss'
 
 export default function SignUp(props) {
