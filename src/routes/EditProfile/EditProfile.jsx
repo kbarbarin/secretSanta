@@ -1,5 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { updateEmail, updatePassword } from 'firebase/auth'
+import {
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+  updateEmail,
+  updateProfile,
+} from 'firebase/auth'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db, auth } from '../../firebase/Firebase'
 
@@ -9,56 +15,82 @@ export default function EditProfile() {
   const passwordRef = useRef(null)
   const newPasswordRef = useRef(null)
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const updateProfile = async (e) => {
+  const updateProfileDetails = async (e) => {
     e.preventDefault()
 
     const user = auth.currentUser
 
     try {
-      // Collecter les nouvelles informations du profil
-      const newName = nameRef.current.value
-      const newEmail = emailRef.current.value
+      setLoading(true)
+
+      const newName = nameRef.current.value.trim()
+      const newEmail = emailRef.current.value.trim()
       const newPassword = newPasswordRef.current.value
 
-      // Mettre à jour le nom dans Firestore si fourni
+      // Demander à l'utilisateur de se réauthentifier
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        passwordRef.current.value
+      )
+      await reauthenticateWithCredential(user, credential)
+
       if (newName !== '') {
         const userDocRef = doc(db, 'users', user.uid)
         await updateDoc(userDocRef, { name: newName })
+        setMessage('Nom mis à jour avec succès.')
       }
-
-      // Mettre à jour l'email si fourni
       if (newEmail !== '') {
-        await updateEmail(user, newEmail)
+        if (newEmail !== user.email) {
+          await updateProfile(user, { email: newEmail })
+          console.log('Email updated successfully in Firebase profile.')
+
+          // Update the email in Firestore
+          const userDocRef = doc(db, 'users', user.uid)
+          await updateDoc(userDocRef, { email: newEmail })
+          console.log('Email updated successfully in Firestore.')
+        }
       }
 
-      // Mettre à jour le mot de passe si fourni
       if (newPassword !== '') {
+        // Mettez à jour le mot de passe après la réauthentification
         await updatePassword(user, newPassword)
+        setMessage('Mot de passe mis à jour avec succès.')
       }
 
-      setMessage('Profile updated successfully')
+      setMessage('Profil mis à jour avec succès')
     } catch (error) {
-      console.error('Error code:', error.code)
-      console.error('Error message:', error.message)
-      setMessage(`Error updating profile: ${error.message}`)
+      console.error("Code d'erreur:", error.code)
+      console.error("Message d'erreur:", error.message)
+
+      setMessage(`Erreur lors de la mise à jour du profil : ${error.message}`)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div>
-      <h1>Edit Profile</h1>
+      <h1>Modifier le profil</h1>
 
-      <form onSubmit={updateProfile}>
-        <input type="text" placeholder="New Name" ref={nameRef} />
-        <input type="email" placeholder="New Email" ref={emailRef} />
+      <form onSubmit={updateProfileDetails}>
+        <input type="text" placeholder="Nouveau nom" ref={nameRef} />
+        <input type="email" placeholder="Nouvel e-mail" ref={emailRef} />
         <input
           type="password"
-          placeholder="New Password"
+          placeholder="Mot de passe actuel pour la ré-authentification"
+          ref={passwordRef}
+        />
+        <input
+          type="password"
+          placeholder="Nouveau mot de passe"
           ref={newPasswordRef}
         />
 
-        <input type="submit" value="Update Profile" />
+        <button type="submit" disabled={loading}>
+          Mettre à jour le profil
+        </button>
       </form>
 
       {message && <p>{message}</p>}
