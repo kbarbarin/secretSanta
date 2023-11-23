@@ -33,7 +33,7 @@ const routes = [
         errorElement: <ErrorPage />,
       },
       {
-        path: 'summary/:id',
+        path: 'summary/:id/:userid',
         element: <Summary />,
         errorElement: <ErrorPage />,
       },
