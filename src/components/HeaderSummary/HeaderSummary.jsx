@@ -8,8 +8,6 @@ export default function HeaderSummary({ name }) {
   const day = today.getDate()
   const month = today.getMonth() + 1
   const year = today.getFullYear()
-  console.log(day, month, year)
-  console.log(today)
 
   return (
     <div className="headerSum">
