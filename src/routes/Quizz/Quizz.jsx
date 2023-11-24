@@ -13,7 +13,7 @@ const Quizz = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [recommandations, setRecommandations] = useState([])
   const [sliderValue, setSliderValue] = useState(budgets[0])
-    const [showRecommendations, setShowRecommendations] = useState(false)
+  const [showRecommendations, setShowRecommendations] = useState(false)
   const [showPriceRange, setShowPriceRange] = useState(false)
   const [priceRange, setPriceRange] = useState(null)
 
@@ -22,6 +22,7 @@ const Quizz = () => {
   }
   const fetchRecommandations = useCallback(
     async (question, response) => {
+      fetchRecommandationsCount += 1
       if (question.theme && response === 'Yes') {
         setLoading(true)
 
