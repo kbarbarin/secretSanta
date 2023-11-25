@@ -17,20 +17,29 @@ export default function SignIn() {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const [message, setMessage] = useState('')
+  const navigation = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false)
 
   const handleSignIn = async (e) => {
     e.preventDefault()
-   setPersistence(auth, browserLocalPersistence).then(async () => {
-    await signInWithEmailAndPassword(
-      auth,
-      emailRef.current.value,
-      passwordRef.current.value
-    )
-    return navigate('/profile')
-   }).catch(() => {
+    setPersistence(auth, browserLocalPersistence).then(async () => {
+      await signInWithEmailAndPassword(
+        auth,
+        emailRef.current.value,
+        passwordRef.current.value
+      ).then(() => {
+        setMessage('Connexion réussie')
+        navigation('/create');
+
+      }).catch((error) => {
+        setMessage('Make sure to fill all fields correctly !')
+      })
+      return navigate('/profile')
+    }).catch(() => {
       setMessage('Make sure to fill in all fields correctly!')
     })
+
   }
 
   return (
