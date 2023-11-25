@@ -1,12 +1,13 @@
 import React, { useRef, useState } from 'react'
 import { browserLocalPersistence, createUserWithEmailAndPassword, setPersistence, } from 'firebase/auth'
 
-import { doc, collection, setDoc } from 'firebase/firestore'
-
-import { Link, useNavigate } from 'react-router-dom'
+import { doc, collection, setDoc } from "firebase/firestore";
+import { db, auth } from '../../firebase/Firebase'
+import { Link, useNavigate } from "react-router-dom";
+import { updateProfile } from 'firebase/auth';
 
 import Input from '../../components/Input/Input'
-import HeaderCard from '../../layout/HeaderCard/HeaderCard'
+import HeaderCard from '../../layout/HeaderCard/HeaderCard';
 
 import {
   faUser,
@@ -15,12 +16,10 @@ import {
   faEyeSlash,
 } from '@fortawesome/free-regular-svg-icons'
 
-import { db, auth } from '../../firebase/Firebase'
 import './SignUp.scss'
 
 export default function SignUp(props) {
   const navigate = useNavigate()
-
   const nameRef = useRef(null)
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
@@ -38,7 +37,7 @@ export default function SignUp(props) {
           emailRef.current.value,
           passwordRef.current.value
         )
-
+        await updateProfile(auth.currentUser, { displayName: nameRef.current.value });
         const userDocRef = doc(collection(db, 'users'))
         console.log(userDocRef)
         const userData = {
@@ -66,7 +65,6 @@ export default function SignUp(props) {
   return (
     <div className="signup">
       <HeaderCard secondaryTitle={'SignUp'} />
-
       <form onSubmit={createAccount}>
         <Input
           placeholder="John Doe"

@@ -7,7 +7,8 @@ import { db, auth } from '../../firebase/Firebase'
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
-import Back from '../../components/Back/Back'
+import emailjs from '@emailjs/browser';
+
 
 import './CreateSecretSanta.scss'
 
@@ -68,41 +69,41 @@ export default function CreateSecretSanta() {
     return code
   }
 
-  const attribution = () => {
-    const gifter = participants // mettre le tableau participants
-    const gifted = [...gifter]
-    const assossiationArray = [] // tableau d'objet gifter, gifted
-    const size = gifter.length
+  // const attribution = () => {
+  //   const gifter = participants // mettre le tableau participants
+  //   const gifted = [...gifter]
+  //   const assossiationArray = [] // tableau d'objet gifter, gifted
+  //   const size = gifter.length
 
-    function getRandomInt(max) {
-      return Math.floor(Math.random() * max)
-    }
+  //   function getRandomInt(max) {
+  //     return Math.floor(Math.random() * max)
+  //   }
 
-    for (var i = 0; i < size - 2; i++) {
-      var gifterIndex = 0
-      var giftedIndex = 0
+  //   for (var i = 0; i < size - 2; i++) {
+  //     var gifterIndex = 0
+  //     var giftedIndex = 0
 
-      while (gifter[gifterIndex] === gifted[giftedIndex]) {
-        gifterIndex = getRandomInt(size - i)
-        giftedIndex = getRandomInt(size - i)
-      }
-      assossiationArray.push({
-        gifter: gifter[gifterIndex],
-        gifted: gifted[giftedIndex],
-      })
-      gifter.splice(gifterIndex, 1)
-      gifted.splice(giftedIndex, 1)
-    }
-    if (gifter[0] === gifted[0] || gifter[1] === gifted[1]) {
-      assossiationArray.push({ gifter: gifter[0], gifted: gifted[1] })
-      assossiationArray.push({ gifter: gifter[1], gifted: gifted[0] })
-    } else {
-      assossiationArray.push({ gifter: gifter[0], gifted: gifted[0] })
-      assossiationArray.push({ gifter: gifter[1], gifted: gifted[1] })
-    }
-    console.table('assossiation', assossiationArray)
-    return assossiationArray
-  }
+  //     while (gifter[gifterIndex] === gifted[giftedIndex]) {
+  //       gifterIndex = getRandomInt(size - i)
+  //       giftedIndex = getRandomInt(size - i)
+  //     }
+  //     assossiationArray.push({
+  //       gifter: gifter[gifterIndex],
+  //       gifted: gifted[giftedIndex],
+  //     })
+  //     gifter.splice(gifterIndex, 1)
+  //     gifted.splice(giftedIndex, 1)
+  //   }
+  //   if (gifter[0] === gifted[0] || gifter[1] === gifted[1]) {
+  //     assossiationArray.push({ gifter: gifter[0], gifted: gifted[1] })
+  //     assossiationArray.push({ gifter: gifter[1], gifted: gifted[0] })
+  //   } else {
+  //     assossiationArray.push({ gifter: gifter[0], gifted: gifted[0] })
+  //     assossiationArray.push({ gifter: gifter[1], gifted: gifted[1] })
+  //   }
+  //   console.table('assossiation', assossiationArray)
+  //   return assossiationArray
+  // }
 
   const generateParticipantsArray = () => {
     const arrayBuff = []
@@ -132,12 +133,24 @@ export default function CreateSecretSanta() {
     try {
       const newDocRef = doc(collection(db, 'secretSanta'));
       await setDoc(newDocRef, session);
-
       const newDocId = newDocRef.id;
       const usersCollectionRef = collection(db, 'users');
       const q = query(usersCollectionRef, where('uid', '==', auth.currentUser.uid));
       const querySnapshot = await getDocs(q);
-
+      session.participants.forEach((element) => {
+        emailjs.send(
+          "service_ktjeuxa",
+          "template_bklalgq",
+          {
+            receiver_email: element.email,
+            receiver: element.name,
+            organisator: auth.currentUser?.displayName,
+            date: eventDate,
+            link: 'https://secretsanta-c60ad.web.app/summary/' + session.id + '/' + element.id
+          },
+          "yF0RNO3NA52uH5dgL");
+      })
+      
       if (!querySnapshot.empty) {
         const userDocRef = querySnapshot.docs[0].ref;
         await updateDoc(userDocRef, {
@@ -154,7 +167,6 @@ export default function CreateSecretSanta() {
 
   return (
     <div className='create'>
-      <Back />
       <form onSubmit={addToFirebase} className="form">
         <HeaderCard mainTitle={'Create my Secret Santa'} />
         <div>
