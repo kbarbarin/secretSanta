@@ -30,7 +30,7 @@ export default function Summary() {
     <div className="summary">
       <HeaderCard
         mainTitle={secretSanta?.eventName}
-        titleDesc={'by Lucas'}
+        titleDesc={'by ' + secretSanta?.participants[0]?.name}
         className="summary__headerCard"
       />
       <HeaderSummary />
@@ -50,6 +50,17 @@ export default function Summary() {
           {secretSanta?.eventDesc}
         </p>
       </div>
+      <div className='"summary_invited'>
+        <h1>Elf invited:</h1>
+        <img src="/assets/elf.png" alt="elf" />
+        {secretSanta?.participants?.map((participant) => (
+          <div>
+            <h2>{participant.name}</h2>
+            <h2>{participant.isProfilCompleted ? 'Ready !' : 'Wainting...'}</h2>
+          </div>
+        ))}
+      </div>
+      {ready.length && <p>We are waiting for everyone to join the event!</p>}
     </div>
   )
 }
