@@ -1,26 +1,26 @@
 import React, { useEffect } from "react";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { getAuth, signInAnonymously } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const SummaryPage = () => {
   const auth = getAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        signInAnonymously(auth)
-          .then((userCredential) => {
-            const user = userCredential.user;
-            console.log("Utilisateur connecté anonymement :", user);
-          })
-          .catch((error) => {
-            console.error("Erreur de connexion anonyme :", error);
-          });
+    const checkUserAndSignIn = async () => {
+      if (!auth.currentUser) {
+        try {
+          await signInAnonymously(auth);
+        } catch (error) {
+          console.error('Erreur lors de la connexion anonyme :', error);
+        }
+      } else {
+        console.log('Utilisateur déjà connecté:', auth.currentUser);
       }
-    });
-    return () => unsubscribe();
-  }, [auth, navigate]);
+    };
+
+    checkUserAndSignIn();
+  }, [auth]);
 }
 
 export default function Summary () {
