@@ -19,21 +19,37 @@
     }
 
     &__pill {
-        border: green solid 2px;
         width: 100%;
         background-color: $secondary-color;
         color: $primary-color;
+        padding: 10px;
+        border-radius: 20px;
 
-        &>p:first-child {
+        &>p {
             margin: 0;
-            font-size: 24px;
-            font-weight: 500;
         }
 
         &>p:first-child {
+            font-size: 22px;
+            font-weight: 600;
+        }
+    }
+
+    &__desc {
+        margin-top: 20px;
+        text-align: left;
+        padding: 15px;
+        background-color: $secondary-color;
+        border-radius: 20px;
+        color: $primary-color;
+
+        &>p {
             margin: 0;
-            font-size: 24px;
+        }
+
+        &>p:first-child {
             font-weight: 500;
+            margin-bottom: 10px;
         }
     }
 
