@@ -78,6 +78,11 @@
 
     &__recap {
         text-align: center;
+
+        & img {
+            margin-bottom: 50px;
+            margin-top: 20px;
+        }
     }
 
     &__participant {
