@@ -105,6 +105,25 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/signin',
+    element: <SignIn />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignUp />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/profile',
+    element: (
+      <PrivateRoute>
+        <Profil />
+      </PrivateRoute>
+    ),
+    errorElement: <ErrorPage />,
+  },
 ]
 
 export const router = createBrowserRouter(routes)
