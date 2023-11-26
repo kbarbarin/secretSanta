@@ -52,6 +52,24 @@
         background-color: $secondary-color;
         border-radius: 20px;
         color: $primary-color;
+
+        &>p {
+            margin: 0;
+        }
+
+        &>p:first-child {
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+    }
+
+    &__desc {
+        margin-top: 20px;
+        text-align: left;
+        padding: 15px;
+        background-color: $secondary-color;
+        border-radius: 20px;
+        color: $primary-color;
         margin-bottom: 50px;
 
         @media screen and (min-width: $very-large) {
