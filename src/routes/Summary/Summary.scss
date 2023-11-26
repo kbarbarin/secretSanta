@@ -116,7 +116,25 @@
 }
 
 .waiting-animation {
-    animation: waitingAnimation 1s infinite;
+    display: inline-block;
+
+    span {
+        display: inline-block;
+        opacity: 0;
+        animation: waitingAnimation 1.2s infinite;
+    }
+
+    span:nth-child(1) {
+        animation-delay: 0.25s;
+    }
+
+    span:nth-child(2) {
+        animation-delay: 0.5s;
+    }
+
+    span:nth-child(3) {
+        animation-delay: 0.75s;
+    }
 }
 
 @keyframes waitingAnimation {
