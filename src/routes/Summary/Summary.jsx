@@ -47,7 +47,10 @@ export default function Summary() {
             titleDesc={'by ' + secretSanta?.participants[0]?.name}
             className="summary__headerCard"
           />
-          <HeaderSummary />
+          <HeaderSummary
+            eventDate={secretSanta.eventDate}
+            name={secretSanta.eventName}
+          />
           <div className="summary__participants">
             <div className="summary__pill">
               <p>{secretSanta?.participants?.length}</p>
