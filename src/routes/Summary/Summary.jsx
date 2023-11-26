@@ -79,7 +79,10 @@ export default function Summary() {
                         : 'summary__participant--notReady'
                     }
                   >
-                    {participant.isProfilCompleted ? 'Ready !' : 'Waiting...'}
+                    {participant.isProfilCompleted ? 'Ready !' : 'Waiting'}
+                    {!participant.isProfilCompleted && (
+                      <span className="waiting-animation">...</span>
+                    )}
                   </h3>
                 </div>
               ))}
