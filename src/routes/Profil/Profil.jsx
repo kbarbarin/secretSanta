@@ -23,6 +23,7 @@ import './Profile.scss'
 
 export default function Profil() {
   const [userData, setUserData] = useState(null)
+  const [sessionData, setSessionData] = useState([])
   const [loader, setLoader] = useState(true)
 
   const navigate = useNavigate()
@@ -36,15 +37,12 @@ export default function Profil() {
       try {
         const userUid = auth.currentUser.uid
         const data = await getUserData(userUid)
-
-        const data2 = await getSessionData()
-        console.log('Session ID:', data2)
-
-        setUserData(data)
-        setLoader(false)
+        await getSessionData(data.secretSantaSessionId)
       } catch (error) {
         console.error("Can't fetch data", error)
       }
+      console.log(sessionData);
+      setLoader(false)
     }
 
     fetchData()
@@ -60,27 +58,31 @@ export default function Profil() {
     querySnapshot.forEach((doc) => {
       userDataBuff.push({ id: doc.id, ...doc.data() })
     })
-    return userDataBuff
+    setUserData(userDataBuff[0])
+    return userDataBuff[0]
   }
-  const getSessionData = async (sessionId) => {
-    const sessionRef = collection(db, 'secretSanta')
-    const sessionDocRef = doc(sessionRef, sessionId)
+  const getSessionData = async (data) => {
+    const arraybuff = [];
 
-    try {
-      const docSnapshot = await getDoc(sessionDocRef)
+    // Use map to create an array of promises
+    const promises = data.map(async (element) => {
+      const sessionRef = collection(db, 'secretSanta');
+      const sessionDocRef = doc(sessionRef, element);
+      const docSnapshot = await getDoc(sessionDocRef);
 
       if (docSnapshot.exists()) {
-        console.log(docSnapshot.data())
-        return docSnapshot.data()
+        arraybuff.push(docSnapshot.data());
       } else {
-        console.error('Error while retrieving session data')
-        return null
+        console.error('Error while retrieving session data');
       }
-    } catch (error) {
-      console.error('Error while fetching session data', error)
-      return null
-    }
-  }
+    });
+
+    // Wait for all promises to resolve
+    await Promise.all(promises);
+
+    // Update the state after all asynchronous operations are done
+    setSessionData(arraybuff);
+  };
 
   return (
     <>
@@ -94,23 +96,23 @@ export default function Profil() {
               <img src="/assets/elf.png" alt="elf" />
               <div className="profile__name">
                 <p className="profile__fname">
-                  {userData[0].name.split(' ')[0]}
+                  {userData.name.split(' ')[0]}
                 </p>
                 <Button className={'button__profile'}>Edit profile</Button>
               </div>
             </div>
-            <p className="profile__email">{userData[0].email}</p>
+            <p className="profile__email">{userData.email}</p>
             <LogoutButton />
           </div>
           <div className="sessions">
             <h2>My Secret Santa</h2>
-            {userData &&
-              userData[0]?.secretSantaSessionId.map((session, index) => (
-                <div className="sessions__recap" key={index}>
-                  <Button className="button__tertiary">{session}</Button>
-                  <FontAwesomeIcon icon={faTrash} className="sessions__icon" />
-                </div>
-              ))}
+            {sessionData?.map((session, index) => (
+              <div className="sessions__recap" key={index}>
+                <Button className="button__tertiary">{session.eventName}</Button>
+                <FontAwesomeIcon icon={faTrash} className="sessions__icon" />
+              </div>
+            ))
+            }
             <Button
               className="button__color--primary bottom"
               onClick={redirectToCreate}
