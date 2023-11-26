@@ -15,6 +15,10 @@ export default function Home() {
     navigate('/create')
   }
 
+  const handleJoinSession = () => {
+    navigate('/join')
+  }
+
   return (
     <div>
       <Outlet />
@@ -29,7 +33,10 @@ export default function Home() {
           >
             Create my Secret Santa
           </Button>
-          <Button className="button__color--secondary">
+          <Button
+            className="button__color--secondary"
+            onClick={handleJoinSession}
+          >
             Join a Secret Santa
           </Button>
         </div>
