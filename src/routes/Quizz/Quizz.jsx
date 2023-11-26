@@ -22,7 +22,6 @@ const Quizz = () => {
   }
   const fetchRecommandations = useCallback(
     async (question, response) => {
-      fetchRecommandationsCount += 1
       if (question.theme && response === 'Yes') {
         setLoading(true)
 

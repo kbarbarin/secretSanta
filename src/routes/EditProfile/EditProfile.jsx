@@ -9,8 +9,6 @@ import {
 import { doc, updateDoc } from 'firebase/firestore'
 import { db, auth } from '../../firebase/Firebase'
 
-import Input from '../../components/Input/Input'
-
 export default function EditProfile() {
   const nameRef = useRef(null)
   const emailRef = useRef(null)
@@ -31,7 +29,6 @@ export default function EditProfile() {
       const newEmail = emailRef.current.value.trim()
       const newPassword = newPasswordRef.current.value
 
-      // Demander à l'utilisateur de se réauthentifier
       const credential = EmailAuthProvider.credential(
         user.email,
         passwordRef.current.value
@@ -48,7 +45,6 @@ export default function EditProfile() {
           await updateProfile(user, { email: newEmail })
           console.log('Email updated successfully in Firebase profile.')
 
-          // Update the email in Firestore
           const userDocRef = doc(db, 'users', user.uid)
           await updateDoc(userDocRef, { email: newEmail })
           console.log('Email updated successfully in Firestore.')
@@ -56,7 +52,6 @@ export default function EditProfile() {
       }
 
       if (newPassword !== '') {
-        // Mettez à jour le mot de passe après la réauthentification
         await updatePassword(user, newPassword)
         setMessage('Mot de passe mis à jour avec succès.')
       }
@@ -77,14 +72,14 @@ export default function EditProfile() {
       <h1>Modifier le profil</h1>
 
       <form onSubmit={updateProfileDetails}>
-        <Input type="text" placeholder="Nouveau nom" ref={nameRef} />
-        <Input type="email" placeholder="Nouvel e-mail" ref={emailRef} />
-        <Input
+        <input type="text" placeholder="Nouveau nom" ref={nameRef} />
+        <input type="email" placeholder="Nouvel e-mail" ref={emailRef} />
+        <input
           type="password"
           placeholder="Mot de passe actuel pour la ré-authentification"
           ref={passwordRef}
         />
-        <Input
+        <input
           type="password"
           placeholder="Nouveau mot de passe"
           ref={newPasswordRef}
