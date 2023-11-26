@@ -1,4 +1,4 @@
-import React, { UseRef, useRef } from 'react'
+import React, { useRef } from 'react'
 
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
