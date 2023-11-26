@@ -41,8 +41,6 @@ const routes = [
       {
         path: 'CreateSecretSanta',
         element: <CreateSecretSanta />,
-        path: '/forgottenpassword',
-        element: <ForgottenPassword />,
         errorElement: <ErrorPage />,
       },
       {
@@ -122,6 +120,11 @@ const routes = [
         <Profil />
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/forgottenpassword',
+    element: <ForgottenPassword />,
     errorElement: <ErrorPage />,
   },
 ]
