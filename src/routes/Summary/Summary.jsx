@@ -12,6 +12,7 @@ export default function Summary() {
   const { id, userid } = useParams()
   const [secretSanta, setSecretSanta] = useState({})
   const [ready, setReady] = useState(0);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     const getSecretSanta = async () => {
@@ -22,11 +23,16 @@ export default function Summary() {
       console.log(querySnapshot.docs[0].data());
       console.log(querySnapshot.docs[0].data()?.participants?.filter(obj => obj.isProfilCompleted === true));
       setReady(querySnapshot.docs[0].data()?.participants?.filter(obj => obj.isProfilCompleted === true));
+      setLoader(false);
     }
     getSecretSanta()
   }, [])
 
   return (
+    <>
+    {loader ? 
+      <p>loading</p>
+    :
     <div className="summary">
       <HeaderCard
         mainTitle={secretSanta?.eventName}
@@ -54,13 +60,14 @@ export default function Summary() {
         <h1>Elf invited:</h1>
         <img src="/assets/elf.png" alt="elf" />
         {secretSanta?.participants?.map((participant) => (
-          <div>
+          <div key={participant.id}>
             <h2>{participant.name}</h2>
             <h2>{participant.isProfilCompleted ? 'Ready !' : 'Wainting...'}</h2>
           </div>
         ))}
       </div>
-      {ready.length && <p>We are waiting for everyone to join the event!</p>}
+      {ready.length !== secretSanta.participants.length && <p>We are waiting for everyone to join the event!</p>}
     </div>
+}</>
   )
 }
