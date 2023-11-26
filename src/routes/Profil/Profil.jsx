@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 import {
   collection,
@@ -9,7 +9,9 @@ import {
   where,
   getDoc,
   doc,
-} from 'firebase/firestore'
+  deleteDoc,
+  updateDoc
+} from 'firebase/firestore';
 
 import { db, auth } from '../../firebase/Firebase'
 
@@ -84,6 +86,57 @@ export default function Profil() {
     setSessionData(arraybuff);
   };
 
+  const deleteSessionIdFromUser = async (sessionId) => {
+    try {
+      const usersCollection = collection(db, 'users');
+      const querySnapshot = await getDocs(
+        query(usersCollection, where('uid', '==', auth.currentUser.uid))
+      );
+  
+      // Get the user document
+      const userDoc = querySnapshot.docs[0];
+  
+      if (userDoc) {
+        // Update the user document to remove the session ID
+        const userRef = doc(usersCollection, userDoc.id);
+        const updatedSessionIds = userDoc.data().secretSantaSessionId.filter((id) => id !== sessionId);
+  
+        await updateDoc(userRef, { secretSantaSessionId: updatedSessionIds });
+      } else {
+        console.error('User not found for updating session ID');
+      }
+    } catch (error) {
+      console.error('Error updating user document:', error);
+    }
+  };
+
+  const deleteSession = async (sessionId) => {
+    try {
+      // Delete the session from Firebase
+      const sessionRef = collection(db, 'secretSanta');
+      const sessionDocRef = query(sessionRef, where('id', '==', sessionId));
+      const querySnapshot = await getDocs(sessionDocRef);
+  
+        const docToDelete = querySnapshot.docs[0];
+        await deleteDoc(docToDelete.ref);  
+      // Update the state to remove the deleted session
+      const updatedSessionData = sessionData.filter(
+        (session) => session.id !== sessionId
+      );
+      await deleteSessionIdFromUser(docToDelete.id);
+      setSessionData(updatedSessionData);
+    } catch (error) {
+      console.error('Error deleting session:', error);
+    }
+  };
+  
+
+  const openSecretSanta = (index) => {
+    const sessionId = sessionData[index].id;
+    const userId = sessionData[index].participants[0].id
+    navigate(`/summary/${sessionId}/${userId}`);
+  }
+
   return (
     <>
       {loader ? (
@@ -107,9 +160,9 @@ export default function Profil() {
           <div className="sessions">
             <h2>My Secret Santa</h2>
             {sessionData?.map((session, index) => (
-              <div className="sessions__recap" key={index}>
-                <Button className="button__tertiary">{session.eventName}</Button>
-                <FontAwesomeIcon icon={faTrash} className="sessions__icon" />
+              <div className="sessions__recap" key={session.id}>
+                <Button onClick={() => {openSecretSanta(index)}} className="button__tertiary">{session.eventName}</Button>
+                <FontAwesomeIcon icon={faTrash} className="sessions__icon" onClick={() => deleteSession(session.id)} />
               </div>
             ))
             }
