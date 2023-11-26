@@ -42,6 +42,7 @@
         background-color: $secondary-color;
         border-radius: 20px;
         color: $primary-color;
+        margin-bottom: 50px;
 
         &>p {
             margin: 0;
@@ -50,6 +51,45 @@
         &>p:first-child {
             font-weight: 500;
             margin-bottom: 10px;
+        }
+    }
+
+    &__invited {
+        text-align: left;
+        padding: 0 20px;
+        color: $secondary-color;
+        margin-bottom: 50px;
+    }
+
+    &__recap {
+        text-align: center;
+    }
+
+    &__participant {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &--ready {
+            color: $tertiary-color;
+        }
+
+        &--notReady {
+            color: $secondary-color;
+        }
+
+    }
+
+    &__pName::first-letter {
+        text-transform: uppercase;
+    }
+
+    &__sentence {
+        padding-bottom: 44px;
+        color: $secondary-color;
+
+        & b {
+            color: $tertiary-color;
         }
     }
 

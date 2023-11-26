@@ -62,20 +62,30 @@ export default function Summary() {
             <p className="summary__descTitle">Description:</p>
             <p className="summary__descContent">{secretSanta?.eventDesc}</p>
           </div>
-          <div className='"summary_invited'>
+          <div className="summary__invited">
             <h2>Elf invited:</h2>
-            <img src="/assets/elf.png" alt="elf" />
-            {secretSanta?.participants?.map((participant) => (
-              <div key={participant.id}>
-                <h2>{participant.name}</h2>
-                <h2>
-                  {participant.isProfilCompleted ? 'Ready !' : 'Wainting...'}
-                </h2>
-              </div>
-            ))}
+            <div className="summary__recap">
+              <img src="/assets/elf.png" alt="elf" />
+              {secretSanta?.participants?.map((participant) => (
+                <div key={participant.id} className="summary__participant">
+                  <h3 className="summary__pName">{participant.name}</h3>
+                  <h3
+                    className={
+                      participant.isProfilCompleted
+                        ? 'summary__participant--ready'
+                        : 'summary__participant--notReady'
+                    }
+                  >
+                    {participant.isProfilCompleted ? 'Ready !' : 'Waiting...'}
+                  </h3>
+                </div>
+              ))}
+            </div>
           </div>
           {ready.length !== secretSanta.participants.length && (
-            <p>We are waiting for everyone to join the event!</p>
+            <p className="summary__sentence">
+              We are waiting for <b>everyone</b> to join the event!
+            </p>
           )}
         </div>
       )}
