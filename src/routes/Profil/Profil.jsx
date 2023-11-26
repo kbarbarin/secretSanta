@@ -48,7 +48,7 @@ export default function Profil() {
     }
 
     fetchData()
-  }, [])
+  }, [sessionData])
 
   const getUserData = async (userUid) => {
     const usersCollection = collection(db, 'users')
