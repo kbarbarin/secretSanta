@@ -2,7 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  getDoc,
+  doc,
+} from 'firebase/firestore'
 
 import { db, auth } from '../../firebase/Firebase'
 
@@ -18,7 +25,6 @@ export default function Profil() {
   const [userData, setUserData] = useState(null)
   const [loader, setLoader] = useState(true)
 
-  const sessions = ['mon ss 1', 'mon ss 2', 'mon ss 3']
   const navigate = useNavigate()
 
   const redirectToCreate = () => {
@@ -30,6 +36,10 @@ export default function Profil() {
       try {
         const userUid = auth.currentUser.uid
         const data = await getUserData(userUid)
+
+        const data2 = await getSessionData()
+        console.log('Session ID:', data2)
+
         setUserData(data)
         setLoader(false)
       } catch (error) {
@@ -50,8 +60,26 @@ export default function Profil() {
     querySnapshot.forEach((doc) => {
       userDataBuff.push({ id: doc.id, ...doc.data() })
     })
-
     return userDataBuff
+  }
+  const getSessionData = async (sessionId) => {
+    const sessionRef = collection(db, 'secretSanta')
+    const sessionDocRef = doc(sessionRef, sessionId)
+
+    try {
+      const docSnapshot = await getDoc(sessionDocRef)
+
+      if (docSnapshot.exists()) {
+        console.log(docSnapshot.data())
+        return docSnapshot.data()
+      } else {
+        console.error('Error while retrieving session data')
+        return null
+      }
+    } catch (error) {
+      console.error('Error while fetching session data', error)
+      return null
+    }
   }
 
   return (
@@ -73,16 +101,16 @@ export default function Profil() {
             </div>
             <p className="profile__email">{userData[0].email}</p>
             <LogoutButton />
-            {/* {LogoutButton()} // Il faut l'utiliser comme un composant */}
           </div>
           <div className="sessions">
             <h2>My Secret Santa</h2>
-            {sessions.map((session, index) => (
-              <div className="sessions__recap" key={index}>
-                <Button className="button__tertiary">{session}</Button>
-                <FontAwesomeIcon icon={faTrash} className="sessions__icon" />
-              </div>
-            ))}
+            {userData &&
+              userData[0]?.secretSantaSessionId.map((session, index) => (
+                <div className="sessions__recap" key={index}>
+                  <Button className="button__tertiary">{session}</Button>
+                  <FontAwesomeIcon icon={faTrash} className="sessions__icon" />
+                </div>
+              ))}
             <Button
               className="button__color--primary bottom"
               onClick={redirectToCreate}
