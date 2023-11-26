@@ -1,8 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  getDoc,
+  doc,
+  deleteDoc,
+  updateDoc
+} from 'firebase/firestore';
 
 import { db, auth } from '../../firebase/Firebase'
 
@@ -16,9 +25,9 @@ import './Profile.scss'
 
 export default function Profil() {
   const [userData, setUserData] = useState(null)
+  const [sessionData, setSessionData] = useState([])
   const [loader, setLoader] = useState(true)
 
-  const sessions = ['mon ss 1', 'mon ss 2', 'mon ss 3']
   const navigate = useNavigate()
 
   const redirectToCreate = () => {
@@ -30,15 +39,16 @@ export default function Profil() {
       try {
         const userUid = auth.currentUser.uid
         const data = await getUserData(userUid)
-        setUserData(data)
-        setLoader(false)
+        await getSessionData(data.secretSantaSessionId)
       } catch (error) {
         console.error("Can't fetch data", error)
       }
+      console.log(sessionData);
+      setLoader(false)
     }
 
     fetchData()
-  }, [])
+  }, [sessionData])
 
   const getUserData = async (userUid) => {
     const usersCollection = collection(db, 'users')
@@ -50,8 +60,81 @@ export default function Profil() {
     querySnapshot.forEach((doc) => {
       userDataBuff.push({ id: doc.id, ...doc.data() })
     })
+    setUserData(userDataBuff[0])
+    return userDataBuff[0]
+  }
+  const getSessionData = async (data) => {
+    const arraybuff = [];
 
-    return userDataBuff
+    // Use map to create an array of promises
+    const promises = data.map(async (element) => {
+      const sessionRef = collection(db, 'secretSanta');
+      const sessionDocRef = doc(sessionRef, element);
+      const docSnapshot = await getDoc(sessionDocRef);
+
+      if (docSnapshot.exists()) {
+        arraybuff.push(docSnapshot.data());
+      } else {
+        console.error('Error while retrieving session data');
+      }
+    });
+
+    // Wait for all promises to resolve
+    await Promise.all(promises);
+
+    // Update the state after all asynchronous operations are done
+    setSessionData(arraybuff);
+  };
+
+  const deleteSessionIdFromUser = async (sessionId) => {
+    try {
+      const usersCollection = collection(db, 'users');
+      const querySnapshot = await getDocs(
+        query(usersCollection, where('uid', '==', auth.currentUser.uid))
+      );
+  
+      // Get the user document
+      const userDoc = querySnapshot.docs[0];
+  
+      if (userDoc) {
+        // Update the user document to remove the session ID
+        const userRef = doc(usersCollection, userDoc.id);
+        const updatedSessionIds = userDoc.data().secretSantaSessionId.filter((id) => id !== sessionId);
+  
+        await updateDoc(userRef, { secretSantaSessionId: updatedSessionIds });
+      } else {
+        console.error('User not found for updating session ID');
+      }
+    } catch (error) {
+      console.error('Error updating user document:', error);
+    }
+  };
+
+  const deleteSession = async (sessionId) => {
+    try {
+      // Delete the session from Firebase
+      const sessionRef = collection(db, 'secretSanta');
+      const sessionDocRef = query(sessionRef, where('id', '==', sessionId));
+      const querySnapshot = await getDocs(sessionDocRef);
+  
+        const docToDelete = querySnapshot.docs[0];
+        await deleteDoc(docToDelete.ref);  
+      // Update the state to remove the deleted session
+      const updatedSessionData = sessionData.filter(
+        (session) => session.id !== sessionId
+      );
+      await deleteSessionIdFromUser(docToDelete.id);
+      setSessionData(updatedSessionData);
+    } catch (error) {
+      console.error('Error deleting session:', error);
+    }
+  };
+  
+
+  const openSecretSanta = (index) => {
+    const sessionId = sessionData[index].id;
+    const userId = sessionData[index].participants[0].id
+    navigate(`/summary/${sessionId}/${userId}`);
   }
 
   return (
@@ -66,23 +149,23 @@ export default function Profil() {
               <img src="/assets/elf.png" alt="elf" />
               <div className="profile__name">
                 <p className="profile__fname">
-                  {userData[0].name.split(' ')[0]}
+                  {userData.name.split(' ')[0]}
                 </p>
                 <Button className={'button__profile'}>Edit profile</Button>
               </div>
             </div>
-            <p className="profile__email">{userData[0].email}</p>
+            <p className="profile__email">{userData.email}</p>
             <LogoutButton />
-            {/* {LogoutButton()} // Il faut l'utiliser comme un composant */}
           </div>
           <div className="sessions">
             <h2>My Secret Santa</h2>
-            {sessions.map((session, index) => (
-              <div className="sessions__recap" key={index}>
-                <Button className="button__tertiary">{session}</Button>
-                <FontAwesomeIcon icon={faTrash} className="sessions__icon" />
+            {sessionData?.map((session, index) => (
+              <div className="sessions__recap" key={session.id}>
+                <Button onClick={() => {openSecretSanta(index)}} className="button__tertiary">{session.eventName}</Button>
+                <FontAwesomeIcon icon={faTrash} className="sessions__icon" onClick={() => deleteSession(session.id)} />
               </div>
-            ))}
+            ))
+            }
             <Button
               className="button__color--primary bottom"
               onClick={redirectToCreate}
