@@ -1,71 +1,97 @@
-import React, { useEffect, useState } from 'react'
-
-import { useNavigate } from 'react-router-dom'
-
-import Button from '../../components/Button/Button'
-import LogoutButton from '../LogOut/Logout'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
-
-import { onAuthStateChanged } from 'firebase/auth'
-import { doc, getDoc } from 'firebase/firestore'
+import React, { useRef, useState } from 'react'
+import {
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+  updateProfile,
+} from 'firebase/auth'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db, auth } from '../../firebase/Firebase'
 
-import './Profile.scss'
+import Input from '../../components/Input/Input'
 
-export default function Profil() {
-  const sessions = ['mon ss 1', 'mon ss 2', 'mon ss 3']
-  const navigate = useNavigate()
-  const [userName, setUserName] = useState('')
-  const [userEmail, setUserEmail] = useState('')
+export default function EditProfile() {
+  const nameRef = useRef(null)
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
+  const newPasswordRef = useRef(null)
+  const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
+  const updateProfileDetails = async (e) => {
+    e.preventDefault()
+
+    const user = auth.currentUser
+
+    try {
+      setLoading(true)
+
+      const newName = nameRef.current.value.trim()
+      const newEmail = emailRef.current.value.trim()
+      const newPassword = newPasswordRef.current.value
+
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        passwordRef.current.value
+      )
+      await reauthenticateWithCredential(user, credential)
+
+      if (newName !== '') {
         const userDocRef = doc(db, 'users', user.uid)
-        const userDoc = await getDoc(userDocRef)
-        if (userDoc.exists()) {
-          setUserName(userDoc.data().name)
-          setUserEmail(userDoc.data().email)
+        await updateDoc(userDocRef, { name: newName })
+        setMessage('Nom mis à jour avec succès.')
+      }
+      if (newEmail !== '') {
+        if (newEmail !== user.email) {
+          await updateProfile(user, { email: newEmail })
+          console.log('Email updated successfully in Firebase profile.')
+
+          const userDocRef = doc(db, 'users', user.uid)
+          await updateDoc(userDocRef, { email: newEmail })
+          console.log('Email updated successfully in Firestore.')
         }
       }
-    })
-    return () => unsubscribe()
-  }, [])
 
-  const redirectToCreate = () => {
-    navigate('/create')
+      if (newPassword !== '') {
+        await updatePassword(user, newPassword)
+        setMessage('Mot de passe mis à jour avec succès.')
+      }
+
+      setMessage('Profil mis à jour avec succès')
+    } catch (error) {
+      console.error("Code d'erreur:", error.code)
+      console.error("Message d'erreur:", error.message)
+
+      setMessage(`Erreur lors de la mise à jour du profil : ${error.message}`)
+    } finally {
+      setLoading(false)
+    }
   }
+
   return (
-    <div className="profile">
-      <h1>My profile</h1>
-      <div className="profile__container">
-        <div className="profile__infos">
-          <img src="/assets/elf.png" alt="elf" />
-          <div className="profile__name">
-            <p className="profile__fname">{userName}</p>
-            <Button className={'button__profile'}>Edit profile</Button>
-          </div>
-        </div>
-        <p className="profile__email">{userEmail}</p>
-        {LogoutButton()}
-      </div>
-      <div className="sessions">
-        <h2>My Secret Santa</h2>
-        {sessions.map((session, index) => (
-          <div className="sessions__recap" key={index}>
-            <Button className="button__tertiary">{session}</Button>
-            <FontAwesomeIcon icon={faTrash} className="sessions__icon" />
-          </div>
-        ))}
-        <Button
-          className="button__color--primary bottom"
-          onClick={redirectToCreate}
-        >
-          Create a Secret Santa
-        </Button>
-      </div>
+    <div>
+      <h1>Modifier le profil</h1>
+
+      <form onSubmit={updateProfileDetails}>
+        <Input type="text" placeholder="Nouveau nom" inputRef={nameRef} />
+        <Input type="email" placeholder="Nouvel e-mail" inputRef={emailRef} />
+        <Input
+          type="password"
+          placeholder="Mot de passe actuel pour la ré-authentification"
+          inputRef={passwordRef}
+        />
+        <Input
+          type="password"
+          placeholder="Nouveau mot de passe"
+          inputRef={newPasswordRef}
+        />
+
+        <button type="submit" disabled={loading}>
+          Mettre à jour le profil
+        </button>
+      </form>
+
+      {message && <p>{message}</p>}
     </div>
   )
 }
