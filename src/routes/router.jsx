@@ -17,6 +17,7 @@ import PrivateRoute from './PrivateRoute/PrivateRoute'
 import Quizz from './Quizz/Quizz'
 import GiftIdeas from './GiftIdeas/GiftIdeas'
 import Profil from './Profil/Profil'
+import EditProfile from './EditProfile/EditProfile'
 
 const routes = [
   {
@@ -41,7 +42,7 @@ const routes = [
       },
       {
         path: '/join',
-        element: <Join />
+        element: <Join />,
       },
       {
         path: 'quizz',
@@ -74,6 +75,7 @@ const routes = [
           </PrivateRoute>
         ),
       },
+      { path: '/modification', element: <EditProfile /> },
     ],
   },
   {
