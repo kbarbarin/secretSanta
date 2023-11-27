@@ -1,0 +1,58 @@
+@import '../../style/variables';
+
+.ejectSomeonePage {
+  text-align: center;
+  color: $secondary-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 4rem;
+
+  .noEject {
+    box-shadow: 0px 0px 18px 0px rgba(0, 0, 0, 0.08);
+    background-color: $tertiary-color;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    padding: 0.5rem 0;
+    font-size: 1.2rem;
+    font-family: 'Poppins';
+    margin-top: 2rem;
+    color: #d61920;
+    cursor: pointer;
+    transition: 0.2s;
+    &:hover {
+      background-color: #b11419;
+      color: $tertiary-color;
+    }
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 1rem;
+
+    button {
+      border-radius: 6px;
+      background-color: #bd151c;
+      border: none;
+      color: $secondary-color;
+      font-family: 'Poppins';
+      padding: 0.5rem 0;
+      font-size: 1.2rem;
+      box-shadow: 0px 0px 18px 0px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        background-color: #b11419;
+      }
+    }
+  }
+}

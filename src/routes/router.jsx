@@ -17,6 +17,7 @@ import PrivateRoute from './PrivateRoute/PrivateRoute'
 import Quizz from './Quizz/Quizz'
 import GiftIdeas from './GiftIdeas/GiftIdeas'
 import Profil from './Profil/Profil'
+import EjectSomeone from './EjectSomeone/EjectSomeone'
 import EditProfile from './EditProfile/EditProfile'
 
 const routes = [
@@ -100,6 +101,11 @@ const routes = [
   {
     path: '/termsofuse',
     element: <TermsOfUse />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/ejectsomeone',
+    element: <EjectSomeone />,
     errorElement: <ErrorPage />,
   },
 ]
