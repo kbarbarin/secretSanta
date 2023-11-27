@@ -20,6 +20,13 @@ function TermsOfUse() {
           non-commercial use. You agree not to use the site for any illegal or
           prohibited purposes under these terms.
         </li>
+        <li>
+          <strong>Intellectual Property</strong>
+          <br />
+          The content of the site, including but not limited to text, graphics,
+          logos, images, audio and video clips, is the exclusive property of
+          Ho-Ho! and is protected by intellectual property laws.
+        </li>
       </ul>
     </div>
   )
