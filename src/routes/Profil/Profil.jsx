@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 import {
   collection,
@@ -10,8 +10,8 @@ import {
   getDoc,
   doc,
   deleteDoc,
-  updateDoc
-} from 'firebase/firestore';
+  updateDoc,
+} from 'firebase/firestore'
 
 import { db, auth } from '../../firebase/Firebase'
 
@@ -39,16 +39,18 @@ export default function Profil() {
       try {
         const userUid = auth.currentUser.uid
         const data = await getUserData(userUid)
-        await getSessionData(data.secretSantaSessionId)
+        const newSessionData = await getSessionData(data.secretSantaSessionId)
+
+        setSessionData(() => newSessionData)
       } catch (error) {
         console.error("Can't fetch data", error)
       }
-      console.log(sessionData);
+
       setLoader(false)
     }
 
     fetchData()
-  }, [sessionData])
+  }, [])
 
   const getUserData = async (userUid) => {
     const usersCollection = collection(db, 'users')
@@ -64,77 +66,75 @@ export default function Profil() {
     return userDataBuff[0]
   }
   const getSessionData = async (data) => {
-    const arraybuff = [];
+    const arraybuff = []
 
-    // Use map to create an array of promises
     const promises = data.map(async (element) => {
-      const sessionRef = collection(db, 'secretSanta');
-      const sessionDocRef = doc(sessionRef, element);
-      const docSnapshot = await getDoc(sessionDocRef);
+      const sessionRef = collection(db, 'secretSanta')
+      const sessionDocRef = doc(sessionRef, element)
+      const docSnapshot = await getDoc(sessionDocRef)
 
       if (docSnapshot.exists()) {
-        arraybuff.push(docSnapshot.data());
+        arraybuff.push(docSnapshot.data())
       } else {
-        console.error('Error while retrieving session data');
+        console.error('Error while retrieving session data')
       }
-    });
+    })
 
-    // Wait for all promises to resolve
-    await Promise.all(promises);
+    await Promise.all(promises)
 
-    // Update the state after all asynchronous operations are done
-    setSessionData(arraybuff);
-  };
+    return arraybuff
+  }
 
   const deleteSessionIdFromUser = async (sessionId) => {
     try {
-      const usersCollection = collection(db, 'users');
+      const usersCollection = collection(db, 'users')
       const querySnapshot = await getDocs(
         query(usersCollection, where('uid', '==', auth.currentUser.uid))
-      );
-  
+      )
+
       // Get the user document
-      const userDoc = querySnapshot.docs[0];
-  
+      const userDoc = querySnapshot.docs[0]
+
       if (userDoc) {
         // Update the user document to remove the session ID
-        const userRef = doc(usersCollection, userDoc.id);
-        const updatedSessionIds = userDoc.data().secretSantaSessionId.filter((id) => id !== sessionId);
-  
-        await updateDoc(userRef, { secretSantaSessionId: updatedSessionIds });
+        const userRef = doc(usersCollection, userDoc.id)
+        const updatedSessionIds = userDoc
+          .data()
+          .secretSantaSessionId.filter((id) => id !== sessionId)
+
+        await updateDoc(userRef, { secretSantaSessionId: updatedSessionIds })
       } else {
-        console.error('User not found for updating session ID');
+        console.error('User not found for updating session ID')
       }
     } catch (error) {
-      console.error('Error updating user document:', error);
+      console.error('Error updating user document:', error)
     }
-  };
+  }
 
   const deleteSession = async (sessionId) => {
     try {
       // Delete the session from Firebase
-      const sessionRef = collection(db, 'secretSanta');
-      const sessionDocRef = query(sessionRef, where('id', '==', sessionId));
-      const querySnapshot = await getDocs(sessionDocRef);
-  
-        const docToDelete = querySnapshot.docs[0];
-        await deleteDoc(docToDelete.ref);  
+      const sessionRef = collection(db, 'secretSanta')
+      const sessionDocRef = query(sessionRef, where('id', '==', sessionId))
+      const querySnapshot = await getDocs(sessionDocRef)
+
+      const docToDelete = querySnapshot.docs[0]
+      await deleteDoc(docToDelete.ref)
       // Update the state to remove the deleted session
       const updatedSessionData = sessionData.filter(
         (session) => session.id !== sessionId
-      );
-      await deleteSessionIdFromUser(docToDelete.id);
-      setSessionData(updatedSessionData);
+      )
+      await deleteSessionIdFromUser(docToDelete.id)
+      setSessionData(updatedSessionData)
     } catch (error) {
-      console.error('Error deleting session:', error);
+      console.error('Error deleting session:', error)
     }
-  };
-  
+  }
 
   const openSecretSanta = (index) => {
-    const sessionId = sessionData[index].id;
+    const sessionId = sessionData[index].id
     const userId = sessionData[index].participants[0].id
-    navigate(`/summary/${sessionId}/${userId}`);
+    navigate(`/summary/${sessionId}/${userId}`)
   }
 
   return (
@@ -148,9 +148,7 @@ export default function Profil() {
             <div className="profile__infos">
               <img src="/assets/elf.png" alt="elf" />
               <div className="profile__name">
-                <p className="profile__fname">
-                  {userData.name.split(' ')[0]}
-                </p>
+                <p className="profile__fname">{userData.name.split(' ')[0]}</p>
                 <Button className={'button__profile'}>Edit profile</Button>
               </div>
             </div>
@@ -161,11 +159,21 @@ export default function Profil() {
             <h2>My Secret Santa</h2>
             {sessionData?.map((session, index) => (
               <div className="sessions__recap" key={session.id}>
-                <Button onClick={() => {openSecretSanta(index)}} className="button__tertiary">{session.eventName}</Button>
-                <FontAwesomeIcon icon={faTrash} className="sessions__icon" onClick={() => deleteSession(session.id)} />
+                <Button
+                  onClick={() => {
+                    openSecretSanta(index)
+                  }}
+                  className="button__tertiary"
+                >
+                  {session.eventName}
+                </Button>
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  className="sessions__icon"
+                  onClick={() => deleteSession(session.id)}
+                />
               </div>
-            ))
-            }
+            ))}
             <Button
               className="button__color--primary bottom"
               onClick={redirectToCreate}
