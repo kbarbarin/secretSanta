@@ -3,9 +3,15 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   updatePassword,
-  updateProfile,
 } from 'firebase/auth'
-import { doc, setDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore'
 import { db, auth } from '../../firebase/Firebase'
 
 import Input from '../../components/Input/Input'
@@ -14,7 +20,6 @@ import './EditProfile.scss'
 
 export default function EditProfile() {
   const nameRef = useRef(null)
-  const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const newPasswordRef = useRef(null)
   const [message, setMessage] = useState('')
@@ -29,7 +34,6 @@ export default function EditProfile() {
       setLoading(true)
 
       const newName = nameRef.current.value.trim()
-      const newEmail = emailRef.current.value.trim()
       const newPassword = newPasswordRef.current.value
 
       const credential = EmailAuthProvider.credential(
@@ -39,19 +43,22 @@ export default function EditProfile() {
       await reauthenticateWithCredential(user, credential)
 
       if (newName !== '') {
-        const userDocRef = doc(db, 'users', user.uid)
-        await setDoc(userDocRef, { name: newName }, { merge: true })
-        setMessage('Nom mis à jour avec succès.')
-      }
-      if (newEmail !== '') {
-        if (newEmail !== user.email) {
-          await updateProfile(user, { email: newEmail })
-          console.log('Email updated successfully in Firebase profile.')
+        // Requête pour obtenir l'ID du document de l'utilisateur
+        const q = query(
+          collection(db, 'users'),
+          where('email', '==', user.email)
+        )
+        const querySnapshot = await getDocs(q)
+        let userId
+        querySnapshot.forEach((doc) => {
+          // doc.data() est jamais undefined pour les requêtes de documents
+          console.log(doc.id, ' => ', doc.data())
+          userId = doc.id
+        })
 
-          const userDocRef = doc(db, 'users', user.uid)
-          await setDoc(userDocRef, { email: newEmail }, { merge: true })
-          console.log('Email updated successfully in Firestore.')
-        }
+        const userDocRef = doc(db, 'users', userId)
+        await updateDoc(userDocRef, { name: newName })
+        setMessage('Nom mis à jour avec succès.')
       }
 
       if (newPassword !== '') {
@@ -71,14 +78,12 @@ export default function EditProfile() {
   }
 
   return (
-    <div className='edit'>
+    <div className="edit">
       <h1>Edit Profile</h1>
       <img src="/assets/elf.png" alt="elf" />
       <form onSubmit={updateProfileDetails}>
         <h2>Name</h2>
         <Input type="text" placeholder="Nouveau nom" inputRef={nameRef} />
-        <h2>Email</h2>
-        <Input type="email" placeholder="Nouvel e-mail" inputRef={emailRef} />
         <h2>Old password</h2>
         <Input
           type="password"
