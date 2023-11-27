@@ -1,9 +1,5 @@
 import React, { useRef } from 'react'
 
-import { collection, getDocs, query, where } from 'firebase/firestore'
-
-import { db } from '../../firebase/Firebase'
-
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
@@ -25,7 +21,7 @@ export default function Join() {
     }
 
     const [firstPart, secondPart] = splitString(sessionIdRef.current.value);
-    navigate(`/summury/${firstPart}/${secondPart}`)
+    navigate(`/summary/${firstPart}/${secondPart}`)
   }
 
   return (
