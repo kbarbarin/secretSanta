@@ -3,13 +3,14 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   updatePassword,
-  updateEmail,
   updateProfile,
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { db, auth } from '../../firebase/Firebase'
 
 import Input from '../../components/Input/Input'
+
+import './EditProfile.scss'
 
 export default function EditProfile() {
   const nameRef = useRef(null)
@@ -70,29 +71,29 @@ export default function EditProfile() {
   }
 
   return (
-    <div>
-      <h1>Modifier le profil</h1>
-
+    <div className='edit'>
+      <h1>Edit Profile</h1>
+      <img src="/assets/elf.png" alt="elf" />
       <form onSubmit={updateProfileDetails}>
+        <h2>Name</h2>
         <Input type="text" placeholder="Nouveau nom" inputRef={nameRef} />
+        <h2>Email</h2>
         <Input type="email" placeholder="Nouvel e-mail" inputRef={emailRef} />
+        <h2>Old password</h2>
         <Input
           type="password"
           placeholder="Mot de passe actuel pour la ré-authentification"
           inputRef={passwordRef}
         />
+        <h2>New Password</h2>
         <Input
           type="password"
           placeholder="Nouveau mot de passe"
           inputRef={newPasswordRef}
         />
-
-        <button type="submit" disabled={loading}>
-          Mettre à jour le profil
-        </button>
+        {message && <p>{message}</p>}
+        <input type="submit" value="EDIT MY PROFILE" />
       </form>
-
-      {message && <p>{message}</p>}
     </div>
   )
 }
