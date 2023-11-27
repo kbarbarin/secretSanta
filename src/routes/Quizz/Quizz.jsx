@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/Firebase'
 import { questions } from '../../datas/questions'
-
 import './Quizz.scss'
 import GeaftIdeas from '../GiftIdeas/GiftIdeas'
 
@@ -17,64 +16,61 @@ const Quizz = () => {
   const [showPriceRange, setShowPriceRange] = useState(false)
   const [priceRange, setPriceRange] = useState(null)
 
-  // Function to check if a question is a category question
   const isCategoryQuestion = (question) => {
     return !question.theme
   }
 
-  // Function to get recommendations data
-  const getRecommandationsData = async (q) => {
-    const snapshot = await getDocs(q)
-    return snapshot.docs.map((doc) => {
-      const data = doc.data()
-      return {
-        ...data,
-        priceRange: sliderValue,
-      }
-    })
-  }
-
-  // Function to build the query
-  const buildQuery = (question) => {
-    return query(
-      collection(db, 'product'),
-      where('category', '==', question.category),
-      where('theme', '==', question.theme),
-      where('price', '<=', sliderValue)
-    )
-  }
-
-  // Function to fetch recommendations
   const fetchRecommandations = useCallback(
     async (question, response) => {
-      if (question.theme && response === 'Yes') {
+      const getRecommandationsData = async (q) => {
+        const snapshot = await getDocs(q)
+        return snapshot.docs.map((doc) => {
+          const data = doc.data()
+          return {
+            ...data,
+            priceRange: sliderValue,
+          }
+        })
+      }
+
+      const buildQuery = (question) => {
+        return query(
+          collection(db, 'product'),
+          where('category', '==', question.category),
+          where('theme', '==', question.theme),
+          where('price', '<=', sliderValue)
+        )
+      }
+
+      const updateRecommandations = (recommandationsData, response) => {
+        console.log('Recommandations from Firestore:', recommandationsData)
+        setRecommandations((prevRecommandations) => [
+          ...prevRecommandations,
+          ...recommandationsData,
+        ])
+        if (currentQuestionIndex === questions.length - 1) {
+          setShowRecommendations(true)
+        }
+        if (!showPriceRange) {
+          setPriceRange(sliderValue)
+          setShowPriceRange(true)
+        }
+      }
+
+      try {
         setLoading(true)
         const q = buildQuery(question)
         const recommandationsData = await getRecommandationsData(q)
         updateRecommandations(recommandationsData, response)
+      } catch (error) {
+        console.error('Error fetching recommendations:', error)
+      } finally {
         setLoading(false)
       }
     },
     [sliderValue, currentQuestionIndex, showPriceRange]
   )
 
-  // Function to update recommendations
-  const updateRecommandations = (recommandationsData, response) => {
-    console.log('Recommandations from Firestore:', recommandationsData)
-    setRecommandations((prevRecommandations) => [
-      ...prevRecommandations,
-      ...recommandationsData,
-    ])
-    if (currentQuestionIndex === questions.length - 1) {
-      setShowRecommendations(true)
-    }
-    if (!showPriceRange) {
-      setPriceRange(sliderValue)
-      setShowPriceRange(true)
-    }
-  }
-
-  // Function to get the next question index
   const getNextQuestionIndex = () => {
     if (isCategoryQuestion(questions[currentQuestionIndex])) {
       return questions.findIndex(
@@ -102,11 +98,10 @@ const Quizz = () => {
     }
   }
 
-  // Function to handle question response
   const handleQuestionResponse = (response) => {
     if (response === 'Yes') {
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1)
       fetchRecommandations(questions[currentQuestionIndex], response)
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1)
     } else {
       let nextIndex = getNextQuestionIndex()
       setCurrentQuestionIndex(nextIndex !== -1 ? nextIndex : questions.length)
@@ -118,27 +113,26 @@ const Quizz = () => {
       {loading ? (
         <p className="loading">Loading...</p>
       ) : !showRecommendations && currentQuestionIndex < questions.length ? (
-        <div className="question">
+        <div className="quizz__question">
           <h2>Quizz</h2>
-          <div className="card-question">
-            <p className="question-text">
+          <div className="quizz__cardQuestion">
+            <p className="quizz__questionText">
               {questions[currentQuestionIndex].text}
             </p>
             {questions[currentQuestionIndex].imageUrl && (
               <img
                 src={questions[currentQuestionIndex].imageUrl}
                 alt="Question"
-                style={{ width: '100px', height: '100px' }}
-                className="question-image"
+                className="quizz__questionImage"
               />
             )}
           </div>
-          <div className="response-buttons">
+          <div className="quizz__responseButtons">
             <button onClick={() => handleQuestionResponse('No')}>😵‍💫</button>
             <button onClick={() => handleQuestionResponse('Yes')}>😍</button>
           </div>
           {isCategoryQuestion(questions[currentQuestionIndex]) && (
-            <div className="price-question">
+            <div className="quizz__priceQuestion">
               <p>At what price would you like the gift to be?</p>
               <span>{sliderValue}€</span>
               <div className="slider">
@@ -149,7 +143,7 @@ const Quizz = () => {
                   step={5}
                   value={sliderValue}
                   onChange={(e) => setSliderValue(parseInt(e.target.value, 10))}
-                  className="slider-input"
+                  className="custom__input"
                 />
               </div>
             </div>
