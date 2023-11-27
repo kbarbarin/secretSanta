@@ -137,6 +137,10 @@ export default function Profil() {
     navigate(`/summary/${sessionId}/${userId}`)
   }
 
+  const handleGoModification = () => {
+    navigate('/modification')
+  }
+
   return (
     <>
       {loader ? (
@@ -149,7 +153,12 @@ export default function Profil() {
               <img src="/assets/elf.png" alt="elf" />
               <div className="profile__name">
                 <p className="profile__fname">{userData.name.split(' ')[0]}</p>
-                <Button className={'button__profile'}>Edit profile</Button>
+                <Button
+                  onClick={handleGoModification}
+                  className={'button__profile'}
+                >
+                  Edit profile
+                </Button>
               </div>
             </div>
             <p className="profile__email">{userData.email}</p>
