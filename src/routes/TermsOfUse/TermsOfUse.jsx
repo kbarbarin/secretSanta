@@ -34,6 +34,12 @@ function TermsOfUse() {
           worldwide, irrevocable, transferable, and royalty-free license to use,
           reproduce, distribute, and display this content.
         </li>
+        <li>
+          <strong>Limitation of Liability</strong>
+          <br />
+          Ho-Ho! does not guarantee the accuracy, completeness, or relevance of
+          the site's content. The use of the site is at your own risk.
+        </li>
       </ul>
     </div>
   )
