@@ -49,7 +49,7 @@ export default function Header() {
   return (
     <header>
       <nav>
-        <Back />
+        {location.pathname !== '/' && <Back />}
         {button !== '' && (
           <Button className="button__color--primary" onClick={handleNavigation}>
             {button}
