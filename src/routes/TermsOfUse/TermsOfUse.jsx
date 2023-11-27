@@ -4,7 +4,6 @@ import Back from '../../components/Back/Back'
 
 function TermsOfUse() {
   useEffect(() => {
-    console.log('Effect is running!')
     document.title = 'Explore our user agreement - Ho-Ho! 🎅🏻'
     // Scroll to the top when the component mounts
     window.scrollTo(0, 0)
