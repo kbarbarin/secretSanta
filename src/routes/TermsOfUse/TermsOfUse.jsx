@@ -27,6 +27,13 @@ function TermsOfUse() {
           logos, images, audio and video clips, is the exclusive property of
           Ho-Ho! and is protected by intellectual property laws.
         </li>
+        <li>
+          <strong>User Content</strong>
+          <br />
+          By submitting content to the site, you grant Ho-Ho! a non-exclusive,
+          worldwide, irrevocable, transferable, and royalty-free license to use,
+          reproduce, distribute, and display this content.
+        </li>
       </ul>
     </div>
   )
