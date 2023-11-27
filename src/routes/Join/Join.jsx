@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, query, where } from 'firebase/firestore'
 
 import { db } from '../../firebase/Firebase'
 
@@ -9,42 +9,23 @@ import Input from '../../components/Input/Input'
 import Button from '../../components/Button/Button'
 
 import './Join.scss'
+import { useNavigate } from 'react-router-dom'
 
 export default function Join() {
   const sessionIdRef = useRef(null)
+  const navigate = useNavigate()
 
   const handleJoinSession = async () => {
-    const enteredCode = sessionIdRef.current.value
 
-    try {
-      const participantsCollection = await getDocs(
-        collection(db, 'secretSanta')
-      )
+    function splitString(str) {
+      const firstPart = str.substring(0, 8);
+      const secondPart = str.substring(8);
 
-      participantsCollection.forEach((participantDoc) => {
-        const participantData = participantDoc.data()
-
-        console.log(participantData.participants)
-
-        if (participantData) {
-          const giftedIdeas = participantData.giftedIdeas
-
-          console.log(giftedIdeas)
-
-          const isCodeValid =
-            giftedIdeas &&
-            giftedIdeas.some((giftedIdea) => giftedIdea.id === enteredCode)
-
-          if (isCodeValid) {
-            console.log('Code valide. Faites ce que vous devez faire ici.')
-          } else {
-            console.log('Code invalide')
-          }
-        }
-      })
-    } catch (error) {
-      console.error('Erreur lors de la récupération des participants', error)
+      return [firstPart, secondPart];
     }
+
+    const [firstPart, secondPart] = splitString(sessionIdRef.current.value);
+    navigate(`/summury/${firstPart}/${secondPart}`)
   }
 
   return (
