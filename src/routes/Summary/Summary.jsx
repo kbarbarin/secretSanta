@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { /*useNavigate,*/ useParams } from 'react-router-dom'
 import { collection, where, getDocs, query } from 'firebase/firestore'
 
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
@@ -10,6 +10,7 @@ import './Summary.scss'
 
 export default function Summary() {
   const { id, userid } = useParams()
+  // const navigate = useNavigate()
   const [secretSanta, setSecretSanta] = useState({})
   const [ready, setReady] = useState(0)
   const [loader, setLoader] = useState(true)
@@ -26,17 +27,7 @@ export default function Summary() {
       const q = query(usersCollectionRef, where('id', '==', id))
       const querySnapshot = await getDocs(q)
       setSecretSanta(querySnapshot.docs[0].data())
-      console.log(querySnapshot.docs[0].data())
-      console.log(
-        querySnapshot.docs[0]
-          .data()
-          ?.participants?.filter((obj) => obj.isProfilCompleted === true)
-      )
-      setReady(
-        querySnapshot.docs[0]
-          .data()
-          ?.participants?.filter((obj) => obj.isProfilCompleted === true)
-      )
+      setReady(querySnapshot.docs[0].data()?.participants?.filter((obj) => obj.isProfilCompleted === true))
       setLoader(false)
     }
     getSecretSanta()
@@ -78,22 +69,24 @@ export default function Summary() {
               {secretSanta?.participants?.map((participant) => (
                 <div key={participant.id} className="summary__participant">
                   <h3 className="summary__pName">{participant.name}</h3>
-                  <h3
-                    className={
-                      participant.isProfilCompleted
-                        ? 'summary__participant--ready'
-                        : 'summary__participant--notReady'
-                    }
-                  >
-                    {participant.isProfilCompleted ? 'Ready !' : 'Waiting'}
-                    {!participant.isProfilCompleted && (
-                      <span className="waiting-animation">
-                        <span>.</span>
-                        <span>.</span>
-                        <span>.</span>
-                      </span>
-                    )}
-                  </h3>
+                  {participant.id === userid && !participant.isProfilCompleted ?
+                    <button /*onClick={() => navigate('/quiz)}*/ className="summary__startButton">START</button>
+                    : <h3
+                      className={
+                        participant.isProfilCompleted
+                          ? 'summary__participant--ready'
+                          : 'summary__participant--notReady'
+                      }
+                    >
+                      {participant.isProfilCompleted ? 'Ready !' : 'Waiting'}
+                      {!participant.isProfilCompleted && (
+                        <span className="waiting-animation">
+                          <span>.</span>
+                          <span>.</span>
+                          <span>.</span>
+                        </span>
+                      )}
+                    </h3>}
                 </div>
               ))}
             </div>

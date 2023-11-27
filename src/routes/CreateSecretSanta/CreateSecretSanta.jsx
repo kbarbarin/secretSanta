@@ -6,7 +6,6 @@ import { db, auth } from '../../firebase/Firebase'
 
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import Input from '../../components/Input/Input'
-import Button from '../../components/Button/Button'
 import emailjs from '@emailjs/browser';
 
 
@@ -251,7 +250,6 @@ export default function CreateSecretSanta() {
           ))}
         </div>
         <button type="submit" className='form__button'>Create</button>
-        <Button />
       </form>
     </div>
   )
