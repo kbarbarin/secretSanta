@@ -41,6 +41,8 @@ const routes = [
       {
         path: 'CreateSecretSanta',
         element: <CreateSecretSanta />,
+      },
+      {
         path: '/forgottenpassword',
         element: <ForgottenPassword />,
         errorElement: <ErrorPage />,
