@@ -1,4 +1,7 @@
 import React, { useRef, useState } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+
 import {
   reauthenticateWithCredential,
   EmailAuthProvider,
@@ -24,6 +27,8 @@ export default function EditProfile() {
   const newPasswordRef = useRef(null)
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const navigate = useNavigate()
 
   const updateProfileDetails = async (e) => {
     e.preventDefault()
@@ -77,28 +82,40 @@ export default function EditProfile() {
     }
   }
 
+  const handleRedirectionToProfile = () => {
+    navigate('/profile')
+  }
   return (
     <div className="edit">
       <h1>Edit Profile</h1>
-      <img src="/assets/elf.png" alt="elf" />
-      <form onSubmit={updateProfileDetails}>
-        <h2>Name</h2>
-        <Input type="text" placeholder="New Name" inputRef={nameRef} />
-        <h2>Current password</h2>
-        <Input
-          type="password"
-          placeholder="Current password for re-authentication"
-          inputRef={passwordRef}
-        />
-        <h2>New Password</h2>
-        <Input
-          type="password"
-          placeholder="New Password"
-          inputRef={newPasswordRef}
-        />
-        {message && <p className="errorModif">{message}</p>}
-        <input type="submit" value="EDIT MY PROFILE" />
-      </form>
+      {loading && <p>Loading...</p>}
+      {!loading && (
+        <>
+          <img src="/assets/elf.png" alt="elf" />
+          <form onSubmit={updateProfileDetails}>
+            <h2>Name</h2>
+            <Input type="text" placeholder="New Name" inputRef={nameRef} />
+            <h2>Current password</h2>
+            <Input
+              type="password"
+              placeholder="Current password for re-authentication"
+              inputRef={passwordRef}
+            />
+            <h2>New Password</h2>
+            <Input
+              type="password"
+              placeholder="New Password"
+              inputRef={newPasswordRef}
+            />
+            {message && <p className="errorModif">{message}</p>}
+            <input
+              type="submit"
+              value="EDIT MY PROFILE"
+              onClick={handleRedirectionToProfile}
+            />
+          </form>
+        </>
+      )}
     </div>
   )
 }
