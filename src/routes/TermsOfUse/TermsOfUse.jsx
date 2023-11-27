@@ -40,6 +40,12 @@ function TermsOfUse() {
           Ho-Ho! does not guarantee the accuracy, completeness, or relevance of
           the site's content. The use of the site is at your own risk.
         </li>
+        <li>
+          <strong>Modification of Terms</strong>
+          <br />
+          Ho-Ho! reserves the right to modify these Terms of Use at any time. It
+          is your responsibility to periodically check for changes.
+        </li>
       </ul>
     </div>
   )
