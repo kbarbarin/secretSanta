@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './TermsOfUse.scss'
+import Back from '../../components/Back/Back'
 
 function TermsOfUse() {
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <div className="termsOfUseContainer">
+      <Back />
       <h1>Terms of Use</h1>
       <ul>
         <li>
