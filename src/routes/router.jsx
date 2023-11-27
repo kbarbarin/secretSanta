@@ -42,7 +42,7 @@ const routes = [
       },
       {
         path: '/join',
-        element: <Join />
+        element: <Join />,
       },
       {
         path: 'quizz',
@@ -75,8 +75,7 @@ const routes = [
           </PrivateRoute>
         ),
       },
-      { path: '/modification',
-        element: <EditProfile />
+      { path: '/modification', element: <EditProfile /> },
     ],
   },
   {
