@@ -1,3 +1,18 @@
 .termsOfUseContainer {
-    color: white;
+  color: white;
+  margin-right: 2rem;
+  h1 {
+    text-align: center;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+  }
+  ul {
+    list-style-type: decimal;
+    li {
+      margin-bottom: 2rem;
+      strong {
+        font-size: 1.2rem;
+      }
+    }
+  }
 }
