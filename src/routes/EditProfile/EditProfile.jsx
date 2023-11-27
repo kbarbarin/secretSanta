@@ -83,17 +83,17 @@ export default function EditProfile() {
       <img src="/assets/elf.png" alt="elf" />
       <form onSubmit={updateProfileDetails}>
         <h2>Name</h2>
-        <Input type="text" placeholder="Nouveau nom" inputRef={nameRef} />
+        <Input type="text" placeholder="New Name" inputRef={nameRef} />
         <h2>Old password</h2>
         <Input
           type="password"
-          placeholder="Mot de passe actuel pour la ré-authentification"
+          placeholder="Current password for re-authentication"
           inputRef={passwordRef}
         />
         <h2>New Password</h2>
         <Input
           type="password"
-          placeholder="Nouveau mot de passe"
+          placeholder="New Password"
           inputRef={newPasswordRef}
         />
         {message && <p>{message}</p>}
