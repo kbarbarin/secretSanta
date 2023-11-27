@@ -5,17 +5,19 @@ import ErrorPage from './ErrorPage/ErrorPage'
 import Home from './Home/Home'
 import SignIn from './SignIn/SignIn'
 import SignUp from './SignUp/SignUp'
+import TermsOfUse from './TermsOfUse/TermsOfUse'
 
 import CreateSecretSanta from './CreateSecretSanta/CreateSecretSanta'
 import SecretSanta from './SecretSanta/SecretSanta'
 import ForgottenPassword from './ForgottenPassword/ForgottenPassword'
 import Summary from './Summary/Summary'
+import Join from './Join/Join'
 
 import PrivateRoute from './PrivateRoute/PrivateRoute'
 import Quizz from './Quizz/Quizz'
 import GiftIdeas from './GiftIdeas/GiftIdeas'
 import Profil from './Profil/Profil'
-import EditProfil from './EditProfile/EditProfile'
+import EditProfile from './EditProfile/EditProfile'
 
 const routes = [
   {
@@ -29,24 +31,18 @@ const routes = [
         errorElement: <ErrorPage />,
       },
       {
-        path: '/signin',
-        element: <SignIn />,
+        path: '/forgottenpassword',
+        element: <ForgottenPassword />,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/signup',
-        element: <SignUp />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: 'CreateSecretSanta',
-        element: <CreateSecretSanta />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: 'summary',
+        path: 'summary/:id/:userid',
         element: <Summary />,
         errorElement: <ErrorPage />,
+      },
+      {
+        path: '/join',
+        element: <Join />
       },
       {
         path: 'quizz',
@@ -64,28 +60,6 @@ const routes = [
         errorElement: <ErrorPage />,
       },
       {
-        path: 'modification',
-        element: <EditProfil />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: 'profile',
-        element: (
-          <PrivateRoute>
-            <Profil />{' '}
-          </PrivateRoute>
-        ),
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: 'create',
-        element: (
-          <PrivateRoute>
-            <CreateSecretSanta />
-          </PrivateRoute>
-        ),
-      },
-      {
         path: 'create',
         element: (
           <PrivateRoute>
@@ -101,6 +75,8 @@ const routes = [
           </PrivateRoute>
         ),
       },
+      { path: '/modification',
+        element: <EditProfile />
     ],
   },
   {
@@ -123,8 +99,8 @@ const routes = [
     errorElement: <ErrorPage />,
   },
   {
-    path: '/forgottenpassword',
-    element: <ForgottenPassword />,
+    path: '/termsofuse',
+    element: <TermsOfUse />,
     errorElement: <ErrorPage />,
   },
 ]

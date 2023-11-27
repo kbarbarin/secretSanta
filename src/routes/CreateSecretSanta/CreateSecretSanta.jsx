@@ -11,6 +11,7 @@ import emailjs from '@emailjs/browser';
 
 
 import './CreateSecretSanta.scss'
+import { useNavigate } from 'react-router-dom'
 
 export default function CreateSecretSanta() {
   const [total, setTotal] = useState(2)
@@ -20,6 +21,8 @@ export default function CreateSecretSanta() {
   const [eventName, setEventName] = useState('')
   const [eventDesc, setEventDesc] = useState('')
   const [eventDate, setEventDate] = useState('')
+
+  const navigate = useNavigate();
 
   const today = new Date().toISOString().split('T')[0]
 
@@ -157,6 +160,7 @@ export default function CreateSecretSanta() {
           secretSantaSessionId: arrayUnion(newDocId),
         });
       }
+      navigate(`/summary/${session.id}/${session.participants[0].id}`);
     } catch (error) {
       console.error(
         "Erreur lors de l'enregistrement des données dans Firebase : ",

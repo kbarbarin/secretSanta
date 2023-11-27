@@ -3,11 +3,12 @@
 
 // Components 
 
+@import '../components/Back/Back.scss';
 @import '../components/Button/Button.scss';
 @import '../components/Collapse/Collapse.scss';
+@import '../components//HeaderSummary/HeaderSummary.scss';
 @import '../components/Input/Input.scss';
 @import '../components/PopUp/PopUp.scss';
-@import '../components/Back/Back.scss';
 
 // Layout
 
@@ -17,7 +18,11 @@
 // Routes
 
 @import '../routes/CreateSecretSanta/CreateSecretSanta.scss';
+@import '../routes/ErrorPage/ErrorPage.scss';
 @import '../routes/Home/Home.scss';
+@import '../routes/Join/Join.scss';
+@import '../routes/Profil/Profile.scss';
 @import '../routes/SignIn/SignIn.scss';
 @import '../routes/SignUp/SignUp.scss';
-@import '../routes/Profil/Profile.scss';
+@import '../routes/Summary/Summary.scss';
+@import '../routes/TermsOfUse/TermsOfUse.scss';
