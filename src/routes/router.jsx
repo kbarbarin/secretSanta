@@ -5,6 +5,7 @@ import ErrorPage from './ErrorPage/ErrorPage'
 import Home from './Home/Home'
 import SignIn from './SignIn/SignIn'
 import SignUp from './SignUp/SignUp'
+import TermsOfUse from './TermsOfUse/TermsOfUse'
 
 import CreateSecretSanta from './CreateSecretSanta/CreateSecretSanta'
 import SecretSanta from './SecretSanta/SecretSanta'
@@ -87,6 +88,11 @@ const routes = [
         <Profil />
       </PrivateRoute>
     ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/termsofuse',
+    element: <TermsOfUse />,
     errorElement: <ErrorPage />,
   },
 ]
