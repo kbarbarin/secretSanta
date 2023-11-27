@@ -14,6 +14,12 @@ export default function Summary() {
   const [ready, setReady] = useState(0)
   const [loader, setLoader] = useState(true)
 
+  console.log(userid)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  })
+
   useEffect(() => {
     const getSecretSanta = async () => {
       const usersCollectionRef = collection(db, 'secretSanta')
@@ -61,7 +67,7 @@ export default function Summary() {
               <p>Ready</p>
             </div>
           </div>
-          <div className="summary_desc">
+          <div className="summary__desc">
             <p className="summary__descTitle">Description:</p>
             <p className="summary__descContent">{secretSanta?.eventDesc}</p>
           </div>
