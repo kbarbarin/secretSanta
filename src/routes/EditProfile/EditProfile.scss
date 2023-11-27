@@ -7,7 +7,9 @@
   align-items: center;
   margin: 0 16px;
   margin-top: -60px;
-
+  .errorModif {
+    color: white;
+  }
   form {
     width: 100%;
     @media screen and (min-width: $medium) {
@@ -18,8 +20,8 @@
       width: 40%;
     }
     h2 {
-        margin-bottom: 0;
-        color: $secondary-color;
+      margin-bottom: 0;
+      color: $secondary-color;
     }
   }
 
@@ -33,5 +35,6 @@
     color: $secondary-color;
     cursor: pointer;
     border-radius: 6px;
+    margin-top: 3rem;
   }
 }

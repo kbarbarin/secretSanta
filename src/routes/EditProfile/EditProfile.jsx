@@ -58,20 +58,20 @@ export default function EditProfile() {
 
         const userDocRef = doc(db, 'users', userId)
         await updateDoc(userDocRef, { name: newName })
-        setMessage('Nom mis à jour avec succès.')
+        setMessage('Name updated successfully.')
       }
 
       if (newPassword !== '') {
         await updatePassword(user, newPassword)
-        setMessage('Mot de passe mis à jour avec succès.')
+        setMessage('Password updated successfully.')
       }
 
-      setMessage('Profil mis à jour avec succès')
+      setMessage('Profil updated successfully')
     } catch (error) {
       console.error("Code d'erreur:", error.code)
       console.error("Message d'erreur:", error.message)
 
-      setMessage(`Erreur lors de la mise à jour du profil : ${error.message}`)
+      setMessage(`Error while updating the profile : ${error.message}`)
     } finally {
       setLoading(false)
     }
@@ -84,7 +84,7 @@ export default function EditProfile() {
       <form onSubmit={updateProfileDetails}>
         <h2>Name</h2>
         <Input type="text" placeholder="New Name" inputRef={nameRef} />
-        <h2>Old password</h2>
+        <h2>Current password</h2>
         <Input
           type="password"
           placeholder="Current password for re-authentication"
@@ -96,7 +96,7 @@ export default function EditProfile() {
           placeholder="New Password"
           inputRef={newPasswordRef}
         />
-        {message && <p>{message}</p>}
+        {message && <p className="errorModif">{message}</p>}
         <input type="submit" value="EDIT MY PROFILE" />
       </form>
     </div>
