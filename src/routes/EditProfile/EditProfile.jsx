@@ -3,9 +3,10 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   updatePassword,
+  updateEmail,
   updateProfile,
 } from 'firebase/auth'
-import { doc, updateDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import { db, auth } from '../../firebase/Firebase'
 
 import Input from '../../components/Input/Input'
@@ -38,7 +39,7 @@ export default function EditProfile() {
 
       if (newName !== '') {
         const userDocRef = doc(db, 'users', user.uid)
-        await updateDoc(userDocRef, { name: newName })
+        await setDoc(userDocRef, { name: newName }, { merge: true })
         setMessage('Nom mis à jour avec succès.')
       }
       if (newEmail !== '') {
@@ -47,7 +48,7 @@ export default function EditProfile() {
           console.log('Email updated successfully in Firebase profile.')
 
           const userDocRef = doc(db, 'users', user.uid)
-          await updateDoc(userDocRef, { email: newEmail })
+          await setDoc(userDocRef, { email: newEmail }, { merge: true })
           console.log('Email updated successfully in Firestore.')
         }
       }

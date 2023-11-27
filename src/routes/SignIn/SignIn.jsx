@@ -17,20 +17,29 @@ export default function SignIn() {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const [message, setMessage] = useState('')
+  const navigation = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false)
 
   const handleSignIn = async (e) => {
     e.preventDefault()
-   setPersistence(auth, browserLocalPersistence).then(async () => {
-    await signInWithEmailAndPassword(
-      auth,
-      emailRef.current.value,
-      passwordRef.current.value
-    )
-    return navigate('/profile')
-   }).catch(() => {
+    setPersistence(auth, browserLocalPersistence).then(async () => {
+      await signInWithEmailAndPassword(
+        auth,
+        emailRef.current.value,
+        passwordRef.current.value
+      ).then(() => {
+        setMessage('Connexion réussie')
+        navigation('/create');
+
+      }).catch((error) => {
+        setMessage('Make sure to fill all fields correctly !')
+      })
+      return navigate('/profile')
+    }).catch(() => {
       setMessage('Make sure to fill in all fields correctly!')
     })
+
   }
 
   return (
@@ -59,9 +68,9 @@ export default function SignIn() {
         </Link>
         {message && <p className="errorMessage">{message}</p>}
         <input type="submit" value="SIGN IN" />
-        <div className="signup">
-          <p className="signup-text">Don't have an account ? &#160;</p>
-          <Link to="/signup" className="signup-link">
+        <div className="signup2">
+          <p className="signup2-text">Don't have an account ? &#160;</p>
+          <Link to="/signup" className="signup2-link">
             Click here !
           </Link>
         </div>

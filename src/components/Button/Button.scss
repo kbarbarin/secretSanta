@@ -2,26 +2,39 @@
 
 /* Button container */
 .button {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
 
-    &__color--primary {
-        background-color: $primary-color;
-        border: $tertiary-color solid 2px;
-    }
+  &__color--primary {
+    background-color: $primary-color;
+    border: $tertiary-color solid 2px;
+  }
 
-    &__color--secondary {
-        background-color: $secondary-color;
-        color: $primary-color;
-    }
+  &__color--secondary {
+    background-color: $secondary-color;
+    color: $primary-color;
+  }
 
+  // transition: background-color 0.3s;
+
+  /* Button hover state */
+  // &:hover {
+  //     background-color: #2684f3;
+  // }
+
+  /* Button active state (when clicked) */
+  // &:active {
+  //     background-color: #1e6ca6;
+  // }
+  
+  
     &__tertiary {
         border: solid 2px $secondary-color;
         background-color: #ED1C24;
@@ -31,32 +44,8 @@
         background-color: #A8161B;
     }
 
-    // transition: background-color 0.3s;
-
-    /* Button hover state */
-    // &:hover {
-    //     background-color: #2684f3;
-    // }
-
-    /* Button active state (when clicked) */
-    // &:active {
-    //     background-color: #1e6ca6;
-    // }
-
-    /* Button title */
-    & p {
-        margin: 0;
-    }
-
-    /* Button title color */
-    &-title {
-
-        @media screen and (max-width: 1024px) {
-            font-size: 1.5rem;
-        }
-
-        @media screen and (max-width: 600px) {
-            font-size: 1rem;
-        }
-    }
+  /* Button title */
+  & p {
+    margin: 0;
+  }
 }
