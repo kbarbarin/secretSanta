@@ -20,7 +20,7 @@ function EjectSomeone() {
         const userDocRef = querySnapshot.docs[0].ref;
         await updateDoc(userDocRef, {exclusionArray: arrayUnion({name: user[0].name, exclude: name})});
       }
-      navigate(`/summary/${session.id}/${session.participants[0].id}`);
+      navigate(`/quiz`);
   }
 
   return (
@@ -35,7 +35,7 @@ function EjectSomeone() {
           <button key={name.id} onClick={() => excludeSomeOne(name.name)}>{name.name}</button>
         ))}
       </div>
-      <button className="noEject">I WANT TO EJECT NOBODY</button>
+      <button onClick={() => navigate('/quiz')}className="noEject">I WANT TO EJECT NOBODY</button>
     </div>
   )
 }
