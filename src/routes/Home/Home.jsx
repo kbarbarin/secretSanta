@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 
 import './Home.scss'
 
@@ -13,6 +13,10 @@ export default function Home() {
 
   const handleSecretSantaCreation = () => {
     navigate('/create')
+  }
+
+  const handleJoinSession = () => {
+    navigate('/join')
   }
 
   return (
@@ -29,7 +33,10 @@ export default function Home() {
           >
             Create my Secret Santa
           </Button>
-          <Button className="button__color--secondary">
+          <Button
+            className="button__color--secondary"
+            onClick={handleJoinSession}
+          >
             Join a Secret Santa
           </Button>
         </div>
@@ -115,8 +122,8 @@ export default function Home() {
           <p>
             Bringing joy and surprises, powered by your holiday spirit. 🎁✨
             Crafted with love by our team at Ho-Ho!. Hosting support from
-            Firebase. Illustrations and logo from Flaticon. Making the season
-            bright since 2023.
+            Firebase. Illustrations and logo from Flaticon. <br /> Making the
+            season bright since 2023 - <Link to="/termsofuse">CGU</Link>
           </p>
         </div>
       </div>

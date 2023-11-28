@@ -1,9 +1,16 @@
+@import '../../style/variables';
+
 header {
     margin: 44px 16px 30px;
 
+    @media screen and (min-width: $very-large) {
+        margin: 44px 200px;
+    }
+
     nav {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
     }
+
 }

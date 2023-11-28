@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { collection, query, where, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/Firebase'
 import { questions } from '../../datas/questions'
+
 import './Quizz.scss'
 import GeaftIdeas from '../GiftIdeas/GiftIdeas'
 

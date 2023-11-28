@@ -1,70 +1,121 @@
 import React, { useRef, useState } from 'react'
+
+import { useNavigate } from 'react-router-dom'
+
 import {
-  updateEmail,
-  updatePassword,
   reauthenticateWithCredential,
   EmailAuthProvider,
+  updatePassword,
 } from 'firebase/auth'
-import { doc, updateDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore'
 import { db, auth } from '../../firebase/Firebase'
+
+import Input from '../../components/Input/Input'
+
+import './EditProfile.scss'
 
 export default function EditProfile() {
   const nameRef = useRef(null)
-  const emailRef = useRef(null)
   const passwordRef = useRef(null)
+  const newPasswordRef = useRef(null)
   const [message, setMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const updateProfile = async (e) => {
+  const navigate = useNavigate()
+
+  const updateProfileDetails = async (e) => {
     e.preventDefault()
 
     const user = auth.currentUser
-    const credential = EmailAuthProvider.credential(
-      user.email,
-      passwordRef.current.value
-    )
 
     try {
+      setLoading(true)
+
+      const newName = nameRef.current.value.trim()
+      const newPassword = newPasswordRef.current.value
+
+      const credential = EmailAuthProvider.credential(
+        user.email,
+        passwordRef.current.value
+      )
       await reauthenticateWithCredential(user, credential)
 
-      if (nameRef.current.value !== '') {
-        const userDocRef = doc(db, 'users', user.uid)
-        await updateDoc(userDocRef, { name: nameRef.current.value })
+      if (newName !== '') {
+        // Requête pour obtenir l'ID du document de l'utilisateur
+        const q = query(
+          collection(db, 'users'),
+          where('email', '==', user.email)
+        )
+        const querySnapshot = await getDocs(q)
+        let userId
+        querySnapshot.forEach((doc) => {
+          // doc.data() est jamais undefined pour les requêtes de documents
+          console.log(doc.id, ' => ', doc.data())
+          userId = doc.id
+        })
+
+        const userDocRef = doc(db, 'users', userId)
+        await updateDoc(userDocRef, { name: newName })
+        setMessage('Name updated successfully.')
       }
 
-      if (emailRef.current.value !== '') {
-        await updateEmail(user, emailRef.current.value)
+      if (newPassword !== '') {
+        await updatePassword(user, newPassword)
+        setMessage('Password updated successfully.')
       }
 
-      if (passwordRef.current.value !== '') {
-        await updatePassword(user, passwordRef.current.value)
-      }
-
-      setMessage('Profile updated successfully')
+      setMessage('Profil updated successfully')
     } catch (error) {
-      console.error('Error code:', error.code)
-      console.error('Error message:', error.message)
-      setMessage(`Error updating profile: ${error.message}`)
+      console.error("Code d'erreur:", error.code)
+      console.error("Message d'erreur:", error.message)
+
+      setMessage(`Error while updating the profile : ${error.message}`)
+    } finally {
+      setLoading(false)
     }
   }
 
+  const handleRedirectionToProfile = () => {
+    navigate('/profile')
+  }
   return (
-    <div>
+    <div className="edit">
       <h1>Edit Profile</h1>
-
-      <form onSubmit={updateProfile}>
-        <input type="text" placeholder="New Name" ref={nameRef} />
-        <input type="email" placeholder="New Email" ref={emailRef} />
-        <input
-          type="password"
-          placeholder="Current Password"
-          ref={passwordRef}
-          required
-        />
-
-        <input type="submit" value="Update Profile" />
-      </form>
-
-      {message && <p>{message}</p>}
+      {loading && <p>Loading...</p>}
+      {!loading && (
+        <>
+          <img src="/assets/elf.png" alt="elf" />
+          <form onSubmit={updateProfileDetails}>
+            <h2>Name</h2>
+            <Input type="text" placeholder="New Name" inputRef={nameRef} />
+            <h2>Current password</h2>
+            <Input
+              type="password"
+              placeholder="Current password for re-authentication"
+              inputRef={passwordRef}
+            />
+            <h2>New Password</h2>
+            <Input
+              type="password"
+              placeholder="New Password"
+              inputRef={newPasswordRef}
+            />
+            {message && <p className="errorModif">{message}</p>}
+            <input
+              type="submit"
+              value="EDIT MY PROFILE"
+              onClick={handleRedirectionToProfile}
+            />
+          </form>
+        </>
+      )}
     </div>
   )
 }

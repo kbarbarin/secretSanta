@@ -22,7 +22,6 @@ const GeaftIdeas = ({ priceRange, recommandations }) => {
           <br />
           <span>Here is a list of gifts that Léo might like:</span>
         </h2>
-
         <div className="recommendations-info">
           {recommandations.map((rec, index) => (
             <div key={index} className="recommendation-product">
@@ -37,7 +36,7 @@ const GeaftIdeas = ({ priceRange, recommandations }) => {
               </div>
               <p className="recommendation-name">{rec.name}</p>
               {rec.price && (
-                <p className="recommendation-price">{rec.price}€</p>
+                <p className="recommendation-price">Price: {rec.price}€</p>
               )}
             </div>
           ))}
@@ -48,3 +47,4 @@ const GeaftIdeas = ({ priceRange, recommandations }) => {
 }
 
 export default GeaftIdeas
+
