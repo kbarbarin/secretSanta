@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-const SummaryPage = () => {
+export default function Summary () {
   const auth = getAuth();
   const navigate = useNavigate();
 
@@ -21,12 +21,10 @@ const SummaryPage = () => {
 
     checkUserAndSignIn();
   }, [auth]);
-}
 
-export default function Summary () {
-    return (
-        <p>
-            Summary
-        </p>
-    )
+  return (
+    <p>
+      Summary
+    </p>
+  );
 }
