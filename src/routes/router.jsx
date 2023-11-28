@@ -11,6 +11,7 @@ import CreateSecretSanta from './CreateSecretSanta/CreateSecretSanta'
 import SecretSanta from './SecretSanta/SecretSanta'
 import ForgottenPassword from './ForgottenPassword/ForgottenPassword'
 import Summary from './Summary/Summary'
+
 import Join from './Join/Join'
 
 import PrivateRoute from './PrivateRoute/PrivateRoute'

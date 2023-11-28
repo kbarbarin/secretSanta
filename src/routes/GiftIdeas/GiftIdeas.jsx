@@ -1,23 +1,27 @@
-import React from 'react';
+import React from 'react'
+import './GeaftIdeas.scss'
 
 const GeaftIdeas = ({ priceRange, recommandations }) => {
   return (
     <div className="recommendations">
       <div>
-        <p className="title">
-          Ho-Ho! Leo has been a good girl this year send this sweetie a
+        <h1 className="recommendations__title">
+          Ho-Ho! Leo has been a good girl this year, send this sweetie a
           present!
-        </p>
-        <img src="/assets/logo.png" alt="Ho-Ho!'s logo" />
-        <p className="recommendation-price-range">
-          The limit price is {priceRange}€
-        </p>
+        </h1>
+        <div className="price-and-logo">
+          <img src="/assets/logo.png" alt="Ho-Ho!'s logo" />
+          <p className="recommendation-price-range">
+            The limit price is {priceRange}€
+          </p>
+        </div>
       </div>
-      <div className="container-recommendations">
-        <p className="recommendations-title">Don't worry!</p>
-        <p className="-title">
-          Here is a list of gifts that Léo might like:
-        </p>
+      <div className="recommendations__container">
+        <h2 className="recommendations__titles">
+          <span>No ideas ? Don't worry !</span>
+          <br />
+          <span>Here is a list of gifts that Léo might like:</span>
+        </h2>
         <div className="recommendations-info">
           {recommandations.map((rec, index) => (
             <div key={index} className="recommendation-product">
@@ -39,7 +43,8 @@ const GeaftIdeas = ({ priceRange, recommandations }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default GeaftIdeas;
+export default GeaftIdeas
+

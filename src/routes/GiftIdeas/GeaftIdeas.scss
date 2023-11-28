@@ -1,0 +1,128 @@
+@import '../../style/variables';
+
+.recommendations {
+  text-align: center;
+
+
+  &__title {
+    text-align: left;
+    margin-top: 40px;
+
+    @media screen and (min-width: $large) {
+      text-align: center;
+    }
+  }
+
+  &__titles {
+    text-align: left;
+    padding: 10px;
+
+    @media screen and (min-width: $large) {
+      text-align: center;
+    }
+  }
+
+  .price-and-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .recommendation-price-range {
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    margin: inherit;
+
+    @media screen and (min-width: $large) {
+      margin: 0 200px;
+    }
+
+    .recommendations-title {
+      padding-top: 10px;
+      font-weight: 500;
+    }
+
+    .recommendations-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 20px;
+
+      @media screen and (min-width: $medium) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @media screen and (min-width: $large) {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .recommendation-product {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 140px;
+        height: 300px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+
+        .recommendations-image {
+          margin-top: 10px;
+          width: 100px;
+          height: 100px;
+        }
+
+        .box-product {
+          background-color: rgb(215, 211, 211);
+          width: 180px;
+        }
+
+        .recommendation-name {
+          margin-top: 20px;
+          text-align: left;
+          margin-left: 10px;
+          margin-bottom: 20px;
+        }
+
+        .recommendation-price {
+          position: absolute;
+          bottom: 0;
+          color: $primary-color;
+          left: 10px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    .recommendations {
+      .container-recommendations {
+        width: 100%;
+        height: auto;
+
+        .recommendations-info {
+          grid-template-columns: repeat(2, 1fr);
+
+          .recommendation-product {
+            .box-produc {
+              width: 170px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
