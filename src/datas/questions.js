@@ -139,4 +139,134 @@ export const questions = [
     category: 'sports',
     theme: 'gym',
   },
+  {
+    id: 15,
+    text: 'Do you prefer sport games?',
+    category: 'video games',
+    theme: 'sport',
+  },
+  {
+    id: 16,
+    text: 'Do you prefer rap music?',
+    category: 'musics',
+    theme: 'rap',
+  },
+  {
+    id: 17,
+    text: 'Do you like movies?',
+    category: 'movies',
+    imageUrl:
+      '',
+  },
+  {
+    id: 18,
+    text: 'Do you prefer RPG Games?',
+    category: 'video games',
+    theme: 'RPG',
+    imageUrl:
+      '',
+  },
+  {
+    id: 18,
+    text: 'Do you prefer concert?',
+    category: 'musics',
+    theme: 'concert',
+    imageUrl:
+      '',
+  },
+  {
+    id: 19,
+    text: 'Do you prefer concert?',
+    category: 'musics',
+    theme: 'concert',
+    imageUrl:
+      '',
+  },
+  {
+    id: 20,
+    text: 'Do you prefer tennis equipement?',
+    category: 'sports',
+    theme: 'tennis',
+    imageUrl:
+      '',
+  },
+  {
+    id: 21,
+    text: 'Do you prefer detective books?',
+    category: 'books',
+    theme: 'detective',
+    imageUrl:
+      '',
+  },
+  {
+    id: 22,
+    text: 'Do you prefer boxe equipement?',
+    category: 'sports',
+    theme: 'boxe',
+    imageUrl:
+      '',
+  },
+  {
+    id: 23,
+    text: 'Do you prefer comedie movies?',
+    category: 'movies',
+    theme: 'comedie',
+    imageUrl:
+      '',
+  },
+  {
+    id: 24,
+    text: 'Do you prefer action movies?',
+    category: 'movies',
+    theme: 'action',
+    imageUrl:
+      '',
+  },
+  {
+    id: 25,
+    text: 'Do you prefer horror movies?',
+    category: 'movies',
+    theme: 'horror',
+    imageUrl:
+      '',
+  },
+  {
+    id: 26,
+    text: 'Do you like board games?',
+    category: 'board games',
+    imageUrl:
+      '',
+  },
+  {
+    id: 27,
+    text: 'Do you prefer deck building board games?',
+    category: 'board games',
+    theme: 'deck building',
+    imageUrl:
+      '',
+  },
+  {
+    id: 28,
+    text: 'Do you prefer abstract board games?',
+    category: 'board games',
+    theme: 'abstract',
+    imageUrl:
+      '',
+  },
+  {
+    id: 29,
+    text: 'Do you prefer bluffing board games?',
+    category: 'board games',
+    theme: 'bluffing',
+    imageUrl:
+      '',
+  },
+  {
+    id: 30,
+    text: 'Do you prefer adventure movies?',
+    category: 'movies',
+    theme: 'adventure',
+    imageUrl:
+      '',
+  },
 ]
