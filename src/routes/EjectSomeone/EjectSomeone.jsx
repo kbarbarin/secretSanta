@@ -11,8 +11,16 @@ function EjectSomeone() {
     setNames(secretSanta.participants.filter((obj) => obj.id !== userid));
   }, [secretSanta])
 
-  const excludeSomeOne = (name) => {
-    
+  const excludeSomeOne = async (name) => {
+    const user = secretSanta.participants.filter((obj) => obj.id === userid)
+    const usersCollectionRef = collection(db, 'secretSanta');
+      const q = query(usersCollectionRef, where('id', '==', id));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const userDocRef = querySnapshot.docs[0].ref;
+        await updateDoc(userDocRef, {exclusionArray: arrayUnion({name: user[0].name, exclude: name})});
+      }
+      navigate(`/summary/${session.id}/${session.participants[0].id}`);
   }
 
   return (
