@@ -19,6 +19,7 @@ import GiftIdeas from './GiftIdeas/GiftIdeas'
 import Profil from './Profil/Profil'
 import EjectSomeone from './EjectSomeone/EjectSomeone'
 import EditProfile from './EditProfile/EditProfile'
+import RevealPage from './RevealPage/RevealPage'
 
 const routes = [
   {
@@ -106,6 +107,11 @@ const routes = [
   {
     path: '/ejectsomeone',
     element: <EjectSomeone />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/reveal',
+    element: <RevealPage />,
     errorElement: <ErrorPage />,
   },
 ]
