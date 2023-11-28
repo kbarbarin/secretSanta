@@ -1,8 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import './EjectSomeone.scss'
 
 function EjectSomeone() {
-  const names = ['Hassan', 'Lucas', 'Jean-Mathieu', 'Killian', 'Audrey', 'Léo']
+  const { state } = useLocation();
+  const { secretSanta, id, userid } = state;
+  const [names, setNames] = useState([]);
+
+  useEffect(() => {
+    setNames(secretSanta.participants.filter((obj) => obj.id !== userid));
+  }, [secretSanta])
+
+  const excludeSomeOne = (name) => {
+    
+  }
 
   return (
     <div className="ejectSomeonePage">
@@ -12,8 +23,8 @@ function EjectSomeone() {
         chance of not coming across it.
       </p>
       <div className="list">
-        {names.map((name, index) => (
-          <button key={index}>{name}</button>
+        {names.map((name) => (
+          <button key={name.id} onClick={() => excludeSomeOne(name.name)}>{name.name}</button>
         ))}
       </div>
       <button className="noEject">I WANT TO EJECT NOBODY</button>

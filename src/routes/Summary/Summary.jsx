@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { /*useNavigate,*/ useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { collection, where, getDocs, query } from 'firebase/firestore'
 
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
@@ -10,7 +10,7 @@ import './Summary.scss'
 
 export default function Summary() {
   const { id, userid } = useParams()
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   const [secretSanta, setSecretSanta] = useState({})
   const [ready, setReady] = useState(0)
   const [loader, setLoader] = useState(true)
@@ -70,7 +70,7 @@ export default function Summary() {
                 <div key={participant.id} className="summary__participant">
                   <h3 className="summary__pName">{participant.name}</h3>
                   {participant.id === userid && !participant.isProfilCompleted ?
-                    <button /*onClick={() => navigate('/quiz)}*/ className="summary__startButton">START</button>
+                    <button onClick={() => navigate('/ejectsomeone', {state : {secretSanta, id, userid}})} className="summary__startButton">START</button>
                     : <h3
                       className={
                         participant.isProfilCompleted
