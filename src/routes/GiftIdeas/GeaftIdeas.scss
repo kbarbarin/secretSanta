@@ -3,21 +3,30 @@
 .recommendations {
   text-align: center;
 
-  > div {
-    p {
-      margin: 10px 0;
+
+  &__title {
+    text-align: left;
+    margin-top: 40px;
+
+    @media screen and (min-width: $large) {
+      text-align: center;
     }
   }
 
-  .title {
-    font-weight: 700;
+  &__titles {
+    text-align: left;
+    padding: 10px;
+
+    @media screen and (min-width: $large) {
+      text-align: center;
+    }
   }
 
   .price-and-logo {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column; /* Pour empiler le texte et le logo verticalement */
+    flex-direction: column;
   }
 
   .recommendation-price-range {
@@ -25,16 +34,18 @@
     font-weight: 600;
   }
 
-  .container-recommendations {
+  &__container {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     background-color: white;
     color: black;
-    width: 1032px;
-    height: auto;
     border-radius: 10px;
+    margin: inherit;
+
+    @media screen and (min-width: $large) {
+      margin: 0 200px;
+    }
 
     .recommendations-title {
       padding-top: 10px;
@@ -43,9 +54,17 @@
 
     .recommendations-info {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
       padding: 20px;
+
+      @media screen and (min-width: $medium) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @media screen and (min-width: $large) {
+        grid-template-columns: repeat(4, 1fr);
+      }
 
       .recommendation-product {
         position: relative;
@@ -53,7 +72,7 @@
         flex-direction: column;
         align-items: center;
         width: 140px;
-        height: 270px;
+        height: 300px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         overflow: hidden;
@@ -63,19 +82,24 @@
           width: 100px;
           height: 100px;
         }
+
         .box-product {
           background-color: rgb(215, 211, 211);
           width: 180px;
         }
+
         .recommendation-name {
           margin-top: 20px;
-          padding-bottom: 10px;
+          text-align: left;
+          margin-left: 10px;
+          margin-bottom: 20px;
         }
 
         .recommendation-price {
           position: absolute;
           bottom: 0;
           color: $primary-color;
+          left: 10px;
         }
       }
     }

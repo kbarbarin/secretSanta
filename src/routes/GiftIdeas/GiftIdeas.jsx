@@ -1,16 +1,14 @@
 import React from 'react'
 import './GeaftIdeas.scss'
 
-
-
 const GeaftIdeas = ({ priceRange, recommandations }) => {
   return (
     <div className="recommendations">
       <div>
-        <p className="title">
+        <h1 className="recommendations__title">
           Ho-Ho! Leo has been a good girl this year, send this sweetie a
           present!
-        </p>
+        </h1>
         <div className="price-and-logo">
           <img src="/assets/logo.png" alt="Ho-Ho!'s logo" />
           <p className="recommendation-price-range">
@@ -18,9 +16,13 @@ const GeaftIdeas = ({ priceRange, recommandations }) => {
           </p>
         </div>
       </div>
-      <div className="container-recommendations">
-        <p className="recommendations-title">Don't worry!</p>
-        <p className="title">Here is a list of gifts that Léo might like:</p>
+      <div className="recommendations__container">
+        <h2 className="recommendations__titles">
+          <span>No ideas ? Don't worry !</span>
+          <br />
+          <span>Here is a list of gifts that Léo might like:</span>
+        </h2>
+
         <div className="recommendations-info">
           {recommandations.map((rec, index) => (
             <div key={index} className="recommendation-product">
@@ -33,10 +35,10 @@ const GeaftIdeas = ({ priceRange, recommandations }) => {
                   />
                 )}
               </div>
-                <p className="recommendation-name">{rec.name}</p>
-                {rec.price && (
-                  <p className="recommendation-price">Price: {rec.price}€</p>
-                )}
+              <p className="recommendation-name">{rec.name}</p>
+              {rec.price && (
+                <p className="recommendation-price">{rec.price}€</p>
+              )}
             </div>
           ))}
         </div>
