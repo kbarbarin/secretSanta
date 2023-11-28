@@ -54,6 +54,12 @@ Démarrer le serveur
 | Couleur             | Hex                                                                | Aperçu
 | ----------------- | ------------------------------------------------------------------ | -------------------- |
 | Noir | #000000 | ![#000000](https://via.placeholder.com/10/000000?text=+)|
+| Blanc | #FFFFFF | ![#FFFFFF](https://via.placeholder.com/10/FFFFFF?text=+)|
+| Rouge | #ED1C24 | ![#ED1C24](https://via.placeholder.com/10/ED1C24?text=+)|
+| Rouge Foncé | #D61920 | ![#D61920](https://via.placeholder.com/10/D61920?text=+)|
+| Jaune | #FFDD64 | ![#FFDD64](https://via.placeholder.com/10/FFDD64?text=+)|
+| Bleu clair | #F0FBFF | ![#F0FBFF](https://via.placeholder.com/10/F0FBFF?text=+)|
+| Bleu | #A8D6ED | ![#A8D6ED](https://via.placeholder.com/10/A8D6ED?text=+)|
 
 ## Documentation 
 
