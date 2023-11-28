@@ -21,6 +21,7 @@ import Profil from './Profil/Profil'
 import EjectSomeone from './EjectSomeone/EjectSomeone'
 import EditProfile from './EditProfile/EditProfile'
 import RevealPage from './RevealPage/RevealPage'
+import ThanksQuizPage from './ThanksQuizPage/ThanksQuizPage'
 
 const routes = [
   {
@@ -113,6 +114,11 @@ const routes = [
   {
     path: '/reveal',
     element: <RevealPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/thanks',
+    element: <ThanksQuizPage />,
     errorElement: <ErrorPage />,
   },
 ]
