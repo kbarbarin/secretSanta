@@ -1,7 +1,4 @@
 import React, { useRef, useState } from 'react'
-
-import { useNavigate } from 'react-router-dom'
-
 import {
   reauthenticateWithCredential,
   EmailAuthProvider,
@@ -27,8 +24,6 @@ export default function EditProfile() {
   const newPasswordRef = useRef(null)
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
-
-  const navigate = useNavigate()
 
   const updateProfileDetails = async (e) => {
     e.preventDefault()
@@ -82,9 +77,6 @@ export default function EditProfile() {
     }
   }
 
-  const handleRedirectionToProfile = () => {
-    navigate('/profile')
-  }
   return (
     <div className="edit">
       <h1>Edit Profile</h1>
@@ -108,11 +100,7 @@ export default function EditProfile() {
               inputRef={newPasswordRef}
             />
             {message && <p className="errorModif">{message}</p>}
-            <input
-              type="submit"
-              value="EDIT MY PROFILE"
-              onClick={handleRedirectionToProfile}
-            />
+            <input type="submit" value="EDIT MY PROFILE" />
           </form>
         </>
       )}
