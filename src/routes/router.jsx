@@ -112,7 +112,7 @@ const routes = [
     errorElement: <ErrorPage />,
   },
   {
-    path: '/reveal',
+    path: '/reveal/:id/:userid',
     element: <RevealPage />,
     errorElement: <ErrorPage />,
   },
