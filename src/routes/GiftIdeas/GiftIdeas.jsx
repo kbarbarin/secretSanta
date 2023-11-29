@@ -5,18 +5,6 @@ const GeaftIdeas = ({ priceRange, recommandations }) => {
   const products = [
     {
       imageUrl:
-        'https://img01.ztat.net/article/spp-media-p1/448dce44b0473605b18626a833de76cd/1615781d04574f9aba280ace56c7ba14.jpg?imwidth=1800&filter=packshot',
-      price: '15',
-      name: 'Echarpe',
-    },
-    {
-      imageUrl:
-        'https://www.boutique-artisans-du-monde.com/media/catalog/product/cache/1/small_image/600x600/9df78eab33525d08d6e5fb8d27136e95/m/a/mai556.jpg',
-      price: '10',
-      name: 'Tasse de Noël',
-    },
-    {
-      imageUrl:
         'https://www.laboutiqueduscoutisme.com/5145-large_default/bonnet-rouge-avec-pompom.jpg',
       price: '5',
       name: 'Bonnet',
