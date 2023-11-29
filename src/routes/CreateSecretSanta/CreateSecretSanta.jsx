@@ -111,6 +111,7 @@ export default function CreateSecretSanta() {
             receiver: element.name,
             organisator: auth.currentUser?.displayName,
             date: eventDate,
+            password: session.id + element.id,
             link: 'https://ho-ho.site/summary/' + session.id + '/' + element.id
           },
           "yF0RNO3NA52uH5dgL");

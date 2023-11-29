@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { collection, where, getDocs, query } from 'firebase/firestore'
+import { collection, where, getDocs, query, updateDoc, arrayUnion } from 'firebase/firestore'
 import emailjs from '@emailjs/browser';
 
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
