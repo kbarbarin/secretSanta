@@ -20,13 +20,13 @@ function EjectSomeone() {
   const excludeSomeOne = async (name) => {
     const user = secretSanta.participants.filter((obj) => obj.id === userid)
     const usersCollectionRef = collection(db, 'secretSanta');
-      const q = query(usersCollectionRef, where('id', '==', id));
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        const userDocRef = querySnapshot.docs[0].ref;
-        await updateDoc(userDocRef, {exclusionArray: arrayUnion({name: user[0].name, exclude: name})});
-      }
-      navigate(`/quiz`, {state: {id, userid}});
+    const q = query(usersCollectionRef, where('id', '==', id));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      const userDocRef = querySnapshot.docs[0].ref;
+      await updateDoc(userDocRef, { exclusionArray: arrayUnion({ name: user[0].name, exclude: name }) });
+    }
+    navigate('/quiz', { state: { secretSanta, id, userid } })
   }
 
   return (
@@ -41,7 +41,7 @@ function EjectSomeone() {
           <button key={name.id} onClick={() => excludeSomeOne(name.name)}>{name.name}</button>
         ))}
       </div>
-      <button onClick={() => navigate('/quiz')}className="noEject">I WANT TO EJECT NOBODY</button>
+      <button onClick={() => navigate('/quiz', { state: { secretSanta, id, userid } })} className="noEject">I WANT TO EJECT NOBODY</button>
     </div>
   )
 }

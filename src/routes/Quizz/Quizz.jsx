@@ -19,7 +19,7 @@ const Quizz = () => {
   const [priceRange, setPriceRange] = useState(null)
   const navigate = useNavigate()
   const { state } = useLocation();
-  const { id, userid } = state;
+  const { secreteSanta, id, userid } = state;
 
 
   const isCategoryQuestion = (question) => {
@@ -54,14 +54,16 @@ const Quizz = () => {
           ...prevRecommandations,
           ...recommandationsData,
         ])
-        if (currentQuestionIndex === questions.length - 1) {
+        if (currentQuestionIndex === questions.length - 2) {
           const usersCollectionRef = collection(db, 'secretSanta');
           const q = query(usersCollectionRef, where('id', '==', id));
           const querySnapshot = await getDocs(q);
           if (!querySnapshot.empty) {
             const userDocRef = querySnapshot.docs[0].ref;
-            await updateDoc(userDocRef, {gifterArray: arrayUnion({userid: userid, recommandations: recommandations})});
-            await updateDoc(userDocRef, {priceArray: arrayUnion({priceRange})});
+            await updateDoc(userDocRef, {
+              priceArray: arrayUnion({ priceRange }),
+              participants: updatedParticipants()
+            });
           }
           navigate(`/summary/${id}/${userid}`);
         }
@@ -122,11 +124,21 @@ const Quizz = () => {
     }
   }
 
+  const updatedParticipants = () => {
+    const secreteSantaBuff = secreteSanta;
+
+    secreteSantaBuff.participants.forEach((participant) => {
+      if (participant.id === userid)
+        participant.isProfilCompleted = true;
+        participant.giftedIdeas = recommandations
+    })
+    return secreteSantaBuff
+  }
   return (
     <div className="quizz">
-      {loading ? 
+      {loading ?
         <p className="loading">Loading...</p>
-       :
+        :
         <div className="quizz__question">
           <h2>Quizz</h2>
           <div className="quizz__cardQuestion">
@@ -145,23 +157,21 @@ const Quizz = () => {
             <button onClick={() => handleQuestionResponse('No')}>😵‍💫</button>
             <button onClick={() => handleQuestionResponse('Yes')}>😍</button>
           </div>
-          {isCategoryQuestion(questions[currentQuestionIndex]) && (
-            <div className="quizz__priceQuestion">
-              <p>At what price would you like the gift to be?</p>
-              <span>{sliderValue}€</span>
-              <div className="slider">
-                <input
-                  type="range"
-                  min={Math.min(...budgets)}
-                  max={Math.max(...budgets)}
-                  step={5}
-                  value={sliderValue}
-                  onChange={(e) => setSliderValue(parseInt(e.target.value, 10))}
-                  className="custom__input"
-                />
-              </div>
+          <div className="quizz__priceQuestion">
+            <p>At what price would you like the gift to be?</p>
+            <span>{sliderValue}€</span>
+            <div className="slider">
+              <input
+                type="range"
+                min={Math.min(...budgets)}
+                max={Math.max(...budgets)}
+                step={5}
+                value={sliderValue}
+                onChange={(e) => setSliderValue(parseInt(e.target.value, 10))}
+                className="custom__input"
+              />
             </div>
-          )}
+          </div>
         </div>
       }
     </div>

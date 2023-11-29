@@ -92,7 +92,6 @@ export default function CreateSecretSanta() {
       id: generateSessionId(8),
       participants: generateParticipantsArray(participants),
       exclusionArray: [],
-      gifterArray: [],
       priceArray: [],
       eventName: eventName,
       eventDesc: eventDesc,
