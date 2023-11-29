@@ -1,8 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { updateDoc, collection, arrayUnion, query, getDocs, where } from 'firebase/firestore';
+
+import { db } from '../../firebase/Firebase'
+
 import './EjectSomeone.scss'
 
 function EjectSomeone() {
-  const names = ['Hassan', 'Lucas', 'Jean-Mathieu', 'Killian', 'Audrey', 'Léo']
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const { secretSanta, id, userid } = state;
+  const [names, setNames] = useState([]);
+
+  useEffect(() => {
+    setNames(secretSanta.participants.filter((obj) => obj.id !== userid));
+  }, [secretSanta, userid])
+
+  const excludeSomeOne = async (name) => {
+    const user = secretSanta.participants.filter((obj) => obj.id === userid)
+    const usersCollectionRef = collection(db, 'secretSanta');
+      const q = query(usersCollectionRef, where('id', '==', id));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const userDocRef = querySnapshot.docs[0].ref;
+        await updateDoc(userDocRef, {exclusionArray: arrayUnion({name: user[0].name, exclude: name})});
+      }
+      navigate(`/quiz`);
+  }
 
   return (
     <div className="ejectSomeonePage">
@@ -12,11 +37,11 @@ function EjectSomeone() {
         chance of not coming across it.
       </p>
       <div className="list">
-        {names.map((name, index) => (
-          <button key={index}>{name}</button>
+        {names.map((name) => (
+          <button key={name.id} onClick={() => excludeSomeOne(name.name)}>{name.name}</button>
         ))}
       </div>
-      <button className="noEject">I WANT TO EJECT NOBODY</button>
+      <button onClick={() => navigate('/quiz')}className="noEject">I WANT TO EJECT NOBODY</button>
     </div>
   )
 }
