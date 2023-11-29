@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { updateDoc, collection, arrayUnion, query, getDocs, where } from 'firebase/firestore';
 
@@ -19,7 +19,7 @@ const Quizz = () => {
   const [priceRange, setPriceRange] = useState(null)
   const navigate = useNavigate()
   const { state } = useLocation();
-  const { secreteSanta, id, userid } = state;
+  const { secretSanta, id, userid } = state;
 
 
   const isCategoryQuestion = (question) => {
@@ -54,19 +54,6 @@ const Quizz = () => {
           ...prevRecommandations,
           ...recommandationsData,
         ])
-        if (currentQuestionIndex === questions.length - 2) {
-          const usersCollectionRef = collection(db, 'secretSanta');
-          const q = query(usersCollectionRef, where('id', '==', id));
-          const querySnapshot = await getDocs(q);
-          if (!querySnapshot.empty) {
-            const userDocRef = querySnapshot.docs[0].ref;
-            await updateDoc(userDocRef, {
-              priceArray: arrayUnion({ priceRange }),
-              participants: updatedParticipants()
-            });
-          }
-          navigate(`/summary/${id}/${userid}`);
-        }
         if (!showPriceRange) {
           setPriceRange(sliderValue)
           setShowPriceRange(true)
@@ -125,20 +112,46 @@ const Quizz = () => {
   }
 
   const updatedParticipants = () => {
-    const secreteSantaBuff = secreteSanta;
+    console.log(secretSanta);
+    if (secretSanta && secretSanta.participants) {
+      secretSanta.participants.forEach((participant) => {
+        if (participant.id === userid) {
+          participant.isProfilCompleted = true;
+          participant.giftedIdeas = recommandations;
+        }
+      });
+      return secretSanta;
+    } else {
+      return null;
+    }
+  };
 
-    secreteSantaBuff.participants.forEach((participant) => {
-      if (participant.id === userid)
-        participant.isProfilCompleted = true;
-        participant.giftedIdeas = recommandations
-    })
-    return secreteSantaBuff
-  }
+  useEffect(() => {
+    const asyncFunc = async () => {
+      console.log(currentQuestionIndex, questions.length);
+      if (currentQuestionIndex == questions.length) {
+        const usersCollectionRef = collection(db, 'secretSanta');
+        const q = query(usersCollectionRef, where('id', '==', id));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userDocRef = querySnapshot.docs[0].ref;
+          await updateDoc(userDocRef, {
+            priceArray: arrayUnion({ priceRange }),
+            participants: updatedParticipants()
+          });
+        }
+        navigate(`/summary/${id}/${userid}`);
+      }
+    }
+    asyncFunc();
+  }, [currentQuestionIndex])
+
   return (
     <div className="quizz">
       {loading ?
         <p className="loading">Loading...</p>
         :
+        currentQuestionIndex < questions.length &&
         <div className="quizz__question">
           <h2>Quizz</h2>
           <div className="quizz__cardQuestion">
