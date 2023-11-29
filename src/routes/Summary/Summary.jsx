@@ -53,7 +53,7 @@ export default function Summary() {
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
           const userDocRef = querySnapshot.docs[0].ref;
-          await updateDoc(userDocRef, { attributionArray: arrayUnion(attribution()) });
+          await updateDoc(userDocRef, { attributionArray: attribution() });
         }
       }
       asyncFunc();
