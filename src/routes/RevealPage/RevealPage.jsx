@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 function RevealPage() {
   const navigate = useNavigate()
   const recommandations = [];
-  const priceRange = 5;
+  const priceRange = 15;
 
   return (
     <div className="revealPage">
