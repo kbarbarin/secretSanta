@@ -33,6 +33,48 @@ export default function Summary() {
     getSecretSanta()
   }, [id])
 
+  useEffect(() => {
+    if (ready.length === secretSanta.participants.length) {
+      // send mail and set attribution
+    }
+  }, [ready, secretSanta]);
+
+  // const attribution = () => {
+  //   const gifter = participants // mettre le tableau participants
+  //   const gifted = [...gifter]
+  //   const assossiationArray = [] // tableau d'objet gifter, gifted
+  //   const size = gifter.length
+
+  //   function getRandomInt(max) {
+  //     return Math.floor(Math.random() * max)
+  //   }
+
+  //   for (var i = 0; i < size - 2; i++) {
+  //     var gifterIndex = 0
+  //     var giftedIndex = 0
+
+  //     while (gifter[gifterIndex] === gifted[giftedIndex]) {
+  //       gifterIndex = getRandomInt(size - i)
+  //       giftedIndex = getRandomInt(size - i)
+  //     }
+  //     assossiationArray.push({
+  //       gifter: gifter[gifterIndex],
+  //       gifted: gifted[giftedIndex],
+  //     })
+  //     gifter.splice(gifterIndex, 1)
+  //     gifted.splice(giftedIndex, 1)
+  //   }
+  //   if (gifter[0] === gifted[0] || gifter[1] === gifted[1]) {
+  //     assossiationArray.push({ gifter: gifter[0], gifted: gifted[1] })
+  //     assossiationArray.push({ gifter: gifter[1], gifted: gifted[0] })
+  //   } else {
+  //     assossiationArray.push({ gifter: gifter[0], gifted: gifted[0] })
+  //     assossiationArray.push({ gifter: gifter[1], gifted: gifted[1] })
+  //   }
+  //   console.table('assossiation', assossiationArray)
+  //   return assossiationArray
+  // }
+
   return (
     <>
       {loader ? (

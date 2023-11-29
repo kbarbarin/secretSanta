@@ -1,10 +1,12 @@
 import React, { useState, useCallback } from 'react'
-import { collection, query, where, getDocs } from 'firebase/firestore'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { updateDoc, collection, arrayUnion, query, getDocs, where } from 'firebase/firestore';
+
+
 import { db } from '../../firebase/Firebase'
 import { questions } from '../../datas/questions'
 
 import './Quizz.scss'
-import GeaftIdeas from '../GiftIdeas/GiftIdeas'
 
 const budgets = [5, 10, 20, 30, 40, 50]
 
@@ -13,9 +15,12 @@ const Quizz = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [recommandations, setRecommandations] = useState([])
   const [sliderValue, setSliderValue] = useState(budgets[0])
-  const [showRecommendations, setShowRecommendations] = useState(false)
   const [showPriceRange, setShowPriceRange] = useState(false)
   const [priceRange, setPriceRange] = useState(null)
+  const navigate = useNavigate()
+  const { state } = useLocation();
+  const { id, userid } = state;
+
 
   const isCategoryQuestion = (question) => {
     return !question.theme
@@ -43,14 +48,22 @@ const Quizz = () => {
         )
       }
 
-      const updateRecommandations = (recommandationsData, response) => {
+      const updateRecommandations = async (recommandationsData, response) => {
         console.log('Recommandations from Firestore:', recommandationsData)
         setRecommandations((prevRecommandations) => [
           ...prevRecommandations,
           ...recommandationsData,
         ])
         if (currentQuestionIndex === questions.length - 1) {
-          setShowRecommendations(true)
+          const usersCollectionRef = collection(db, 'secretSanta');
+          const q = query(usersCollectionRef, where('id', '==', id));
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            const userDocRef = querySnapshot.docs[0].ref;
+            await updateDoc(userDocRef, {gifterArray: arrayUnion({userid: userid, recommandations: recommandations})});
+            await updateDoc(userDocRef, {priceArray: arrayUnion({priceRange})});
+          }
+          navigate(`/summary/${id}/${userid}`);
         }
         if (!showPriceRange) {
           setPriceRange(sliderValue)
@@ -69,7 +82,7 @@ const Quizz = () => {
         setLoading(false)
       }
     },
-    [sliderValue, currentQuestionIndex, showPriceRange]
+    [sliderValue, currentQuestionIndex, showPriceRange, id, navigate, priceRange, recommandations, userid]
   )
 
   const getNextQuestionIndex = () => {
@@ -111,9 +124,9 @@ const Quizz = () => {
 
   return (
     <div className="quizz">
-      {loading ? (
+      {loading ? 
         <p className="loading">Loading...</p>
-      ) : !showRecommendations && currentQuestionIndex < questions.length ? (
+       :
         <div className="quizz__question">
           <h2>Quizz</h2>
           <div className="quizz__cardQuestion">
@@ -150,9 +163,7 @@ const Quizz = () => {
             </div>
           )}
         </div>
-      ) : (
-        <GeaftIdeas priceRange={priceRange} recommandations={recommandations} />
-      )}
+      }
     </div>
   )
 }

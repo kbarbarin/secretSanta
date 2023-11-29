@@ -49,7 +49,7 @@ const routes = [
         element: <Join />,
       },
       {
-        path: 'quizz',
+        path: 'quiz',
         element: <Quizz />,
         errorElement: <ErrorPage />,
       },

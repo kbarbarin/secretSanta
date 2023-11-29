@@ -61,7 +61,7 @@ const GeaftIdeas = ({ priceRange, recommandations }) => {
             </div>
           ))}
           <div className="recommendations-info">
-            {products.map((product, index) => (
+            {recommandations.length === 0 && products.map((product, index) => (
               <div key={index} className="recommendation-product">
                 <div className="box-product">
                   {product.imageUrl && (

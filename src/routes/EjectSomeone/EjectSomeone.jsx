@@ -9,8 +9,8 @@ import './EjectSomeone.scss'
 
 function EjectSomeone() {
   const { state } = useLocation();
-  const navigate = useNavigate();
   const { secretSanta, id, userid } = state;
+  const navigate = useNavigate();
   const [names, setNames] = useState([]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ function EjectSomeone() {
         const userDocRef = querySnapshot.docs[0].ref;
         await updateDoc(userDocRef, {exclusionArray: arrayUnion({name: user[0].name, exclude: name})});
       }
-      navigate(`/quiz`);
+      navigate(`/quiz`, {state: {id, userid}});
   }
 
   return (
