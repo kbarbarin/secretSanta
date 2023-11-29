@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { updateDoc, collection, arrayUnion, query, getDocs, where } from 'firebase/firestore';
+
+import { db } from '../../firebase/Firebase'
+
 import './EjectSomeone.scss'
 
 function EjectSomeone() {
   const { state } = useLocation();
+  const navigate = useNavigate();
   const { secretSanta, id, userid } = state;
   const [names, setNames] = useState([]);
 
   useEffect(() => {
     setNames(secretSanta.participants.filter((obj) => obj.id !== userid));
-  }, [secretSanta])
+  }, [secretSanta, userid])
 
   const excludeSomeOne = async (name) => {
     const user = secretSanta.participants.filter((obj) => obj.id === userid)
