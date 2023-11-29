@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { collection, where, getDocs, query } from 'firebase/firestore'
+import emailjs from '@emailjs/browser';
 
 import HeaderCard from '../../layout/HeaderCard/HeaderCard'
 import HeaderSummary from '../../components/HeaderSummary/HeaderSummary'
@@ -14,8 +15,6 @@ export default function Summary() {
   const [secretSanta, setSecretSanta] = useState({})
   const [ready, setReady] = useState([])
   const [loader, setLoader] = useState(true)
-
-  console.log(userid)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -44,16 +43,25 @@ export default function Summary() {
           {
             receiver_email: element.email,
             receiver: element.name,
-            link: 'https://ho-ho.site/reveal/' + session.id + '/' + element.id
+            link: 'https://ho-ho.site/reveal/' + secretSanta.id + '/' + element.id
           },
           "yF0RNO3NA52uH5dgL");
       })
-      const attribution = attribution();
+      const asyncFunc = async () => {
+        const usersCollectionRef = collection(db, 'secretSanta');
+        const q = query(usersCollectionRef, where('id', '==', secretSanta.id));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userDocRef = querySnapshot.docs[0].ref;
+          await updateDoc(userDocRef, { attributionArray: arrayUnion(attribution()) });
+        }
+      }
+      asyncFunc();
     }
   }, [ready, secretSanta]);
 
   const attribution = () => {
-    const gifter = participants // mettre le tableau participants
+    const gifter = secretSanta.participants // mettre le tableau participants
     const gifted = [...gifter]
     const assossiationArray = [] // tableau d'objet gifter, gifted
     const size = gifter.length
@@ -125,7 +133,7 @@ export default function Summary() {
                 <div key={participant.id} className="summary__participant">
                   <h3 className="summary__pName">{participant.name}</h3>
                   {participant.id === userid && !participant.isProfilCompleted ?
-                    <button onClick={() => navigate('/ejectsomeone', {state : {secretSanta, id, userid}})} className="summary__startButton">START</button>
+                    <button onClick={() => navigate('/ejectsomeone', { state: { secretSanta, id, userid } })} className="summary__startButton">START</button>
                     : <h3
                       className={
                         participant.isProfilCompleted
