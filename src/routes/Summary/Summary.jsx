@@ -27,6 +27,7 @@ export default function Summary() {
       const q = query(usersCollectionRef, where('id', '==', id))
       const querySnapshot = await getDocs(q)
       setSecretSanta(querySnapshot.docs[0].data())
+      console.log(querySnapshot.docs[0].data())
       setReady(querySnapshot.docs[0].data()?.participants?.filter((obj) => obj.isProfilCompleted === true))
       setLoader(false)
     }

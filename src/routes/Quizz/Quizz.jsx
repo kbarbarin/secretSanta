@@ -120,7 +120,7 @@ const Quizz = () => {
           participant.giftedIdeas = recommandations;
         }
       });
-      return secretSanta;
+      return secretSanta.participants;
     } else {
       return null;
     }
