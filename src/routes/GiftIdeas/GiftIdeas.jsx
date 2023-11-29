@@ -1,7 +1,11 @@
 import React from 'react'
 import './GeaftIdeas.scss'
+import { useLocation } from 'react-router-dom'
 
-const GeaftIdeas = ({ priceRange, recommandations }) => {
+const GeaftIdeas = () => {
+  const {state} = useLocation()
+  const { priceRange, recommandations } = state;
+  console.log(state);
   const products = [
     {
       imageUrl:
