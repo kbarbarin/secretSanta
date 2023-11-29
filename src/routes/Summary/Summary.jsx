@@ -12,7 +12,7 @@ export default function Summary() {
   const { id, userid } = useParams()
   const navigate = useNavigate()
   const [secretSanta, setSecretSanta] = useState({})
-  const [ready, setReady] = useState(0)
+  const [ready, setReady] = useState([])
   const [loader, setLoader] = useState(true)
 
   console.log(userid)
@@ -34,7 +34,7 @@ export default function Summary() {
   }, [id])
 
   useEffect(() => {
-    if (ready.length === secretSanta.participants.length) {
+    if (ready.length === secretSanta?.participants?.length) {
       // send mail and set attribution
     }
   }, [ready, secretSanta]);
