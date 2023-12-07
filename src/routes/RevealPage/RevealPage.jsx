@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom'
 function RevealPage() {
   const { id, userid } = useParams()
   const navigate = useNavigate()
-  const [secretSanta, setSecretSanta] = useState({})
   const [giftPeople, setGiftPeople] = useState('');
+  const [giftRecomandation, setGiftRecomandation] = useState('');
   const [priceRange, setPriceRange] = useState(15);
   const [loader, setLoader] = useState(true)
 
@@ -16,9 +16,9 @@ function RevealPage() {
       const usersCollectionRef = collection(db, 'secretSanta')
       const q = query(usersCollectionRef, where('id', '==', id))
       const querySnapshot = await getDocs(q)
-      setSecretSanta(querySnapshot.docs[0].data())
       const myName = querySnapshot.docs[0].data().participants.filter(elem => (elem.gifter.id === userid))
       setGiftPeople(myName[0].gifted.name);
+      setGiftRecomandation(myName[0].gifted.giftedIdeas);
       setPriceRange(calculerMoyenne(querySnapshot.docs[0].data()?.priceArray));
       setLoader(false)
     }
@@ -41,7 +41,7 @@ function RevealPage() {
             <img src="/assets/reveal.png" alt="reveal" />
             <h2>{giftPeople}</h2>
           </div>
-          <Button onClick={() => navigate('/giftideas', { state: { priceRange, recommandations } })} className="revealBtn">NEED ANY IDEAS? CLICK ME!</Button>
+          <Button onClick={() => navigate('/giftideas', { state: { priceRange, recommandations: giftRecomandation } })} className="revealBtn">NEED ANY IDEAS? CLICK ME!</Button>
         </div>
         : <p>loading</p>
       }
