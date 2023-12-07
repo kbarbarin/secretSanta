@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom'
 const GeaftIdeas = () => {
   const {state} = useLocation()
   const { priceRange, recommandations } = state;
-  console.log(state);
   const products = [
     {
       imageUrl:
