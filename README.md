@@ -123,7 +123,7 @@ Afin de contribuer au projet, vous devez quivre les étapes suivantes. Des règl
 
 ## Documentation
 
-[Cahier des charges techniques](./docs/cdct.md)
+- [Cahier des charges techniques](./docs/cahier-des-charges-techniques.md)
 
 ## Licence
 
