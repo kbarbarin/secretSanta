@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
-import './RevealPage.scss'
-import Button from '../../components/Button/Button'
+import React, { useState, useParams, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { collection, where, getDocs, query } from 'firebase/firestore'
 
-function RevealPage() {
+import Button from '../../components/Button/Button'
+import { db } from '../../firebase/Firebase'
+import './RevealPage.scss'
+
+export default function RevealPage() {
   const { id, userid } = useParams()
   const navigate = useNavigate()
   const [giftPeople, setGiftPeople] = useState('');
@@ -23,7 +26,7 @@ function RevealPage() {
       setLoader(false)
     }
     getSecretSanta()
-  }, [id])
+  }, [id, userid])
 
     const calculerMoyenne = (priceArray) => {
       if (priceArray.length === 0)
@@ -48,5 +51,3 @@ function RevealPage() {
     </>
   )
 }
-
-export default RevealPage;

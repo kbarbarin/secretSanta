@@ -102,6 +102,11 @@ const routes = [
     errorElement: <ErrorPage />,
   },
   {
+    path: 'reveal/:id/:userid',
+    element: <RevealPage />,
+    errorElement: <ErrorPage />,
+  },    
+  {
     path: '/termsofuse',
     element: <TermsOfUse />,
     errorElement: <ErrorPage />,
@@ -109,11 +114,6 @@ const routes = [
   {
     path: '/ejectsomeone',
     element: <EjectSomeone />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/reveal/:id/:userid',
-    element: <RevealPage />,
     errorElement: <ErrorPage />,
   },
   {
