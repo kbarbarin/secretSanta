@@ -4,17 +4,22 @@ runme:
   version: v2.0
 ---
 
-# My Secret Santa
+# Ho-Ho !
 
-1. [Aperçu du projet](#apercu)
-2. [Lancer le projet en local](#projet)
-3. [Stacks techniques](#tech)
-4. [Palette](#color)
-5. [Documentation](#doc)
-
-   1. [User Flow](#flow)
-
-6. [Auteurs](#autors)
+- [Ho-Ho !](#ho-ho-!)
+   - [Description](#description)
+   - [Contributeurs](#contributeurs)
+   - [Fonctionnalités](#fonctionnalités)
+   - [Stack](#stack)
+   - [Tools](#tools)
+   - [Bonnes pratiques](#bonnes-pratiques)
+   - [Prérequis](#prérequis)
+   - [Installation](#installation)
+   - [Palette](#palette)
+   - [Contribuer](#contribuer)
+   - [Documentation](#documentation)
+   - [Licence](#licence)
+   - [Remerciements](#remerciements)
 
 ## Description
 
@@ -41,12 +46,12 @@ Secret Santa est un site web qui vous permet de créer et de répartir secrètem
 - **Fonctionnalité 7** : L'envoi de mail doit être géré avec une API : EmailJS.
 - **Fonctionnalité 8** : Pour aider les participants, après le reveal, apparait un bouton cliquable qui ramène vers une page qui contient des idées cadeaux qui peuvent plaire à la personne qui leur est assignée.
 
-## Stacks techniques
+## Stack
 
-- **Backend** : [Firebase](https://firebase.google.com/docs?gad_source=1&gclid=CjwKCAiAvdCrBhBREiwAX6-6UkbYsEHST7-r_Yl9NCtNi1q3dQLnCyY2lWpUArllexdYP_0f-9ECkhoCvKcQAvD_BwE&gclsrc=aw.ds&hl=fr)
+- __Backend__ : [Firebase](https://firebase.google.com/docs?gad_source=1&gclid=CjwKCAiAvdCrBhBREiwAX6-6UkbYsEHST7-r_Yl9NCtNi1q3dQLnCyY2lWpUArllexdYP_0f-9ECkhoCvKcQAvD_BwE&gclsrc=aw.ds&hl=fr)
 - **Frontend** : [React](https://reactjs.org/)
 - **BDD** : [Firestore](https://firebase.google.com/docs/firestore?hl=fr)
--  **Mailer** : [EmailJS](https://www.emailjs.com/docs/)
+- **Mailer** : [EmailJS](https://www.emailjs.com/docs/)
 
 ## Tools
 
@@ -108,7 +113,7 @@ Démarrer le serveur
 
 ## Contribuer
 
-Afin de contribuer au projet, vous devez quivre les étapes suivantes. Des règles de gestion étant appliquées à la branche principale, personne ne peut directemeng envoyer du code sur celle-ciet doit d'abord passer par un stade de vérification 
+Afin de contribuer au projet, vous devez quivre les étapes suivantes. Des règles de gestion étant appliquées à la branche principale, personne ne peut directemeng envoyer du code sur celle-ciet doit d'abord passer par un stade de vérification
 
 - Forker le projet
 - Créer une branche pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
