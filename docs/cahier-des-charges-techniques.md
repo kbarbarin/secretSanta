@@ -130,7 +130,7 @@ haut à droite de votre page se trouvent les boutons d’assignement. Veuillez v
 Utilisez des noms de variables qui sont explicites et prononçables
 Faciliter la lecture et la compréhension rapide de votre code, limitez les noms de variables trop floues ou incompréhensibles.
 
-Bad practice
+Bad practice 
 
 const yyyymmdstr = moment().format("YYYY/MM/DD");
 
@@ -140,26 +140,34 @@ const currentDate = moment().format("YYYY/MM/DD");
 
 - **Fonctions**
   
-Arguments de fonctions
+  - **Arguments de fonctions**
+
 Limiter le nombre de paramètres de fonction est extrêmement important car cela facilite le test de votre fonction. En avoir plus de trois conduit à une explosion combinatoire où vous devez tester des tonnes de cas différents avec chaque argument séparé. Au maximum 2 ou moins.
-Les fonctions doivent faire une seule chose
+
+  - **Les fonctions doivent faire une seule chose**
+
 C'est de loin la règle la plus importante en ingénierie logicielle. Lorsque les fonctions font plus d'une chose, elles sont plus difficiles à composer, à tester et à raisonner. Alors on se cantonne à une seule chose par fonction.
-Les noms de fonction doivent dire ce qu’elles font
+
+  - **Les noms de fonction doivent dire ce qu’elles font**
+  - 
 Pour bien nommer vos fonctions, une seule règle pour le faire verbe + nom et être le plus explicite possible sur ce qu’elles font.
+
 Bad practice
+
 function addToDate(date, mois) { // ...
 }
 const date = new Date() ;
 // Il est difficile de dire, à partir du nom de la fonction, ce qui est ajouté
 addToDate(date, 1) ;
+
 Good practice
+
 function addMonthToDate(month, date) { // ...
 }
 const date = new Date() ; addMonthToDate(1, date) ;
-Quelques conseils en plus
-- Ne pas dupliquer son code. Il faut trouver un moyen de soit créer un composant s’il est trop répété à un endroit ou bien de créer une fonction et appeler setter fonction. DRY (Don’t Repeat Yourself) est votre ami...pas votre ennemi
-- Faire attention à la dette de développement. Ne prenez pas de raccourcis et documentez votre code afin de ne pas rallonger le temps de compréhension des personnes qui repasseront sur votre code
-  󰗨
-󰗭
 
-- Garder les choses simples. Pas besoin de rajouter du code pour rajouter du code et de compliquer les choses. Les choses simples sont les meilleures alors KISS (Keep It Simple & Stupid).
+- **Quelques conseils en plus**
+  
+  - Ne pas dupliquer son code. Il faut trouver un moyen de soit créer un composant s’il est trop répété à un endroit ou bien de créer une fonction et appeler setter fonction. DRY (Don’t Repeat Yourself) est votre ami...pas votre ennemi
+  - Faire attention à la dette de développement. Ne prenez pas de raccourcis et documentez votre code afin de ne pas rallonger le temps de compréhension des personnes qui repasseront sur votre code
+  - Garder les choses simples. Pas besoin de rajouter du code pour rajouter du code et de compliquer les choses. Les choses simples sont les meilleures alors KISS (Keep It Simple & Stupid).
